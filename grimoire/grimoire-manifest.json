@@ -1,0 +1,21 @@
+{
+  "displayName": "Grimoire",
+  "version": "1.0.1",
+  "mainArtifact": "com.grimoire:grimoire-client:1.0-SNAPSHOT",
+  "mainClass": "com.grimoire.client.Main",
+  "jvmArgs": [
+    "-Xmx2g",
+    "--module-path", "%FX_MODULE_PATH%",
+    "--add-modules", "javafx.controls,javafx.fxml"
+  ],
+  "repositories": [
+    {
+      "id": "grimoire-repo",
+      "url": "https://maven.pkg.github.com/TheStackTraceWhisperer/grimoire"
+    },
+    {
+      "id": "maven-central",
+      "url": "https://repo1.maven.org/maven2/"
+    }
+  ]
+}

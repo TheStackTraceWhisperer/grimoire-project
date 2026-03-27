@@ -1,0 +1,85 @@
+{
+  "realm": "grimoire",
+  "enabled": true,
+  "displayName": "Grimoire MMO",
+  "registrationAllowed": true,
+  "registrationEmailAsUsername": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": true,
+  "accessTokenLifespan": 7200,
+  "ssoSessionIdleTimeout": 604800,
+  "ssoSessionMaxLifespan": 2592000,
+  "clients": [
+    {
+      "clientId": "grimoire-client",
+      "name": "Grimoire Game Client",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "client-secret",
+      "redirectUris": [
+        "http://localhost:8889/authorized",
+        "http://localhost:8889/*"
+      ],
+      "webOrigins": [
+        "http://localhost:8889"
+      ],
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "authorizationServicesEnabled": false,
+      "fullScopeAllowed": true
+    },
+    {
+      "clientId": "grimoire-web-client",
+      "name": "Grimoire Web Interface",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "web-secret",
+      "redirectUris": [
+        "http://localhost:8081/*",
+        "http://localhost:8081/oauth/callback/*"
+      ],
+      "webOrigins": [
+        "http://localhost:8081"
+      ],
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "authorizationServicesEnabled": false,
+      "fullScopeAllowed": true
+    }
+  ],
+  "users": [
+    {
+      "username": "grimoire",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "grimoire@grimoire.local",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "grimoire",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "user"
+      ]
+    }
+  ],
+  "roles": {
+    "realm": [
+      {
+        "name": "user",
+        "description": "Standard user role"
+      }
+    ]
+  }
+}

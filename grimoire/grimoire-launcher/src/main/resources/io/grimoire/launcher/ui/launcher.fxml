@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="io.grimoire.launcher.ui.LauncherController"
+      alignment="CENTER"
+      spacing="20"
+      prefWidth="600"
+      prefHeight="300"
+      style="-fx-background-color: #2b2b2b;">
+    
+    <padding>
+        <Insets top="40" right="40" bottom="40" left="40"/>
+    </padding>
+    
+    <Label text="Grimoire Launcher" style="-fx-text-fill: white;">
+        <font>
+            <Font name="System Bold" size="24"/>
+        </font>
+    </Label>
+    
+    <VBox spacing="10" alignment="CENTER">
+        <Label fx:id="statusLabel" 
+               text="Initializing..." 
+               style="-fx-text-fill: #cccccc;"
+               wrapText="true"
+               maxWidth="520">
+            <font>
+                <Font size="14"/>
+            </font>
+        </Label>
+        
+        <ProgressBar fx:id="progressBar" 
+                    progress="0" 
+                    prefWidth="400"
+                    prefHeight="20"
+                    style="-fx-accent: #4CAF50;"/>
+    </VBox>
+    
+</VBox>

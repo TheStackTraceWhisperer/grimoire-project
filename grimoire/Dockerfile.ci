@@ -1,0 +1,68 @@
+# 1. Base Image with Java 25 and Maven
+FROM maven:3.9-eclipse-temurin-25 AS ci-base
+
+# 2. Install Xvfb and graphics/audio libraries
+# - xvfb: The X virtual framebuffer
+# - libgtk-3-0: Required by the JavaFX software (prism-sw) renderer
+# - libopenal1: Provides a null audio backend (from your example)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    xvfb \
+    mesa-utils \
+    libgtk-3-0 \
+    libopenal1 \
+    ca-certificates \
+    && update-ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# 3. Fix X11 keyboard configuration to prevent "Could not resolve keysym" warnings
+RUN \
+    cat <<'EOF' > /usr/share/X11/xkb/symbols/inet
+default partial alphanumeric_keys
+xkb_symbols "evdev" {
+};
+EOF
+
+# 4. Configure OpenAL for headless audio (from your example)
+ENV ALSOFT_DRIVERS=null
+
+# 5. Create and set permissions for the entrypoint script
+RUN cat <<'EOF' > /usr/local/bin/entrypoint.sh && \
+    chmod +x /usr/local/bin/entrypoint.sh
+#!/bin/bash
+set -e
+
+# Configure the virtual display identifier
+export DISPLAY=:99
+
+# Create XDG runtime directory with strict permissions
+export XDG_RUNTIME_DIR="/tmp/xdg-runtime"
+mkdir -p "$XDG_RUNTIME_DIR"
+chmod 0700 "$XDG_RUNTIME_DIR"
+
+# Clear DBUS session
+unset DBUS_SESSION_BUS_ADDRESS
+
+# Start Xvfb in the background
+Xvfb $DISPLAY -screen 0 1280x1024x24 &
+
+# Wait for the X11 socket to be ready
+XVFB_SOCKET="/tmp/.X11-unix/X99"
+retries=0
+while [ ! -S "$XVFB_SOCKET" ] && [ "$retries" -lt 30 ]; do
+  retries=$((retries+1))
+  sleep 0.1
+done
+if [ ! -S "$XVFB_SOCKET" ]; then
+  echo "Xvfb failed to start." >&2
+  exit 1
+fi
+
+# Execute the main command (e.g., "mvn verify")
+exec "$@"
+EOF
+
+# 6. Set the entrypoint
+ENTRYPOINT ["entrypoint.sh"]
+
+# 7. Define the default command
+CMD ["mvn", "-B", "verify"]
