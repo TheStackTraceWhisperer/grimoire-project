@@ -1,0 +1,25 @@
+{
+  "id": "intro_cutscene_zone",
+  "name": "Intro Cutscene",
+  "sequences": [
+    {
+      "id": "intro_seq",
+      "events": [
+        { "type": "WAIT", "properties": { "duration": 0.5 } },
+        { "type": "FADE_SCREEN", "properties": { "fadeType": "OUT", "duration": 1.0 } }
+      ]
+    }
+  ],
+  "triggers": [
+    {
+      "id": "on_load",
+      "type": "ON_LOAD",
+      "properties": { "delay": 0.1, "isRepeatable": false },
+      "events": [
+        { "type": "START_SEQUENCE", "properties": { "sequenceId": "intro_seq" } }
+      ]
+    }
+  ],
+  "properties": {}
+}
+

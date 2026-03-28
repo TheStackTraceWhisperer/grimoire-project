@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.grimoire</groupId>
+    <artifactId>grimoire-external-dependencies</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Grimoire External Dependencies BOM</name>
+    <description>
+        Single source of truth for ALL third-party library versions.
+        Every coordinate declared here has no version tag in child modules — the version
+        is resolved exclusively through this BOM import chain.
+    </description>
+
+    <properties>
+        <!-- ── Runtimes ─────────────────────────────────────────────────── -->
+        <micronaut.version>4.8.3</micronaut.version>
+        <micronaut.data.version>4.12.0</micronaut.data.version>
+        <micronaut.maven.plugin.version>4.6.3</micronaut.maven.plugin.version>
+
+        <!-- ── Network ──────────────────────────────────────────────────── -->
+        <netty.version>4.1.115.Final</netty.version>
+
+        <!-- ── Persistence ──────────────────────────────────────────────── -->
+        <postgresql.version>42.7.4</postgresql.version>
+        <fory.version>0.13.1</fory.version>
+
+        <!-- ── UI ───────────────────────────────────────────────────────── -->
+        <javafx.version>21.0.5</javafx.version>
+        <lwjgl.version>3.3.6</lwjgl.version>
+        <joml.version>1.10.8</joml.version>
+        <webjars.locator.version>0.52</webjars.locator.version>
+        <bootstrap.version>5.3.2</bootstrap.version>
+        <htmx.version>1.9.10</htmx.version>
+
+        <!-- ── Logging ──────────────────────────────────────────────────── -->
+        <logback.version>1.5.16</logback.version>
+
+        <!-- ── Security ─────────────────────────────────────────────────── -->
+        <jbcrypt.version>0.4</jbcrypt.version>
+
+        <!-- ── Code generation ──────────────────────────────────────────── -->
+        <lombok.version>1.18.42</lombok.version>
+
+        <!-- ── Test ─────────────────────────────────────────────────────── -->
+        <junit.bom.version>5.12.0</junit.bom.version>
+        <testcontainers.version>1.20.4</testcontainers.version>
+        <assertj.version>3.27.3</assertj.version>
+        <archunit.version>1.4.1</archunit.version>
+        <jqwik.version>1.9.0</jqwik.version>
+
+        <!-- ── Static analysis ──────────────────────────────────────────── -->
+        <spotbugs.annotations.version>4.9.1</spotbugs.annotations.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- ══ Platform BOMs (imported first — establish managed versions) ═════════════ -->
+
+            <dependency>
+                <groupId>io.micronaut.platform</groupId>
+                <artifactId>micronaut-platform</artifactId>
+                <version>${micronaut.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.micronaut.data</groupId>
+                <artifactId>micronaut-data-bom</artifactId>
+                <version>${micronaut.data.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${junit.bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers-bom</artifactId>
+                <version>${testcontainers.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- ══ Network ═══════════════════════════════════════════════════════════════ -->
+
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+
+            <!-- ══ Persistence ═══════════════════════════════════════════════════════════ -->
+
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.fory</groupId>
+                <artifactId>fory-core</artifactId>
+                <version>${fory.version}</version>
+            </dependency>
+
+            <!-- ══ UI ════════════════════════════════════════════════════════════════════ -->
+
+            <dependency>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-controls</artifactId>
+                <version>${javafx.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-fxml</artifactId>
+                <version>${javafx.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.lwjgl</groupId>
+                <artifactId>lwjgl-bom</artifactId>
+                <version>${lwjgl.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.joml</groupId>
+                <artifactId>joml</artifactId>
+                <version>${joml.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>webjars-locator</artifactId>
+                <version>${webjars.locator.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>bootstrap</artifactId>
+                <version>${bootstrap.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.webjars.npm</groupId>
+                <artifactId>htmx.org</artifactId>
+                <version>${htmx.version}</version>
+            </dependency>
+
+            <!-- ══ Logging ═══════════════════════════════════════════════════════════════ -->
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+
+            <!-- ══ Security ══════════════════════════════════════════════════════════════ -->
+
+            <dependency>
+                <groupId>org.mindrot</groupId>
+                <artifactId>jbcrypt</artifactId>
+                <version>${jbcrypt.version}</version>
+            </dependency>
+
+            <!-- ══ Code generation ═══════════════════════════════════════════════════════ -->
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+            <!-- ══ Testing ════════════════════════════════════════════════════════════════ -->
+
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${assertj.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.tngtech.archunit</groupId>
+                <artifactId>archunit-junit5</artifactId>
+                <version>${archunit.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.jqwik</groupId>
+                <artifactId>jqwik</artifactId>
+                <version>${jqwik.version}</version>
+            </dependency>
+
+            <!-- ══ Static analysis ════════════════════════════════════════════════════════ -->
+
+            <dependency>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-annotations</artifactId>
+                <version>${spotbugs.annotations.version}</version>
+            </dependency>
+
+            <!-- ══ Transitive version pins (convergence) ══════════════════════════════════ -->
+            <!-- Hibernate brings both 2.1.0 and 2.1.1 through different paths — pin to latest -->
+            <dependency>
+                <groupId>jakarta.activation</groupId>
+                <artifactId>jakarta.activation-api</artifactId>
+                <version>2.1.1</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+</project>
+

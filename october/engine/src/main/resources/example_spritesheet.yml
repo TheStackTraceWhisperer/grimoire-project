@@ -1,0 +1,157 @@
+# Example sprite sheet configuration file
+# This file demonstrates the YAML format for defining sprite sheets, animations, and directional mappings
+# Place this file in src/main/resources and load it using SpriteSheetLoader.loadSpriteSheet()
+
+# Path to the sprite sheet texture (relative to resources root)
+texture: "textures/characters/player_spritesheet.png"
+
+# Define regions within the sprite sheet
+# Each region represents a single sprite frame
+regions:
+  # Idle animation frames
+  idle_down:
+    x: 0
+    y: 0
+    width: 32
+    height: 32
+  
+  # Walking down animation frames
+  walk_down_0:
+    x: 32
+    y: 0
+    width: 32
+    height: 32
+  walk_down_1:
+    x: 64
+    y: 0
+    width: 32
+    height: 32
+  walk_down_2:
+    x: 96
+    y: 0
+    width: 32
+    height: 32
+  walk_down_3:
+    x: 128
+    y: 0
+    width: 32
+    height: 32
+  
+  # Walking up animation frames
+  walk_up_0:
+    x: 0
+    y: 32
+    width: 32
+    height: 32
+  walk_up_1:
+    x: 32
+    y: 32
+    width: 32
+    height: 32
+  walk_up_2:
+    x: 64
+    y: 32
+    width: 32
+    height: 32
+  walk_up_3:
+    x: 96
+    y: 32
+    width: 32
+    height: 32
+  
+  # Walking left animation frames
+  walk_left_0:
+    x: 0
+    y: 64
+    width: 32
+    height: 32
+  walk_left_1:
+    x: 32
+    y: 64
+    width: 32
+    height: 32
+  walk_left_2:
+    x: 64
+    y: 64
+    width: 32
+    height: 32
+  walk_left_3:
+    x: 96
+    y: 64
+    width: 32
+    height: 32
+  
+  # Walking right animation frames
+  walk_right_0:
+    x: 0
+    y: 96
+    width: 32
+    height: 32
+  walk_right_1:
+    x: 32
+    y: 96
+    width: 32
+    height: 32
+  walk_right_2:
+    x: 64
+    y: 96
+    width: 32
+    height: 32
+  walk_right_3:
+    x: 96
+    y: 96
+    width: 32
+    height: 32
+
+# Define animations
+# Each animation is a sequence of frames with timing information
+animations:
+  # Idle animation - single frame, loops indefinitely
+  idle:
+    frames: [idle_down]
+    frameDuration: 0.1
+    loop: true
+  
+  # Walking down animation
+  walk_down:
+    frames: [walk_down_0, walk_down_1, walk_down_2, walk_down_3]
+    frameDuration: 0.15
+    loop: true
+  
+  # Walking up animation
+  walk_up:
+    frames: [walk_up_0, walk_up_1, walk_up_2, walk_up_3]
+    frameDuration: 0.15
+    loop: true
+  
+  # Walking left animation
+  walk_left:
+    frames: [walk_left_0, walk_left_1, walk_left_2, walk_left_3]
+    frameDuration: 0.15
+    loop: true
+  
+  # Walking right animation
+  walk_right:
+    frames: [walk_right_0, walk_right_1, walk_right_2, walk_right_3]
+    frameDuration: 0.15
+    loop: true
+  
+  # Attack animation - doesn't loop
+  attack:
+    frames: [attack_0, attack_1, attack_2]
+    frameDuration: 0.1
+    loop: false
+
+# Define directional animation mappings
+# Maps a base animation name to specific directional variants
+directionalAnimations:
+  # Walking animations mapped by direction
+  walk:
+    DOWN: walk_down
+    UP: walk_up
+    LEFT: walk_left
+    RIGHT: walk_right
+    DOWN_RIGHT: walk_right  # Use right animation for diagonal
+    DOWN_LEFT: walk_left    # Use left animation for diagonal
+    UP_RIGHT: walk_right
+    UP_LEFT: walk_left

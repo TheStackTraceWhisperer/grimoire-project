@@ -1,0 +1,74 @@
+micronaut:
+  application:
+    name: grimoire-web
+  
+  server:
+    port: 8080
+  
+  security:
+    enabled: true
+    oauth2:
+      enabled: true
+      clients:
+        keycloak:
+          client-id: grimoire-web-client
+          client-secret: web-secret
+          openid:
+            issuer: http://keycloak:8080/realms/grimoire
+      
+    endpoints:
+      login:
+        enabled: true
+      logout:
+        enabled: true
+    
+    redirect:
+      login-success: /account
+      login-failure: /login?error=true
+      logout: /?logout=true
+      forbidden:
+        url: /login
+    
+    intercept-url-map:
+      - pattern: /
+        access:
+          - isAnonymous()
+      - pattern: /register
+        access:
+          - isAnonymous()
+      - pattern: /login
+        access:
+          - isAnonymous()
+      - pattern: /webjars/**
+        access:
+          - isAnonymous()
+      - pattern: /css/**
+        access:
+          - isAnonymous()
+      - pattern: /js/**
+        access:
+          - isAnonymous()
+      - pattern: /**
+        access:
+          - isAuthenticated()
+  
+  views:
+    thymeleaf:
+      enabled: true
+      cache: false
+
+datasources:
+  default:
+    url: jdbc:postgresql://postgres:5432/grimoire
+    driverClassName: org.postgresql.Driver
+    username: grimoire
+    password: grimoire
+    dialect: POSTGRES
+
+jpa:
+  default:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        show_sql: false

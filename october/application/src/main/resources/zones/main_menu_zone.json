@@ -1,0 +1,24 @@
+{
+  "id": "main_menu_zone",
+  "name": "Main Menu",
+  "sequences": [
+    {
+      "id": "idle_timeout",
+      "events": [
+        { "type": "WAIT", "properties": { "duration": 30.0 } },
+        { "type": "PUSH_STATE", "properties": { "stateName": "introCutscene" } }
+      ]
+    }
+  ],
+  "triggers": [
+    {
+      "id": "start_idle_timer",
+      "type": "ON_LOAD",
+      "properties": { "delay": 0.0, "isRepeatable": false },
+      "events": [
+        { "type": "START_SEQUENCE", "properties": { "sequenceId": "idle_timeout" } }
+      ]
+    }
+  ],
+  "properties": {}
+}

@@ -1,0 +1,106 @@
+# Tileset Configuration
+# This file defines the tilesets available in the game engine.
+# Each tileset specifies how to slice a tilesheet image into individual tiles.
+
+tilesets:
+  - name: "dungeon-tileset"
+    # Path relative to textures/ENVIRONMENT/tilesets/
+    sourceImage: "dungeon-tileset.png"
+    # Dimensions: 96x80 pixels
+    # Assuming 16x16 pixel tiles -> 6 columns x 5 rows = 30 tiles
+    tileWidth: 16
+    tileHeight: 16
+    columns: 6
+    rows: 5
+    tiles:
+      # Floor tiles
+      - id: 0
+        properties:
+          type: "floor"
+          collision: false
+      - id: 1
+        properties:
+          type: "floor"
+          collision: false
+      # Wall tiles
+      - id: 6
+        properties:
+          type: "wall"
+          collision: true
+      - id: 7
+        properties:
+          type: "wall"
+          collision: true
+      - id: 8
+        properties:
+          type: "wall"
+          collision: true
+      # Decorative tiles
+      - id: 12
+        properties:
+          type: "decoration"
+          collision: false
+      - id: 13
+        properties:
+          type: "decoration"
+          collision: false
+
+  - name: "tileset-world"
+    # Path relative to textures/ENVIRONMENT/tilesets/
+    sourceImage: "tileset-world.png"
+    # Dimensions: 112x272 pixels
+    # Assuming 16x16 pixel tiles -> 7 columns x 17 rows = 119 tiles
+    tileWidth: 16
+    tileHeight: 16
+    columns: 7
+    rows: 17
+    tiles:
+      # Grass tiles
+      - id: 0
+        properties:
+          type: "grass"
+          collision: false
+      - id: 1
+        properties:
+          type: "grass"
+          collision: false
+      - id: 2
+        properties:
+          type: "grass"
+          collision: false
+      # Dirt/path tiles
+      - id: 7
+        properties:
+          type: "dirt"
+          collision: false
+      - id: 8
+        properties:
+          type: "dirt"
+          collision: false
+      # Water tiles
+      - id: 14
+        properties:
+          type: "water"
+          collision: true
+      - id: 15
+        properties:
+          type: "water"
+          collision: true
+      # Tree/vegetation tiles
+      - id: 21
+        properties:
+          type: "tree"
+          collision: true
+      - id: 22
+        properties:
+          type: "tree"
+          collision: true
+      # Rock/obstacle tiles
+      - id: 28
+        properties:
+          type: "rock"
+          collision: true
+      - id: 29
+        properties:
+          type: "rock"
+          collision: true

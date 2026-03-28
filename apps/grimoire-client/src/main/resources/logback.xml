@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+    <!-- LWJGL and OpenGL logging -->
+    <logger name="org.lwjgl" level="WARN" />
+    
+    <!-- Grimoire client logging -->
+    <logger name="com.grimoire.clientv2" level="DEBUG" />
+    <logger name="com.grimoire.clientv2.render" level="INFO" />
+    <logger name="com.grimoire.clientv2.network" level="DEBUG" />
+    
+    <!-- Netty logging -->
+    <logger name="io.netty" level="WARN" />
+</configuration>

@@ -1,0 +1,51 @@
+{
+  "name": "Main Menu Scene",
+  "manifest": {
+    "textures": [
+      {
+        "handle": "main_menu_background",
+        "path": "/textures/main_menu_background.png"
+      },
+      {
+        "handle": "button_normal",
+        "path": "/textures/button_normal.png"
+      },
+      {
+        "handle": "button_hovered",
+        "path": "/textures/button_hovered.png"
+      }
+    ]
+  },
+  "entities": [
+    {
+      "name": "Background",
+      "components": {
+        "UITransformComponent": {
+          "anchor": { "x": 0.5, "y": 0.5 },
+          "pivot": { "x": 0.5, "y": 0.5 },
+          "size": { "x": 1.0, "y": 1.0 },
+          "relativeSize": true
+        },
+        "UIImageComponent": {
+          "textureHandle": "main_menu_background"
+        }
+      }
+    },
+    {
+      "name": "StartButton",
+      "components": {
+        "UITransformComponent": {
+          "anchor": { "x": 0.5, "y": 0.5 },
+          "pivot": { "x": 0.5, "y": 0.5 },
+          "size": { "x": 200, "y": 50 }
+        },
+        "UIButtonComponent": {
+          "actionEvent": "START_NEW_GAME",
+          "normalTexture": "button_normal",
+          "hoveredTexture": "button_hovered",
+          "pressedTexture": "button_hovered"
+        }
+      }
+    }
+  ]
+}

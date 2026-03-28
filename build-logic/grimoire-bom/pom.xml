@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.grimoire</groupId>
+    <artifactId>grimoire-bom</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Grimoire Internal BOM</name>
+    <description>
+        Manages the current release version of all internal Grimoire library modules.
+        Imports the External Dependencies BOM, then declares every com.grimoire artifact
+        so that application modules never hardcode internal module versions.
+    </description>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- ══ Import the external BOM first ═══════════════════════════════════════ -->
+            <dependency>
+                <groupId>com.grimoire</groupId>
+                <artifactId>grimoire-external-dependencies</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- ══ Internal library modules ════════════════════════════════════════════ -->
+
+            <dependency>
+                <groupId>com.grimoire</groupId>
+                <artifactId>grimoire-shared</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.grimoire</groupId>
+                <artifactId>grimoire-data</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.grimoire</groupId>
+                <artifactId>grimoire-ecs</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.grimoire</groupId>
+                <artifactId>grimoire-network</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+</project>
+

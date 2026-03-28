@@ -1,23 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <modelVersion>4.0.0</modelVersion>
+    <groupId>com.grimoire</groupId>
+    <artifactId>grimoire-project</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-  <groupId>com.grimoire.project</groupId>
-  <artifactId>grimoire-project</artifactId>
-  <version>0.0.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
+    <name>Grimoire Project</name>
+    <description>
+        Flattened root reactor for the Grimoire ecosystem.
+        Aggregates build-logic, library, and application leaf modules directly.
+    </description>
 
-  <properties>
-    
-  </properties>
+    <modules>
+        <!-- build-logic leaf modules -->
+        <module>build-logic/grimoire-external-dependencies</module>
+        <module>build-logic/grimoire-bom</module>
+        <module>build-logic/grimoire-parent</module>
+        <module>build-logic/grimoire-starter-parent</module>
 
-  <modules>
-    <module>ecs-simulation</module>
-    <module>grimoire</module>
-    <module>net-bullet</module>
-  </modules>
+        <!-- library leaf modules -->
+        <module>libs/grimoire-shared</module>
+        <module>libs/grimoire-data</module>
+        <module>libs/grimoire-ecs</module>
+        <module>libs/grimoire-network</module>
+
+        <!-- application leaf modules -->
+        <module>apps/grimoire-server</module>
+        <module>apps/grimoire-client</module>
+        <module>apps/grimoire-web</module>
+    </modules>
+
 </project>

@@ -1,0 +1,40 @@
+{
+  "id": "intro_cutscene_zone",
+  "name": "Intro Cutscene",
+  "sequences": [
+    {
+      "id": "intro_seq",
+      "events": [
+        { "type": "WAIT", "properties": { "duration": 0.5 } },
+        { "type": "FADE_SCREEN", "properties": { "fadeType": "OUT", "duration": 1.0 } }
+      ]
+    },
+    {
+      "id": "cutscene_timeout",
+      "events": [
+        { "type": "WAIT", "properties": { "duration": 10.0 } },
+        { "type": "POP_STATE", "properties": {} }
+      ]
+    }
+  ],
+  "triggers": [
+    {
+      "id": "on_load",
+      "type": "ON_LOAD",
+      "properties": { "delay": 0.1, "isRepeatable": false },
+      "events": [
+        { "type": "START_SEQUENCE", "properties": { "sequenceId": "intro_seq" } }
+      ]
+    },
+    {
+      "id": "start_cutscene_timer",
+      "type": "ON_LOAD",
+      "properties": { "delay": 0.0, "isRepeatable": false },
+      "events": [
+        { "type": "START_SEQUENCE", "properties": { "sequenceId": "cutscene_timeout" } }
+      ]
+    }
+  ],
+  "properties": {}
+}
+

@@ -1,0 +1,49 @@
+texture: "textures/test.png"
+
+regions:
+  idle_0:
+    x: 0
+    y: 0
+    width: 32
+    height: 32
+  
+  walk_0:
+    x: 32
+    y: 0
+    width: 32
+    height: 32
+  
+  walk_1:
+    x: 64
+    y: 0
+    width: 32
+    height: 32
+  
+  walk_2:
+    x: 96
+    y: 0
+    width: 32
+    height: 32
+
+animations:
+  idle:
+    frames: [idle_0]
+    frameDuration: 0.1
+    loop: true
+  
+  walk:
+    frames: [walk_0, walk_1, walk_2]
+    frameDuration: 0.15
+    loop: true
+  
+  attack:
+    frames: [idle_0]
+    frameDuration: 0.2
+    loop: false
+
+directionalAnimations:
+  walk:
+    DOWN: walk
+    UP: walk
+    LEFT: walk
+    RIGHT: walk

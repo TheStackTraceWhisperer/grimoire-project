@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.grimoire</groupId>
+        <artifactId>grimoire-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../grimoire-parent/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>grimoire-starter-parent</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Grimoire Starter Parent</name>
+    <description>
+        Bootstrap environment for all runnable Grimoire applications.
+        Inherits the full quality-gate configuration from grimoire-parent and adds:
+          - Micronaut platform BOM for managed dependency versions
+          - Micronaut Maven Plugin for fat-JAR, native image, and Docker builds
+          - Standard compile-time annotation processor (micronaut-inject-java)
+          - Standardized runtime dependencies (micronaut-runtime, logback-classic)
+          - Standardized test dependencies (junit-jupiter, assertj-core, mockito)
+        Only runnable executables (grimoire-server, grimoire-client, grimoire-web)
+        should use this as their parent.
+    </description>
+
+    <properties>
+        <micronaut.version>4.8.3</micronaut.version>
+        <micronaut.data.version>4.12.0</micronaut.data.version>
+        <micronaut.maven.plugin.version>4.6.3</micronaut.maven.plugin.version>
+        <micronaut.test.resources.version>${micronaut.version}</micronaut.test.resources.version>
+        <micronaut.aot.version>${micronaut.version}</micronaut.aot.version>
+        <spotbugs.skip>true</spotbugs.skip>
+        <pmd.skip>true</pmd.skip>
+        <cpd.skip>true</cpd.skip>
+        <jacoco.skip>true</jacoco.skip>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Micronaut platform BOM — overrides version resolution for all io.micronaut coords -->
+            <dependency>
+                <groupId>io.micronaut.platform</groupId>
+                <artifactId>micronaut-platform</artifactId>
+                <version>${micronaut.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.micronaut.data</groupId>
+                <artifactId>micronaut-data-bom</artifactId>
+                <version>${micronaut.data.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- Internal modules from the internal BOM -->
+            <dependency>
+                <groupId>com.grimoire</groupId>
+                <artifactId>grimoire-bom</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- ── Forced runtime dependencies every deployable application MUST have ── -->
+    <dependencies>
+
+        <!-- Micronaut runtime (no DI scanning, compile-time only) -->
+        <dependency>
+            <groupId>io.micronaut</groupId>
+            <artifactId>micronaut-runtime</artifactId>
+        </dependency>
+
+        <!-- Standardized logging -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Lombok annotation processor (provided) -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Standardized test stack -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.micronaut.test</groupId>
+            <artifactId>micronaut-test-junit5</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- ══ Micronaut Maven Plugin — fat JAR, native image, Docker ═══════════ -->
+            <plugin>
+                <groupId>io.micronaut.maven</groupId>
+                <artifactId>micronaut-maven-plugin</artifactId>
+                <version>${micronaut.maven.plugin.version}</version>
+                <extensions>true</extensions>
+            </plugin>
+
+            <!-- ══ Compiler: add Micronaut annotation processors ════════════════════ -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths combine.children="append">
+                        <path>
+                            <groupId>io.micronaut</groupId>
+                            <artifactId>micronaut-inject-java</artifactId>
+                            <version>${micronaut.version}</version>
+                        </path>
+                        <path>
+                            <groupId>io.micronaut.data</groupId>
+                            <artifactId>micronaut-data-processor</artifactId>
+                            <version>${micronaut.data.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+
