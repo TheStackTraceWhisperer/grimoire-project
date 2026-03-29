@@ -1,5 +1,5 @@
 @startuml
-title Grimoire Module Dependency Topology
+title Grimoire Module Dependency Topology\n(with system placement — ADR-003)
 
 skinparam package {
   BackgroundColor<<contracts>> #E8F5E9
@@ -27,6 +27,23 @@ package "domain" <<domain>> {
 package "application" <<application>> {
   [grimoire-application-core] as ACORE
   [grimoire-application-session] as ASESSION
+
+  note right of ACORE
+    **Pure systems (Wave 3.5)**
+    MovementSystem
+    CombatSystem
+    LevelUpSystem
+    NpcAiSystem
+    PortalCooldownSystem
+    SpatialGridSystem
+    ZoneChangeSystem
+    GroupService
+    ──
+    **Ports**
+    GameSystem (interface)
+    GameEventPort (interface)
+    GameConfig (interface)
+  end note
 }
 
 ' ── Infrastructure Layer ──
@@ -35,6 +52,22 @@ package "infrastructure" <<infra>> {
   [grimoire-infra-security-keycloak] as KEYCLOAK
   [grimoire-infra-persistence-jpa] as JPA
   [grimoire-infra-observability] as OBS
+
+  note right of NETTY
+    **Adapter systems**
+    NetworkSyncSystem
+    NetworkVisibilitySystem
+    PlayerInputSystem
+    ──
+    **Channel map**
+    sessionId → Channel
+    (no Channel in domain)
+  end note
+
+  note right of JPA
+    **Adapter system**
+    PersistenceSystem
+  end note
 }
 
 ' ── Application Assembly ──
@@ -42,6 +75,22 @@ package "applications" <<app>> {
   [grimoire-server-app] as SERVER
   [grimoire-web-app] as WEB
   [grimoire-client-app] as CLIENT
+
+  note right of SERVER
+    **Thread driver**
+    while(isRunning) loop
+    delta-time capping
+    SystemScheduler.tick()
+    ──
+    **Content bootstrap**
+    PrefabRegistry
+    NpcFactory
+    ZoneInitializer
+    ──
+    **Config binding**
+    @ConfigurationProperties
+    → GameConfig
+  end note
 }
 
 ' ── Test Kit ──
@@ -108,11 +157,13 @@ end note
 note bottom of "domain"
   No framework annotations.
   Pure game rules and invariants.
+  **No Channel, no JPA, no HTTP.**
 end note
 
 note bottom of "application"
   Minimal annotations (@Singleton OK).
   Orchestration via port interfaces.
+  **No Channel, no JPA, no HTTP.**
 end note
 
 note bottom of "infrastructure"

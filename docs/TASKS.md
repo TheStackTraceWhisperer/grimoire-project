@@ -28,7 +28,7 @@
 - [x] 45 unit tests passing, branch coverage ≥ 60%
 - [x] `mvn clean verify` green (all quality gates)
 - [x] `deps.puml` updated with `CWIRE --> CAPI` edge
-- [ ] Codecs (`ForyEncoder`/`ForyDecoder`) deferred to Wave 4 (`grimoire-infra-network-netty`)
+- [ ] Codecs (`ForyEncoder`/`ForyDecoder`) deferred to Wave 4a (`grimoire-infra-network-netty`)
 - [ ] jqwik property tests for DTO serialization round-trips (optional enhancement)
 
 ## Wave 2 — Domain
@@ -45,18 +45,59 @@
 - [x] `grimoire-application-session`: session policies, `SessionManager`
 - [x] Inter-module deps: `application-*` → `domain-*`, `contracts-api`
 
-## Wave 4 — Infrastructure
+## Wave 3.5 — Core Completion (Pure Game Systems)
 
-- [ ] `grimoire-infra-network-netty`: Netty bootstrap, `GameLogicHandler`, transport adapters
-- [ ] `grimoire-infra-security-keycloak`: JWT verification adapter
-- [ ] `grimoire-infra-persistence-jpa`: JPA entities, repositories, domain mappers
-- [ ] `grimoire-infra-observability`: logging, metrics, tracing config
-- [ ] `grimoire-test-kit`: fixtures, fakes, ArchUnit rule catalog, `EngineTestHarness`
-- [ ] Testcontainers integration tests for persistence and security
+> **Rationale:** The `GameSystem` interface and ECS engine exist but zero concrete systems
+> have been built. Pure systems must land in `application-core` before infrastructure
+> adapters can wire them. See [ADR-003](adr/003-wave4-architecture-boundaries.md) §3.
+
+- [ ] `MovementSystem` — reads `Velocity`/`Position`/`BoundingBox`; writes `Position`/`Dirty`
+- [ ] `CombatSystem` — reads `AttackIntent`/`Stats`; writes `Dead`/`Experience`/`Dirty`; death via `GameEventPort`
+- [ ] `LevelUpSystem` — reads `Experience`/`Stats`; delegates to `LevelingRules`; writes `Stats`/`Dirty`
+- [ ] `NpcAiSystem` — reads `NpcAi`/`Position`/`Zone`; writes `MovementIntent`/`AttackIntent`; uses `SpatialGrid`+`AStarPathfinder`
+- [ ] `PortalCooldownSystem` — reads/writes `PortalCooldown` tick countdown
+- [ ] `SpatialGridSystem` — rebuilds `SpatialGrid` from `Position`/`Zone` each tick
+- [ ] `ZoneChangeSystem` — reads `Portal`/`Position`/`PortalCooldown`; writes zone transitions; zone-change via `GameEventPort`
+- [ ] `GroupService` — create/join/leave/kick orchestration; updates ECS + notifies via `GameEventPort`
+- [ ] `GameConfig` port interface in `application-core`
+- [ ] `PlayerControlled` extended with `sessionId` field (domain-core)
+- [ ] Unit tests for all systems (ports faked/mocked)
+- [ ] `mvn clean verify` green (all quality gates)
+
+## Wave 4a — Test Kit, Observability & Codecs
+
+> **Rationale:** Small-scope modules that unblock Wave 4b. Codecs (deferred from Wave 1)
+> land in `infra-network-netty` without the full Netty bootstrap.
+
+- [ ] `grimoire-test-kit`: ArchUnit rule catalog enforcing layer boundaries (§7.3 of Unified Plan)
+- [ ] `grimoire-test-kit`: test fixtures and fakes for `GameEventPort`, `SessionConfig`
+- [ ] `grimoire-test-kit`: `EngineTestHarness` abstract base class (inspired by `october`)
+- [ ] `grimoire-infra-observability`: SLF4J + Logback config, structured logging
+- [ ] `grimoire-infra-network-netty`: `ForyEncoder`/`ForyDecoder` codecs (deferred from Wave 1)
+- [ ] `mvn clean verify` green (all quality gates)
+
+## Wave 4b — Infrastructure Adapters
+
+> **Rationale:** Heavy infra modules that implement application ports. Requires
+> Testcontainers (Docker) for integration tests.
+
+- [ ] `grimoire-infra-network-netty`: Netty bootstrap (`GameServer`, `GameChannelInitializer`, `BootstrapFactory`)
+- [ ] `grimoire-infra-network-netty`: `GameLogicHandler` (packet dispatch → `GameCommandQueue`)
+- [ ] `grimoire-infra-network-netty`: channel map (`ConcurrentHashMap<String, Channel>`) — session-to-channel mapping
+- [ ] `grimoire-infra-network-netty`: adapter systems (`NetworkSyncSystem`, `NetworkVisibilitySystem`, `PlayerInputSystem`)
+- [ ] `grimoire-infra-security-keycloak`: JWT/Keycloak token validation adapter
+- [ ] `grimoire-infra-persistence-jpa`: JPA entities (`Account`, `Character`, `PlayerGroup`, `GroupMembership`)
+- [ ] `grimoire-infra-persistence-jpa`: repositories + domain mappers
+- [ ] `grimoire-infra-persistence-jpa`: `PersistenceSystem` (adapter `GameSystem`)
+- [ ] Testcontainers integration tests for persistence (PostgreSQL) and security (Keycloak)
+- [ ] `mvn clean verify` green (all quality gates)
 
 ## Wave 5 — Application Assembly
 
-- [ ] `grimoire-server-app`: wire all layers, Micronaut config, startup
+- [ ] `grimoire-server-app`: Micronaut bootstrap, config binding (`@ConfigurationProperties` → `GameConfig`)
+- [ ] `grimoire-server-app`: game-loop thread driver (`while(isRunning)` + delta-time + `SystemScheduler.tick()`)
+- [ ] `grimoire-server-app`: system ordering — collect all `GameSystem` beans, pass ordered list to `SystemScheduler`
+- [ ] `grimoire-server-app`: content bootstrap (`PrefabRegistry`, `NpcFactory`, `ZoneInitializer`)
 - [ ] `grimoire-web-app`: wire and configure
 - [ ] `grimoire-client-app`: wire and configure
 
