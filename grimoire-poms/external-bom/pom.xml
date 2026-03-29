@@ -25,6 +25,7 @@
     <boms.testcontainers.version>2.0.3</boms.testcontainers.version>
 
     <!-- ── Runtime dependencies ── -->
+    <deps.jakarta-inject.version>2.0.1</deps.jakarta-inject.version>
     <deps.fory.version>0.13.1</deps.fory.version>
     <deps.logback.version>1.5.16</deps.logback.version>
     <deps.lombok.version>1.18.44</deps.lombok.version>
@@ -75,6 +76,12 @@
       </dependency>
 
       <!-- ── Runtime ── -->
+      <dependency>
+        <groupId>jakarta.inject</groupId>
+        <artifactId>jakarta.inject-api</artifactId>
+        <version>${deps.jakarta-inject.version}</version>
+      </dependency>
+
       <dependency>
         <groupId>io.netty</groupId>
         <artifactId>netty-all</artifactId>

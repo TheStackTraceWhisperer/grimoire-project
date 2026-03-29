@@ -1,0 +1,80 @@
+@startuml
+!theme plain
+skinparam componentStyle rectangle
+skinparam nodesep 50
+skinparam ranksep 60
+skinparam defaultTextAlignment center
+skinparam arrowThickness 2
+skinparam arrowColor #555555
+
+title Hexagonal Architecture: Grimoire Stratum
+
+package "Layer 4: App Assembly (The Micronaut Bootstrapper)" as L4 #F8F9FA {
+    component "<b>grimoire-server-app</b>\n----\n<i>@MicronautApplication</i>\nWires ports to adapters" as app
+}
+
+package "Layer 3: Infrastructure (Adapters & Frameworks)" as L3 #FFF5F5 {
+    component "<b>infra-network-netty</b>\n----\nEpoll/NIO Pipelines\n<i>GamePacketDecoder</i>\n<i>Implements: GameEventPort</i>" as infra_net
+
+    component "<b>infra-persistence-jpa</b>\n----\nHibernate Repositories\n<i>Implements: PlayerQueryPort</i>" as infra_jpa
+}
+
+package "Layer 2: Application (Orchestration & Ports)" as L2 #F0F8FF {
+    component "<b>application-core</b>\n----\n<i>EcsWorld, SystemScheduler</i>\n<i>GameEventPort (Interface)</i>\n<i>PlayerQueryPort (Interface)</i>" as app_core
+
+    component "<b>application-session</b>\n----\n<i>SessionManager</i>\n<i>SessionConfig</i>" as app_session
+}
+
+package "Layer 1: Domain Core (Pure Game Rules)" as L1 #F5FFFA {
+    component "<b>domain-combat</b>\n----\n<i>CombatRules, LevelingRules</i>\n<i>AttackIntent</i>" as dom_combat
+
+    component "<b>domain-navigation</b>\n----\n<i>AStarPathfinder</i>\n<i>SpatialGrid</i>" as dom_nav
+
+    component "<b>domain-core</b>\n----\n<i>Position, Velocity, Stats</i>\n<i>PlayerControlled (Marker)</i>" as dom_core
+}
+
+package "Layer 0: Contracts (The Universal Language)" as L0 #FFFFF0 {
+    component "<b>contracts-wire</b>\n----\n<i>GamePacket</i>\n<i>MovementIntentDTO</i>" as con_wire
+
+    component "<b>contracts-api</b>\n----\n<i>ComponentDTO</i>" as con_api
+}
+
+' --- Dependency Flow ---
+
+' Layer 4
+app ---> infra_net
+app ---> infra_jpa
+app ---> app_core
+app ---> app_session
+
+' Layer 3
+infra_net ---> app_core : Uses ECS runtime
+infra_net ---> con_wire : Translates bytes to DTOs
+infra_jpa ---> app_core : Reads ECS state
+
+' Layer 2
+app_core ---> dom_combat
+app_core ---> dom_nav
+app_core ---> dom_core
+app_session ---> dom_core
+
+' Layer 1
+dom_combat ---> dom_core
+dom_nav ---> dom_core
+dom_core ---> con_api
+
+' --- Explicit Boundary Notes ---
+note right of infra_net
+  <b>Inversion of Control:</b>
+  Netty calls <i>ecsWorld.submitCommand()</i>.
+  The ECS triggers <i>GameEventPort.onDespawn()</i>.
+  The ECS does NOT know Netty exists.
+end note
+
+note left of dom_core
+  Pure JDK 25.
+  No frameworks.
+  No databases.
+end note
+
+@enduml

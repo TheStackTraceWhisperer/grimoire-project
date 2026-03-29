@@ -11,4 +11,35 @@
     </parent>
     <artifactId>grimoire-application-core</artifactId>
     <name>Grimoire Application Core</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.grimoire</groupId>
+            <artifactId>grimoire-contracts-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.grimoire</groupId>
+            <artifactId>grimoire-domain-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.grimoire</groupId>
+            <artifactId>grimoire-domain-combat</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.grimoire</groupId>
+            <artifactId>grimoire-domain-navigation</artifactId>
+        </dependency>
+
+        <!-- Test -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>

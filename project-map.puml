@@ -149,6 +149,7 @@ package "grimoire-domain-core" <<domain>> {
     rectangle "Experience" <<record>>
     rectangle "MovementIntent\n(domain)" as DC_MovementIntent <<record>>
     rectangle "Persistent" <<record>>
+    rectangle "PlayerControlled" <<record>>
     rectangle "Portal" <<record>>
     rectangle "PortalCooldown" <<record>>
     rectangle "Position" <<record>>
@@ -249,9 +250,47 @@ package "grimoire-domain-navigation" <<domain>> {
 
 ' ── application ──
 package "grimoire-application-core" <<application>> {
+
+  package "com.grimoire.application.core.ecs" {
+    rectangle "ComponentManager" <<class>>
+    rectangle "EcsWorld" <<class>>
+    rectangle "EntityManager" <<class>>
+    rectangle "GameCommandQueue" <<class>>
+    rectangle "GameSystem" <<interface>>
+    rectangle "Prefab" <<class>>
+    rectangle "SystemScheduler" <<class>>
+  }
+
+  package "com.grimoire.application.core.port" {
+    rectangle "GameEventPort" <<interface>>
+  }
+
+!if ($SHOW_TESTS)
+  package "com.grimoire.application.core.ecs (test)" {
+    rectangle "ComponentManagerTest" <<class>>
+    rectangle "EcsWorldTest" <<class>>
+    rectangle "EntityManagerTest" <<class>>
+    rectangle "GameCommandQueueTest" <<class>>
+    rectangle "PrefabTest" <<class>>
+    rectangle "SystemSchedulerTest" <<class>>
+  }
+!endif
 }
 
 package "grimoire-application-session" <<application>> {
+
+  package "com.grimoire.application.session" {
+    rectangle "Session" <<record>>
+    rectangle "SessionConfig" <<interface>>
+    rectangle "SessionManager" <<class>>
+  }
+
+!if ($SHOW_TESTS)
+  package "com.grimoire.application.session (test)" {
+    rectangle "SessionManagerTest" <<class>>
+    rectangle "SessionTest" <<class>>
+  }
+!endif
 }
 
 ' ── infrastructure ──

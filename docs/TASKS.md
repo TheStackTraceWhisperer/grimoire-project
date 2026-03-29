@@ -41,9 +41,9 @@
 
 ## Wave 3 — Application
 
-- [ ] `grimoire-application-core`: use-case orchestration, command handlers
-- [ ] `grimoire-application-session`: session policies, `SessionManager`
-- [ ] Inter-module deps: `application-*` → `domain-*`, `contracts-api`
+- [x] `grimoire-application-core`: use-case orchestration, command handlers
+- [x] `grimoire-application-session`: session policies, `SessionManager`
+- [x] Inter-module deps: `application-*` → `domain-*`, `contracts-api`
 
 ## Wave 4 — Infrastructure
 
