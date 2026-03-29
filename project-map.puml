@@ -1,0 +1,285 @@
+@startuml
+' ── Toggle test-scoped classes ──
+!$SHOW_TESTS = %false()
+left to right direction
+title Grimoire — Full Project Map (Modules & Classes)
+footer Generated 2026-03-29
+
+skinparam {
+  shadowing false
+  defaultFontSize 11
+  rectangleFontSize 10
+}
+
+skinparam package {
+  BackgroundColor<<pom>> #F5F5F5
+  BackgroundColor<<contracts>> #E8F5E9
+  BackgroundColor<<domain>> #E3F2FD
+  BackgroundColor<<application>> #FFF3E0
+  BackgroundColor<<infra>> #FCE4EC
+  BackgroundColor<<app>> #F3E5F5
+  BackgroundColor<<testkit>> #FFFDE7
+}
+
+skinparam rectangle {
+  BackgroundColor<<pom>> #F5F5F5
+  BackgroundColor<<record>> #C8E6C9
+  BackgroundColor<<interface>> #B3E5FC
+  BackgroundColor<<enum>> #FFE0B2
+  BackgroundColor<<class>> #E1BEE7
+}
+
+!if ($SHOW_TESTS)
+legend right
+  |= Stereotype |= Color |
+  | <<record>> | <back:#C8E6C9>   record   </back> |
+  | <<interface>> | <back:#B3E5FC>   interface   </back> |
+  | <<enum>> | <back:#FFE0B2>   enum   </back> |
+  | <<class>> | <back:#E1BEE7>   class (test)   </back> |
+end legend
+!else
+legend right
+  |= Stereotype |= Color |
+  | <<record>> | <back:#C8E6C9>   record   </back> |
+  | <<interface>> | <back:#B3E5FC>   interface   </back> |
+  | <<enum>> | <back:#FFE0B2>   enum   </back> |
+end legend
+!endif
+
+' ── POMs ──
+rectangle "external-bom" <<pom>>
+rectangle "internal-bom" <<pom>>
+rectangle "grimoire-parent" <<pom>>
+rectangle "grimoire-starter-parent" <<pom>>
+
+' ── contracts-api ──
+package "grimoire-contracts-api" <<contracts>> {
+  package "com.grimoire.contracts.api.component" {
+    rectangle "ComponentDTO" <<interface>>
+  }
+}
+
+' ── contracts-wire ──
+package "grimoire-contracts-wire" <<contracts>> {
+
+  package "com.grimoire.contracts.wire.component" {
+    rectangle "PortalDTO" <<record>>
+    rectangle "PositionDTO" <<record>>
+    rectangle "RenderableDTO" <<record>>
+    rectangle "StatsDTO" <<record>>
+  }
+
+  package "com.grimoire.contracts.wire.dto" {
+    rectangle "CharacterListResponse" <<record>>
+    rectangle "CharacterSelectionRequest" <<record>>
+    rectangle "CharacterSelectionSuccess" <<record>>
+    rectangle "ChatBroadcast" <<record>>
+    rectangle "ChatMessage" <<record>>
+    rectangle "CreateGroup" <<record>>
+    rectangle "CreateGroupResponse" <<record>>
+    rectangle "EntityDespawn" <<record>>
+    rectangle "EntitySpawn" <<record>>
+    rectangle "GameStateUpdate" <<record>>
+    rectangle "GroupMessage" <<record>>
+    rectangle "GroupMessageBroadcast" <<record>>
+    rectangle "JoinGroup" <<record>>
+    rectangle "JoinGroupResponse" <<record>>
+    rectangle "LeaveGroup" <<record>>
+    rectangle "LeaveGroupResponse" <<record>>
+    rectangle "LoginFailure" <<record>>
+    rectangle "MovementIntent" <<record>>
+    rectangle "PrivateMessage" <<record>>
+    rectangle "PrivateMessageBroadcast" <<record>>
+    rectangle "TokenLoginRequest" <<record>>
+    rectangle "ZoneChange" <<record>>
+  }
+
+  package "com.grimoire.contracts.wire.protocol" {
+    rectangle "GamePacket" <<record>>
+    rectangle "PacketType" <<enum>>
+  }
+
+!if ($SHOW_TESTS)
+  package "com.grimoire.contracts.wire.component (test)" {
+    rectangle "PortalDTOTest" <<class>>
+    rectangle "PositionDTOTest" <<class>>
+    rectangle "RenderableDTOTest" <<class>>
+    rectangle "StatsDTOTest" <<class>>
+  }
+
+  package "com.grimoire.contracts.wire.dto (test)" {
+    rectangle "CharacterListResponseTest" <<class>>
+    rectangle "CharacterSelectionRequestTest" <<class>>
+    rectangle "CharacterSelectionSuccessTest" <<class>>
+    rectangle "ChatBroadcastTest" <<class>>
+    rectangle "ChatMessageTest" <<class>>
+    rectangle "CreateGroupTest" <<class>>
+    rectangle "CreateGroupResponseTest" <<class>>
+    rectangle "EntityDespawnTest" <<class>>
+    rectangle "EntitySpawnTest" <<class>>
+    rectangle "GameStateUpdateTest" <<class>>
+    rectangle "GroupMessageTest" <<class>>
+    rectangle "GroupMessageBroadcastTest" <<class>>
+    rectangle "JoinGroupTest" <<class>>
+    rectangle "JoinGroupResponseTest" <<class>>
+    rectangle "LeaveGroupTest" <<class>>
+    rectangle "LeaveGroupResponseTest" <<class>>
+    rectangle "LoginFailureTest" <<class>>
+    rectangle "MovementIntentTest" <<class>>
+    rectangle "PrivateMessageTest" <<class>>
+    rectangle "PrivateMessageBroadcastTest" <<class>>
+    rectangle "TokenLoginRequestTest" <<class>>
+    rectangle "ZoneChangeTest" <<class>>
+  }
+
+  package "com.grimoire.contracts.wire.protocol (test)" {
+    rectangle "GamePacketTest" <<class>>
+    rectangle "PacketTypeTest" <<class>>
+  }
+!endif
+}
+
+' ── domain-core ──
+package "grimoire-domain-core" <<domain>> {
+  package "com.grimoire.domain.core.component" {
+    rectangle "Component" <<interface>>
+    rectangle "BoundingBox" <<record>>
+    rectangle "Dead" <<record>>
+    rectangle "Dirty" <<record>>
+    rectangle "Experience" <<record>>
+    rectangle "MovementIntent\n(domain)" as DC_MovementIntent <<record>>
+    rectangle "Persistent" <<record>>
+    rectangle "Portal" <<record>>
+    rectangle "PortalCooldown" <<record>>
+    rectangle "Position" <<record>>
+    rectangle "Renderable" <<record>>
+    rectangle "Solid" <<record>>
+    rectangle "SpawnPoint" <<record>>
+    rectangle "Stats" <<record>>
+    rectangle "Velocity" <<record>>
+    rectangle "Zone" <<record>>
+  }
+
+!if ($SHOW_TESTS)
+  package "com.grimoire.domain.core.component (test)" {
+    rectangle "BoundingBoxTest" <<class>>
+    rectangle "ComponentPropertyTest" <<class>>
+    rectangle "DeadTest" <<class>>
+    rectangle "DirtyTest" <<class>>
+    rectangle "ExperienceTest" <<class>>
+    rectangle "MovementIntentTest\n(domain)" as DC_MovementIntentTest <<class>>
+    rectangle "PersistentTest" <<class>>
+    rectangle "PortalCooldownTest" <<class>>
+    rectangle "PortalTest" <<class>>
+    rectangle "PositionTest" <<class>>
+    rectangle "RenderableTest" <<class>>
+    rectangle "SolidTest" <<class>>
+    rectangle "SpawnPointTest" <<class>>
+    rectangle "StatsTest" <<class>>
+    rectangle "VelocityTest" <<class>>
+    rectangle "ZoneTest" <<class>>
+  }
+!endif
+}
+
+' ── domain-combat ──
+package "grimoire-domain-combat" <<domain>> {
+  package "com.grimoire.domain.combat.component" {
+    rectangle "AttackCooldown" <<record>>
+    rectangle "AttackIntent" <<record>>
+    rectangle "Monster" <<record>>
+    rectangle "Monster.MonsterType" <<enum>>
+    rectangle "NpcAi" <<record>>
+    rectangle "NpcAi.AiType" <<enum>>
+  }
+
+  package "com.grimoire.domain.combat.rule" {
+    rectangle "CombatRules" <<class>>
+    rectangle "LevelingRules" <<class>>
+  }
+
+!if ($SHOW_TESTS)
+  package "com.grimoire.domain.combat.component (test)" {
+    rectangle "AttackCooldownTest" <<class>>
+    rectangle "AttackIntentTest" <<class>>
+    rectangle "MonsterTest" <<class>>
+    rectangle "NpcAiTest" <<class>>
+  }
+
+  package "com.grimoire.domain.combat.rule (test)" {
+    rectangle "CombatRulesTest" <<class>>
+    rectangle "CombatRulesPropertyTest" <<class>>
+    rectangle "LevelingRulesTest" <<class>>
+  }
+!endif
+}
+
+' ── domain-navigation ──
+package "grimoire-domain-navigation" <<domain>> {
+  package "com.grimoire.domain.navigation" {
+    rectangle "AStarPathfinder" <<class>>
+    rectangle "NavigationGrid" <<class>>
+  }
+
+  package "com.grimoire.domain.navigation.component" {
+    rectangle "Path" <<record>>
+  }
+
+  package "com.grimoire.domain.navigation.spatial" {
+    rectangle "SpatialGrid" <<class>>
+  }
+
+!if ($SHOW_TESTS)
+  package "com.grimoire.domain.navigation (test)" {
+    rectangle "AStarPathfinderTest" <<class>>
+    rectangle "NavigationGridTest" <<class>>
+    rectangle "NavigationPropertyTest" <<class>>
+  }
+
+  package "com.grimoire.domain.navigation.component (test)" {
+    rectangle "PathTest" <<class>>
+  }
+
+  package "com.grimoire.domain.navigation.spatial (test)" {
+    rectangle "SpatialGridTest" <<class>>
+    rectangle "SpatialGridPropertyTest" <<class>>
+  }
+!endif
+}
+
+' ── application ──
+package "grimoire-application-core" <<application>> {
+}
+
+package "grimoire-application-session" <<application>> {
+}
+
+' ── infrastructure ──
+package "grimoire-infra-network-netty" <<infra>> {
+}
+
+package "grimoire-infra-security-keycloak" <<infra>> {
+}
+
+package "grimoire-infra-persistence-jpa" <<infra>> {
+}
+
+package "grimoire-infra-observability" <<infra>> {
+}
+
+' ── test kit ──
+package "grimoire-test-kit" <<testkit>> {
+}
+
+' ── applications ──
+package "grimoire-client-app" <<app>> {
+}
+
+package "grimoire-server-app" <<app>> {
+}
+
+package "grimoire-web-app" <<app>> {
+}
+
+@enduml
+

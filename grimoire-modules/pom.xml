@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.grimoire</groupId>
+    <artifactId>grimoire-project</artifactId>
+    <version>${revision}</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>grimoire-modules</artifactId>
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>grimoire-contracts-api</module>
+    <module>grimoire-contracts-wire</module>
+    <module>grimoire-domain-core</module>
+    <module>grimoire-domain-combat</module>
+    <module>grimoire-domain-navigation</module>
+    <module>grimoire-application-core</module>
+    <module>grimoire-application-session</module>
+    <module>grimoire-infra-network-netty</module>
+    <module>grimoire-infra-security-keycloak</module>
+    <module>grimoire-infra-persistence-jpa</module>
+    <module>grimoire-infra-observability</module>
+    <module>grimoire-test-kit</module>
+  </modules>
+
+</project>

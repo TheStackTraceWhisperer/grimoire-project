@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.grimoire</groupId>
+    <artifactId>grimoire-poms</artifactId>
+    <version>${revision}</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>external-bom</artifactId>
+  <packaging>pom</packaging>
+
+  <name>Grimoire External BOM</name>
+  <description>Centralized version management for all external dependencies.</description>
+
+  <properties>
+    <!-- ── BOMs ── -->
+    <boms.junit.version>5.12.0</boms.junit.version>
+    <boms.testcontainers.version>2.0.3</boms.testcontainers.version>
+
+    <!-- ── Runtime dependencies ── -->
+    <deps.fory.version>0.13.1</deps.fory.version>
+    <deps.logback.version>1.5.16</deps.logback.version>
+    <deps.lombok.version>1.18.44</deps.lombok.version>
+    <deps.micronaut.version>4.8.3</deps.micronaut.version>
+    <deps.micronaut.data.version>4.12.0</deps.micronaut.data.version>
+    <deps.netty.version>4.1.115.Final</deps.netty.version>
+    <deps.postgresql.version>42.7.4</deps.postgresql.version>
+    <deps.slf4j.version>2.0.16</deps.slf4j.version>
+
+    <!-- ── Client dependencies ── -->
+    <deps.joml.version>1.10.8</deps.joml.version>
+    <deps.lwjgl.version>3.3.6</deps.lwjgl.version>
+
+    <!-- ── Test dependencies ── -->
+    <deps.archunit.version>1.4.1</deps.archunit.version>
+    <deps.assertj.version>3.27.3</deps.assertj.version>
+    <deps.jqwik.version>1.9.0</deps.jqwik.version>
+    <deps.mockito.version>5.15.2</deps.mockito.version>
+    <deps.spotbugs-annotations.version>4.9.1</deps.spotbugs-annotations.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+
+      <!-- ── BOMs ── -->
+      <dependency>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>${boms.junit.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.testcontainers</groupId>
+        <artifactId>testcontainers-bom</artifactId>
+        <version>${boms.testcontainers.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.lwjgl</groupId>
+        <artifactId>lwjgl-bom</artifactId>
+        <version>${deps.lwjgl.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <!-- ── Runtime ── -->
+      <dependency>
+        <groupId>io.netty</groupId>
+        <artifactId>netty-all</artifactId>
+        <version>${deps.netty.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.fury</groupId>
+        <artifactId>fury-core</artifactId>
+        <version>${deps.fory.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${deps.slf4j.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>${deps.logback.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <version>${deps.lombok.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>${deps.postgresql.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.joml</groupId>
+        <artifactId>joml</artifactId>
+        <version>${deps.joml.version}</version>
+      </dependency>
+
+      <!-- ── Test ── -->
+      <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>${deps.assertj.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.tngtech.archunit</groupId>
+        <artifactId>archunit-junit5</artifactId>
+        <version>${deps.archunit.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>net.jqwik</groupId>
+        <artifactId>jqwik</artifactId>
+        <version>${deps.jqwik.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>${deps.mockito.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-junit-jupiter</artifactId>
+        <version>${deps.mockito.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-annotations</artifactId>
+        <version>${deps.spotbugs-annotations.version}</version>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+
+</project>

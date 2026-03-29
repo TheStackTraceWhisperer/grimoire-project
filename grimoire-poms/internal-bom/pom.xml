@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.grimoire</groupId>
+    <artifactId>grimoire-poms</artifactId>
+    <version>${revision}</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>internal-bom</artifactId>
+  <packaging>pom</packaging>
+
+  <name>Grimoire Internal BOM</name>
+  <description>Centralized version management for all Grimoire modules.</description>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- ── External BOM (imported first so internal modules can override) ── -->
+      <dependency>
+        <groupId>com.grimoire</groupId>
+        <artifactId>external-bom</artifactId>
+        <version>${revision}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <!-- ── Contracts ── -->
+      <dependency>
+        <groupId>com.grimoire</groupId>
+        <artifactId>grimoire-contracts-api</artifactId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.grimoire</groupId>
+        <artifactId>grimoire-contracts-wire</artifactId>
+        <version>${revision}</version>
+      </dependency>
+
+      <!-- ── Domain ── -->
+      <dependency>
+        <groupId>com.grimoire</groupId>
+        <artifactId>grimoire-domain-core</artifactId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.grimoire</groupId>
+        <artifactId>grimoire-domain-combat</artifactId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.grimoire</groupId>
+        <artifactId>grimoire-domain-navigation</artifactId>
+        <version>${revision}</version>
+      </dependency>
+
+      <!-- ── Application ── -->
+      <dependency>
+        <groupId>com.grimoire</groupId>
+        <artifactId>grimoire-application-core</artifactId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.grimoire</groupId>
+        <artifactId>grimoire-application-session</artifactId>
+        <version>${revision}</version>
+      </dependency>
+
+      <!-- ── Infrastructure ── -->
+      <dependency>
+        <groupId>com.grimoire</groupId>
+        <artifactId>grimoire-infra-network-netty</artifactId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.grimoire</groupId>
+        <artifactId>grimoire-infra-security-keycloak</artifactId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.grimoire</groupId>
+        <artifactId>grimoire-infra-persistence-jpa</artifactId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.grimoire</groupId>
+        <artifactId>grimoire-infra-observability</artifactId>
+        <version>${revision}</version>
+      </dependency>
+
+      <!-- ── Test support ── -->
+      <dependency>
+        <groupId>com.grimoire</groupId>
+        <artifactId>grimoire-test-kit</artifactId>
+        <version>${revision}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+</project>

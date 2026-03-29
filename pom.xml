@@ -1,37 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.grimoire</groupId>
     <artifactId>grimoire-project</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>${revision}</version>
     <packaging>pom</packaging>
 
-    <name>Grimoire Project</name>
-    <description>
-        Flattened root reactor for the Grimoire ecosystem.
-        Aggregates build-logic, library, and application leaf modules directly.
-    </description>
+    <properties>
+        <revision>0.0.0-SNAPSHOT</revision>
+
+        <java.version>25</java.version>
+        <maven.compiler.release>${java.version}</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <plugins.versions.maven-compiler>3.15.0</plugins.versions.maven-compiler>
+        <plugins.flatten-maven.version>1.6.0</plugins.flatten-maven.version>
+    </properties>
 
     <modules>
-        <!-- build-logic leaf modules -->
-        <module>build-logic/grimoire-external-dependencies</module>
-        <module>build-logic/grimoire-bom</module>
-        <module>build-logic/grimoire-parent</module>
-        <module>build-logic/grimoire-starter-parent</module>
-
-        <!-- library leaf modules -->
-        <module>libs/grimoire-shared</module>
-        <module>libs/grimoire-data</module>
-        <module>libs/grimoire-ecs</module>
-        <module>libs/grimoire-network</module>
-
-        <!-- application leaf modules -->
-        <module>apps/grimoire-server</module>
-        <module>apps/grimoire-client</module>
-        <module>apps/grimoire-web</module>
+        <module>grimoire-poms</module>
+        <module>grimoire-modules</module>
+        <module>grimoire-applications</module>
     </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>${plugins.flatten-maven.version}</version>
+                <configuration>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                    <outputDirectory>${project.build.directory}</outputDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten-clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
