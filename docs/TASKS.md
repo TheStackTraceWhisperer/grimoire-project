@@ -51,18 +51,18 @@
 > have been built. Pure systems must land in `application-core` before infrastructure
 > adapters can wire them. See [ADR-003](adr/003-wave4-architecture-boundaries.md) §3.
 
-- [ ] `MovementSystem` — reads `Velocity`/`Position`/`BoundingBox`; writes `Position`/`Dirty`
-- [ ] `CombatSystem` — reads `AttackIntent`/`Stats`; writes `Dead`/`Experience`/`Dirty`; death via `GameEventPort`
-- [ ] `LevelUpSystem` — reads `Experience`/`Stats`; delegates to `LevelingRules`; writes `Stats`/`Dirty`
-- [ ] `NpcAiSystem` — reads `NpcAi`/`Position`/`Zone`; writes `MovementIntent`/`AttackIntent`; uses `SpatialGrid`+`AStarPathfinder`
-- [ ] `PortalCooldownSystem` — reads/writes `PortalCooldown` tick countdown
-- [ ] `SpatialGridSystem` — rebuilds `SpatialGrid` from `Position`/`Zone` each tick
-- [ ] `ZoneChangeSystem` — reads `Portal`/`Position`/`PortalCooldown`; writes zone transitions; zone-change via `GameEventPort`
-- [ ] `GroupService` — create/join/leave/kick orchestration; updates ECS + notifies via `GameEventPort`
-- [ ] `GameConfig` port interface in `application-core`
-- [ ] `PlayerControlled` extended with `sessionId` field (domain-core)
-- [ ] Unit tests for all systems (ports faked/mocked)
-- [ ] `mvn clean verify` green (all quality gates)
+- [x] `MovementSystem` — reads `Velocity`/`Position`/`BoundingBox`; writes `Position`/`Dirty`
+- [x] `CombatSystem` — reads `AttackIntent`/`Stats`; writes `Dead`/`Experience`/`Dirty`; death via `GameEventPort`
+- [x] `LevelUpSystem` — reads `Experience`/`Stats`; delegates to `LevelingRules`; writes `Stats`/`Dirty`
+- [x] `NpcAiSystem` — reads `NpcAi`/`Position`/`Zone`; writes `MovementIntent`/`AttackIntent`; uses `SpatialGrid`+`AStarPathfinder`
+- [x] `PortalCooldownSystem` — reads/writes `PortalCooldown` tick countdown
+- [x] `SpatialGridSystem` — rebuilds `SpatialGrid` from `Position`/`Zone` each tick
+- [x] `ZoneChangeSystem` — reads `Portal`/`Position`/`PortalCooldown`; writes zone transitions; zone-change via `GameEventPort`
+- [x] `GroupService` — create/join/leave/kick orchestration; updates ECS + notifies via `GameEventPort`
+- [x] `GameConfig` port interface in `application-core`
+- [x] `PlayerControlled` extended with `sessionId` field (domain-core)
+- [x] Unit tests for all systems (ports faked/mocked)
+- [x] `mvn clean verify` green (all quality gates)
 
 ## Wave 4a — Test Kit, Observability & Codecs
 

@@ -248,7 +248,7 @@ Audit done.
 [INFO] You have 0 Checkstyle violations.
 [INFO] 
 [INFO] --- formatter:2.29.0:validate (formatter-validate) @ grimoire-contracts-api ---
-[INFO] Processed 1 files in 872ms (Formatted: 0, Skipped: 0, Unchanged: 1, Failed: 0, Readonly: 0)
+[INFO] Processed 1 files in 796ms (Formatted: 0, Skipped: 0, Unchanged: 1, Failed: 0, Readonly: 0)
 [INFO] 
 [INFO] --- jacoco:0.8.14:prepare-agent (prepare-agent) @ grimoire-contracts-api ---
 [INFO] argLine set to -javaagent:/home/samuel/.m2/repository/org/jacoco/org.jacoco.agent/0.8.14/org.jacoco.agent-0.8.14-runtime.jar=destfile=/home/samuel/projects/grimoire/grimoire-modules/grimoire-contracts-api/target/jacoco.exec
@@ -351,7 +351,7 @@ Audit done.
 [INFO] You have 2 Checkstyle violations.
 [INFO] 
 [INFO] --- formatter:2.29.0:validate (formatter-validate) @ grimoire-contracts-wire ---
-[INFO] Processed 56 files in 326ms (Formatted: 0, Skipped: 0, Unchanged: 56, Failed: 0, Readonly: 0)
+[INFO] Processed 56 files in 251ms (Formatted: 0, Skipped: 0, Unchanged: 56, Failed: 0, Readonly: 0)
 [INFO] 
 [INFO] --- jacoco:0.8.14:prepare-agent (prepare-agent) @ grimoire-contracts-wire ---
 [INFO] argLine set to -javaagent:/home/samuel/.m2/repository/org/jacoco/org.jacoco.agent/0.8.14/org.jacoco.agent-0.8.14-runtime.jar=destfile=/home/samuel/projects/grimoire/grimoire-modules/grimoire-contracts-wire/target/jacoco.exec
@@ -380,61 +380,61 @@ Audit done.
 [INFO]  T E S T S
 [INFO] -------------------------------------------------------
 [INFO] Running com.grimoire.contracts.wire.component.PositionDTOTest
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.239 s -- in com.grimoire.contracts.wire.component.PositionDTOTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.198 s -- in com.grimoire.contracts.wire.component.PositionDTOTest
 [INFO] Running com.grimoire.contracts.wire.component.PortalDTOTest
 [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in com.grimoire.contracts.wire.component.PortalDTOTest
 [INFO] Running com.grimoire.contracts.wire.component.StatsDTOTest
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in com.grimoire.contracts.wire.component.StatsDTOTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 s -- in com.grimoire.contracts.wire.component.StatsDTOTest
 [INFO] Running com.grimoire.contracts.wire.component.RenderableDTOTest
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s -- in com.grimoire.contracts.wire.component.RenderableDTOTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.025 s -- in com.grimoire.contracts.wire.component.RenderableDTOTest
 [INFO] Running com.grimoire.contracts.wire.protocol.PacketTypeTest
-[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.048 s -- in com.grimoire.contracts.wire.protocol.PacketTypeTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.038 s -- in com.grimoire.contracts.wire.protocol.PacketTypeTest
 [INFO] Running com.grimoire.contracts.wire.protocol.GamePacketTest
-[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.023 s -- in com.grimoire.contracts.wire.protocol.GamePacketTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.022 s -- in com.grimoire.contracts.wire.protocol.GamePacketTest
 [INFO] Running com.grimoire.contracts.wire.dto.GroupMessageTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in com.grimoire.contracts.wire.dto.GroupMessageTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in com.grimoire.contracts.wire.dto.GroupMessageTest
 [INFO] Running com.grimoire.contracts.wire.dto.EntitySpawnTest
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in com.grimoire.contracts.wire.dto.EntitySpawnTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in com.grimoire.contracts.wire.dto.EntitySpawnTest
 [INFO] Running com.grimoire.contracts.wire.dto.PrivateMessageBroadcastTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in com.grimoire.contracts.wire.dto.PrivateMessageBroadcastTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in com.grimoire.contracts.wire.dto.PrivateMessageBroadcastTest
 [INFO] Running com.grimoire.contracts.wire.dto.ChatBroadcastTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in com.grimoire.contracts.wire.dto.ChatBroadcastTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in com.grimoire.contracts.wire.dto.ChatBroadcastTest
 [INFO] Running com.grimoire.contracts.wire.dto.LeaveGroupTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in com.grimoire.contracts.wire.dto.LeaveGroupTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in com.grimoire.contracts.wire.dto.LeaveGroupTest
 [INFO] Running com.grimoire.contracts.wire.dto.CharacterListResponseTest
-[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.023 s -- in com.grimoire.contracts.wire.dto.CharacterListResponseTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 s -- in com.grimoire.contracts.wire.dto.CharacterListResponseTest
 [INFO] Running com.grimoire.contracts.wire.dto.JoinGroupResponseTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in com.grimoire.contracts.wire.dto.JoinGroupResponseTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in com.grimoire.contracts.wire.dto.JoinGroupResponseTest
 [INFO] Running com.grimoire.contracts.wire.dto.LoginFailureTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in com.grimoire.contracts.wire.dto.LoginFailureTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in com.grimoire.contracts.wire.dto.LoginFailureTest
 [INFO] Running com.grimoire.contracts.wire.dto.GameStateUpdateTest
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.045 s -- in com.grimoire.contracts.wire.dto.GameStateUpdateTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 s -- in com.grimoire.contracts.wire.dto.GameStateUpdateTest
 [INFO] Running com.grimoire.contracts.wire.dto.LeaveGroupResponseTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in com.grimoire.contracts.wire.dto.LeaveGroupResponseTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in com.grimoire.contracts.wire.dto.LeaveGroupResponseTest
 [INFO] Running com.grimoire.contracts.wire.dto.TokenLoginRequestTest
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in com.grimoire.contracts.wire.dto.TokenLoginRequestTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in com.grimoire.contracts.wire.dto.TokenLoginRequestTest
 [INFO] Running com.grimoire.contracts.wire.dto.ChatMessageTest
 [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in com.grimoire.contracts.wire.dto.ChatMessageTest
 [INFO] Running com.grimoire.contracts.wire.dto.CreateGroupResponseTest
 [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in com.grimoire.contracts.wire.dto.CreateGroupResponseTest
 [INFO] Running com.grimoire.contracts.wire.dto.CreateGroupTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in com.grimoire.contracts.wire.dto.CreateGroupTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in com.grimoire.contracts.wire.dto.CreateGroupTest
 [INFO] Running com.grimoire.contracts.wire.dto.CharacterSelectionSuccessTest
 [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in com.grimoire.contracts.wire.dto.CharacterSelectionSuccessTest
 [INFO] Running com.grimoire.contracts.wire.dto.PrivateMessageTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in com.grimoire.contracts.wire.dto.PrivateMessageTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in com.grimoire.contracts.wire.dto.PrivateMessageTest
 [INFO] Running com.grimoire.contracts.wire.dto.JoinGroupTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in com.grimoire.contracts.wire.dto.JoinGroupTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in com.grimoire.contracts.wire.dto.JoinGroupTest
 [INFO] Running com.grimoire.contracts.wire.dto.ZoneChangeTest
 [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in com.grimoire.contracts.wire.dto.ZoneChangeTest
 [INFO] Running com.grimoire.contracts.wire.dto.MovementIntentTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in com.grimoire.contracts.wire.dto.MovementIntentTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in com.grimoire.contracts.wire.dto.MovementIntentTest
 [INFO] Running com.grimoire.contracts.wire.dto.EntityDespawnTest
 [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in com.grimoire.contracts.wire.dto.EntityDespawnTest
 [INFO] Running com.grimoire.contracts.wire.dto.CharacterSelectionRequestTest
 [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in com.grimoire.contracts.wire.dto.CharacterSelectionRequestTest
 [INFO] Running com.grimoire.contracts.wire.dto.GroupMessageBroadcastTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in com.grimoire.contracts.wire.dto.GroupMessageBroadcastTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in com.grimoire.contracts.wire.dto.GroupMessageBroadcastTest
 [INFO] 
 [INFO] Results:
 [INFO] 
@@ -524,7 +524,7 @@ Audit done.
 [INFO] You have 0 Checkstyle violations.
 [INFO] 
 [INFO] --- formatter:2.29.0:validate (formatter-validate) @ grimoire-domain-core ---
-[INFO] Processed 33 files in 91ms (Formatted: 0, Skipped: 0, Unchanged: 33, Failed: 0, Readonly: 0)
+[INFO] Processed 33 files in 85ms (Formatted: 0, Skipped: 0, Unchanged: 33, Failed: 0, Readonly: 0)
 [INFO] 
 [INFO] --- jacoco:0.8.14:prepare-agent (prepare-agent) @ grimoire-domain-core ---
 [INFO] argLine set to -javaagent:/home/samuel/.m2/repository/org/jacoco/org.jacoco.agent/0.8.14/org.jacoco.agent-0.8.14-runtime.jar=destfile=/home/samuel/projects/grimoire/grimoire-modules/grimoire-domain-core/target/jacoco.exec
@@ -553,37 +553,37 @@ Audit done.
 [INFO]  T E S T S
 [INFO] -------------------------------------------------------
 [INFO] Running com.grimoire.domain.core.component.PersistentTest
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.208 s -- in com.grimoire.domain.core.component.PersistentTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.210 s -- in com.grimoire.domain.core.component.PersistentTest
 [INFO] Running com.grimoire.domain.core.component.SolidTest
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 s -- in com.grimoire.domain.core.component.SolidTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 s -- in com.grimoire.domain.core.component.SolidTest
 [INFO] Running com.grimoire.domain.core.component.DirtyTest
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in com.grimoire.domain.core.component.DirtyTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in com.grimoire.domain.core.component.DirtyTest
 [INFO] Running com.grimoire.domain.core.component.BoundingBoxTest
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 s -- in com.grimoire.domain.core.component.BoundingBoxTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in com.grimoire.domain.core.component.BoundingBoxTest
 [INFO] Running com.grimoire.domain.core.component.RenderableTest
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in com.grimoire.domain.core.component.RenderableTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in com.grimoire.domain.core.component.RenderableTest
 [INFO] Running com.grimoire.domain.core.component.ZoneTest
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in com.grimoire.domain.core.component.ZoneTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in com.grimoire.domain.core.component.ZoneTest
 [INFO] Running com.grimoire.domain.core.component.DeadTest
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in com.grimoire.domain.core.component.DeadTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in com.grimoire.domain.core.component.DeadTest
 [INFO] Running com.grimoire.domain.core.component.ExperienceTest
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in com.grimoire.domain.core.component.ExperienceTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in com.grimoire.domain.core.component.ExperienceTest
 [INFO] Running com.grimoire.domain.core.component.VelocityTest
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in com.grimoire.domain.core.component.VelocityTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in com.grimoire.domain.core.component.VelocityTest
 [INFO] Running com.grimoire.domain.core.component.SpawnPointTest
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in com.grimoire.domain.core.component.SpawnPointTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in com.grimoire.domain.core.component.SpawnPointTest
 [INFO] Running com.grimoire.domain.core.component.PortalTest
 [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in com.grimoire.domain.core.component.PortalTest
 [INFO] Running com.grimoire.domain.core.component.PositionTest
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in com.grimoire.domain.core.component.PositionTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in com.grimoire.domain.core.component.PositionTest
 [INFO] Running com.grimoire.domain.core.component.StatsTest
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in com.grimoire.domain.core.component.StatsTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in com.grimoire.domain.core.component.StatsTest
 [INFO] Running com.grimoire.domain.core.component.PortalCooldownTest
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in com.grimoire.domain.core.component.PortalCooldownTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in com.grimoire.domain.core.component.PortalCooldownTest
 [INFO] Running com.grimoire.domain.core.component.MovementIntentTest
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in com.grimoire.domain.core.component.MovementIntentTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in com.grimoire.domain.core.component.MovementIntentTest
 [INFO] Running com.grimoire.domain.core.component.ComponentPropertyTest
-timestamp = 2026-03-29T16:18:18.002578604, ComponentPropertyTest:allComponentsImplementMarkerInterface = 
+timestamp = 2026-03-30T06:47:00.264479777, ComponentPropertyTest:allComponentsImplementMarkerInterface = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -592,11 +592,11 @@ after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
 when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 49         | # of all combined edge cases
-edge-cases#tried = 36         | # of edge cases tried in current run
-seed = 1997278974796044342    | random seed to reproduce generated values
+edge-cases#tried = 49         | # of edge cases tried in current run
+seed = 5054772950847529524    | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:18.078658811, ComponentPropertyTest:experiencePreservesValues = 
+timestamp = 2026-03-30T06:47:00.347835798, ComponentPropertyTest:experiencePreservesValues = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -606,10 +606,10 @@ when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 20         | # of all combined edge cases
 edge-cases#tried = 20         | # of edge cases tried in current run
-seed = -3613409453372168911   | random seed to reproduce generated values
+seed = -8949117324672994763   | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:18.136296285, ComponentPropertyTest:statsPreservesAllFields = 
+timestamp = 2026-03-30T06:47:00.405371792, ComponentPropertyTest:statsPreservesAllFields = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -618,11 +618,11 @@ after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
 when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 900        | # of all combined edge cases
-edge-cases#tried = 155        | # of edge cases tried in current run
-seed = -5944420584759795385   | random seed to reproduce generated values
+edge-cases#tried = 153        | # of edge cases tried in current run
+seed = 7748452201938781239    | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:18.272670104, ComponentPropertyTest:portalPreservesValues = 
+timestamp = 2026-03-30T06:47:00.531773079, ComponentPropertyTest:portalPreservesValues = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -632,10 +632,23 @@ when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 4          | # of all combined edge cases
 edge-cases#tried = 4          | # of edge cases tried in current run
-seed = -9191310840954836118   | random seed to reproduce generated values
+seed = 3952672061595280914    | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:18.304596819, ComponentPropertyTest:positionEqualityByValue = 
+timestamp = 2026-03-30T06:47:00.564533499, ComponentPropertyTest:positionEqualityByValue = 
+                              |-----------------------jqwik-----------------------
+tries = 1000                  | # of calls to property
+checks = 1000                 | # of not rejected calls
+generation = RANDOMIZED       | parameters are randomly generated
+after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
+when-fixed-seed = ALLOW       | fixing the random seed is allowed
+edge-cases#mode = MIXIN       | edge cases are mixed in
+edge-cases#total = 49         | # of all combined edge cases
+edge-cases#tried = 40         | # of edge cases tried in current run
+seed = 3657365688994326992    | random seed to reproduce generated values
+
+
+timestamp = 2026-03-30T06:47:00.595911311, ComponentPropertyTest:movementIntentPreservesTarget = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -645,10 +658,10 @@ when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 49         | # of all combined edge cases
 edge-cases#tried = 49         | # of edge cases tried in current run
-seed = 9218403756735286084    | random seed to reproduce generated values
+seed = 8296208962601497946    | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:18.335685301, ComponentPropertyTest:movementIntentPreservesTarget = 
+timestamp = 2026-03-30T06:47:00.625322448, ComponentPropertyTest:positionPreservesCoordinates = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -658,23 +671,10 @@ when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 49         | # of all combined edge cases
 edge-cases#tried = 49         | # of edge cases tried in current run
-seed = 608490911844612595     | random seed to reproduce generated values
+seed = -3237347525374315175   | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:18.367349515, ComponentPropertyTest:positionPreservesCoordinates = 
-                              |-----------------------jqwik-----------------------
-tries = 1000                  | # of calls to property
-checks = 1000                 | # of not rejected calls
-generation = RANDOMIZED       | parameters are randomly generated
-after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
-when-fixed-seed = ALLOW       | fixing the random seed is allowed
-edge-cases#mode = MIXIN       | edge cases are mixed in
-edge-cases#total = 49         | # of all combined edge cases
-edge-cases#tried = 49         | # of edge cases tried in current run
-seed = -1518394257175470822   | random seed to reproduce generated values
-
-
-timestamp = 2026-03-29T16:18:18.409014838, ComponentPropertyTest:boundingBoxPreservesDimensions = 
+timestamp = 2026-03-30T06:47:00.668499740, ComponentPropertyTest:boundingBoxPreservesDimensions = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -684,10 +684,10 @@ when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 25         | # of all combined edge cases
 edge-cases#tried = 25         | # of edge cases tried in current run
-seed = 850561305932247998     | random seed to reproduce generated values
+seed = 1156193233309574279    | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:18.439107113, ComponentPropertyTest:dirtyPreservesTick = 
+timestamp = 2026-03-30T06:47:00.698382101, ComponentPropertyTest:dirtyPreservesTick = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -697,10 +697,10 @@ when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 9          | # of all combined edge cases
 edge-cases#tried = 9          | # of edge cases tried in current run
-seed = -4804636504689506973   | random seed to reproduce generated values
+seed = -2083639803891399479   | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:18.487786446, ComponentPropertyTest:spawnPointPreservesValues = 
+timestamp = 2026-03-30T06:47:00.754962287, ComponentPropertyTest:spawnPointPreservesValues = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -710,12 +710,12 @@ when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 245        | # of all combined edge cases
 edge-cases#tried = 165        | # of edge cases tried in current run
-seed = -1817793130800804293   | random seed to reproduce generated values
+seed = 3105172023606438258    | random seed to reproduce generated values
 
 
-Mar 29, 2026 4:18:18 PM net.jqwik.engine.properties.RandomizedShrinkablesGenerator logEdgeCasesOutnumberTriesIfApplicable
+Mar 30, 2026 6:47:00 AM net.jqwik.engine.properties.RandomizedShrinkablesGenerator logEdgeCasesOutnumberTriesIfApplicable
 INFO: Edge case generation exceeds number of tries. Stopped after 1458 generated cases.
-timestamp = 2026-03-29T16:18:18.543308494, ComponentPropertyTest:statsEqualityByValue = 
+timestamp = 2026-03-30T06:47:00.826691743, ComponentPropertyTest:statsEqualityByValue = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -724,11 +724,11 @@ after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
 when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 1458       | # of all combined edge cases
-edge-cases#tried = 153        | # of edge cases tried in current run
-seed = -9166405229008143470   | random seed to reproduce generated values
+edge-cases#tried = 176        | # of edge cases tried in current run
+seed = -1038882133874081581   | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:18.584601060, ComponentPropertyTest:zonePreservesId = 
+timestamp = 2026-03-30T06:47:00.866309091, ComponentPropertyTest:zonePreservesId = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -738,10 +738,10 @@ when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 2          | # of all combined edge cases
 edge-cases#tried = 2          | # of edge cases tried in current run
-seed = 1285577039617955707    | random seed to reproduce generated values
+seed = -7727643742134549697   | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:18.617579982, ComponentPropertyTest:velocityPreservesComponents = 
+timestamp = 2026-03-30T06:47:00.894899575, ComponentPropertyTest:velocityPreservesComponents = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -750,11 +750,11 @@ after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
 when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 49         | # of all combined edge cases
-edge-cases#tried = 45         | # of edge cases tried in current run
-seed = 6421288743054487182    | random seed to reproduce generated values
+edge-cases#tried = 49         | # of edge cases tried in current run
+seed = 8913567535613171814    | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:18.679919594, ComponentPropertyTest:portalCooldownPreservesTicks = 
+timestamp = 2026-03-30T06:47:00.915424574, ComponentPropertyTest:portalCooldownPreservesTicks = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -764,10 +764,10 @@ when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 5          | # of all combined edge cases
 edge-cases#tried = 5          | # of edge cases tried in current run
-seed = -6414290382912480770   | random seed to reproduce generated values
+seed = -2410134407473931430   | random seed to reproduce generated values
 
 
-[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.061 s -- in com.grimoire.domain.core.component.ComponentPropertyTest
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.037 s -- in com.grimoire.domain.core.component.ComponentPropertyTest
 [INFO] 
 [INFO] Results:
 [INFO] 
@@ -857,7 +857,7 @@ Audit done.
 [INFO] You have 0 Checkstyle violations.
 [INFO] 
 [INFO] --- formatter:2.29.0:validate (formatter-validate) @ grimoire-domain-combat ---
-[INFO] Processed 13 files in 96ms (Formatted: 0, Skipped: 0, Unchanged: 13, Failed: 0, Readonly: 0)
+[INFO] Processed 13 files in 75ms (Formatted: 0, Skipped: 0, Unchanged: 13, Failed: 0, Readonly: 0)
 [INFO] 
 [INFO] --- jacoco:0.8.14:prepare-agent (prepare-agent) @ grimoire-domain-combat ---
 [INFO] argLine set to -javaagent:/home/samuel/.m2/repository/org/jacoco/org.jacoco.agent/0.8.14/org.jacoco.agent-0.8.14-runtime.jar=destfile=/home/samuel/projects/grimoire/grimoire-modules/grimoire-domain-combat/target/jacoco.exec
@@ -886,21 +886,21 @@ Audit done.
 [INFO]  T E S T S
 [INFO] -------------------------------------------------------
 [INFO] Running com.grimoire.domain.combat.component.NpcAiTest
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.295 s -- in com.grimoire.domain.combat.component.NpcAiTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.230 s -- in com.grimoire.domain.combat.component.NpcAiTest
 [INFO] Running com.grimoire.domain.combat.component.AttackIntentTest
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.016 s -- in com.grimoire.domain.combat.component.AttackIntentTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in com.grimoire.domain.combat.component.AttackIntentTest
 [INFO] Running com.grimoire.domain.combat.component.MonsterTest
-[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.028 s -- in com.grimoire.domain.combat.component.MonsterTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 s -- in com.grimoire.domain.combat.component.MonsterTest
 [INFO] Running com.grimoire.domain.combat.component.AttackCooldownTest
-[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 s -- in com.grimoire.domain.combat.component.AttackCooldownTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s -- in com.grimoire.domain.combat.component.AttackCooldownTest
 [INFO] Running com.grimoire.domain.combat.rule.LevelingRulesTest
-[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.055 s -- in com.grimoire.domain.combat.rule.LevelingRulesTest
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.033 s -- in com.grimoire.domain.combat.rule.LevelingRulesTest
 [INFO] Running com.grimoire.domain.combat.rule.CombatRulesTest
-[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.028 s -- in com.grimoire.domain.combat.rule.CombatRulesTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in com.grimoire.domain.combat.rule.CombatRulesTest
 [INFO] Running com.grimoire.domain.combat.rule.CombatRulesPropertyTest
-Mar 29, 2026 4:18:28 PM net.jqwik.engine.properties.RandomizedShrinkablesGenerator logEdgeCasesOutnumberTriesIfApplicable
+Mar 30, 2026 6:47:07 AM net.jqwik.engine.properties.RandomizedShrinkablesGenerator logEdgeCasesOutnumberTriesIfApplicable
 INFO: Edge case generation exceeds number of tries. Stopped after 1029 generated cases.
-timestamp = 2026-03-29T16:18:28.522628146, CombatRulesPropertyTest:isInRangeSymmetric = 
+timestamp = 2026-03-30T06:47:08.102509142, CombatRulesPropertyTest:isInRangeSymmetric = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -909,11 +909,11 @@ after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
 when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 1029       | # of all combined edge cases
-edge-cases#tried = 169        | # of edge cases tried in current run
-seed = -7647332632930872253   | random seed to reproduce generated values
+edge-cases#tried = 180        | # of edge cases tried in current run
+seed = -1058502306511642595   | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:28.585460191, CombatRulesPropertyTest:levelUpThresholdAlwaysIncreases = 
+timestamp = 2026-03-30T06:47:08.149612694, CombatRulesPropertyTest:levelUpThresholdAlwaysIncreases = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -923,10 +923,10 @@ when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 4          | # of all combined edge cases
 edge-cases#tried = 4          | # of edge cases tried in current run
-seed = -5897153669981658469   | random seed to reproduce generated values
+seed = 5683344894477917731    | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:28.642972871, CombatRulesPropertyTest:applyDamageNeverNegativeHp = 
+timestamp = 2026-03-30T06:47:08.191144465, CombatRulesPropertyTest:applyDamageNeverNegativeHp = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -936,10 +936,10 @@ when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 20         | # of all combined edge cases
 edge-cases#tried = 20         | # of edge cases tried in current run
-seed = -6037982460089122491   | random seed to reproduce generated values
+seed = 3241312512306046445    | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:28.690860251, CombatRulesPropertyTest:applyAllLevelUpsTerminatesBelowThreshold = 
+timestamp = 2026-03-30T06:47:08.222714158, CombatRulesPropertyTest:applyAllLevelUpsTerminatesBelowThreshold = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -949,10 +949,10 @@ when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 20         | # of all combined edge cases
 edge-cases#tried = 20         | # of edge cases tried in current run
-seed = 3129857587764266547    | random seed to reproduce generated values
+seed = 6141678433677366986    | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:28.720555128, CombatRulesPropertyTest:isDeadConsistentWithHpSign = 
+timestamp = 2026-03-30T06:47:08.251570604, CombatRulesPropertyTest:isDeadConsistentWithHpSign = 
                               |-----------------------jqwik-----------------------
 tries = 201                   | # of calls to property
 checks = 201                  | # of not rejected calls
@@ -962,10 +962,10 @@ when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 0          | # of all combined edge cases
 edge-cases#tried = 0          | # of edge cases tried in current run
-seed = -1154682433468945338   | random seed to reproduce generated values
+seed = -5639824821390619316   | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:28.791589285, CombatRulesPropertyTest:boostStatsNeverDecreasesAttributes = 
+timestamp = 2026-03-30T06:47:08.291544266, CombatRulesPropertyTest:boostStatsNeverDecreasesAttributes = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -974,11 +974,11 @@ after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
 when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 100        | # of all combined edge cases
-edge-cases#tried = 89         | # of edge cases tried in current run
-seed = 6126486399111683424    | random seed to reproduce generated values
+edge-cases#tried = 100        | # of edge cases tried in current run
+seed = -3855417413855686638   | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:28.842480247, CombatRulesPropertyTest:levelUpRolloverIsNonNegative = 
+timestamp = 2026-03-30T06:47:08.318643004, CombatRulesPropertyTest:levelUpRolloverIsNonNegative = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -988,12 +988,12 @@ when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 20         | # of all combined edge cases
 edge-cases#tried = 20         | # of edge cases tried in current run
-seed = -3463232797476932794   | random seed to reproduce generated values
+seed = -1116368527646690372   | random seed to reproduce generated values
 
 
-Mar 29, 2026 4:18:28 PM net.jqwik.engine.properties.RandomizedShrinkablesGenerator logEdgeCasesOutnumberTriesIfApplicable
+Mar 30, 2026 6:47:08 AM net.jqwik.engine.properties.RandomizedShrinkablesGenerator logEdgeCasesOutnumberTriesIfApplicable
 INFO: Edge case generation exceeds number of tries. Stopped after 1200 generated cases.
-timestamp = 2026-03-29T16:18:28.944823071, CombatRulesPropertyTest:damageIsAlwaysAtLeastOne = 
+timestamp = 2026-03-30T06:47:08.366415860, CombatRulesPropertyTest:damageIsAlwaysAtLeastOne = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -1002,11 +1002,11 @@ after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
 when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 1200       | # of all combined edge cases
-edge-cases#tried = 153        | # of edge cases tried in current run
-seed = 2526107211004170245    | random seed to reproduce generated values
+edge-cases#tried = 171        | # of edge cases tried in current run
+seed = 4710223596639058622    | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:29.011044452, CombatRulesPropertyTest:isInRangeIsReflexive = 
+timestamp = 2026-03-30T06:47:08.391842912, CombatRulesPropertyTest:isInRangeIsReflexive = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -1015,11 +1015,11 @@ after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
 when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 49         | # of all combined edge cases
-edge-cases#tried = 38         | # of edge cases tried in current run
-seed = -5347712394304756230   | random seed to reproduce generated values
+edge-cases#tried = 48         | # of edge cases tried in current run
+seed = -5419759877511401235   | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:29.107692906, CombatRulesPropertyTest:boostStatsHpNeverExceedsNewMax = 
+timestamp = 2026-03-30T06:47:08.432222609, CombatRulesPropertyTest:boostStatsHpNeverExceedsNewMax = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -1028,11 +1028,11 @@ after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
 when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 500        | # of all combined edge cases
-edge-cases#tried = 158        | # of edge cases tried in current run
-seed = 2798273711217895487    | random seed to reproduce generated values
+edge-cases#tried = 164        | # of edge cases tried in current run
+seed = -262918168156010375    | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:29.168888896, CombatRulesPropertyTest:applyDamageNeverIncreasesHp = 
+timestamp = 2026-03-30T06:47:08.458406006, CombatRulesPropertyTest:applyDamageNeverIncreasesHp = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -1042,12 +1042,12 @@ when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 20         | # of all combined edge cases
 edge-cases#tried = 20         | # of edge cases tried in current run
-seed = 2257670621451662382    | random seed to reproduce generated values
+seed = 9131554826995498308    | random seed to reproduce generated values
 
 
-Mar 29, 2026 4:18:29 PM net.jqwik.engine.properties.RandomizedShrinkablesGenerator logEdgeCasesOutnumberTriesIfApplicable
+Mar 30, 2026 6:47:08 AM net.jqwik.engine.properties.RandomizedShrinkablesGenerator logEdgeCasesOutnumberTriesIfApplicable
 INFO: Edge case generation exceeds number of tries. Stopped after 1000 generated cases.
-timestamp = 2026-03-29T16:18:29.330996442, CombatRulesPropertyTest:applyDamagePreservesNonHpFields = 
+timestamp = 2026-03-30T06:47:08.507765310, CombatRulesPropertyTest:applyDamagePreservesNonHpFields = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -1056,11 +1056,11 @@ after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
 when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 1000       | # of all combined edge cases
-edge-cases#tried = 168        | # of edge cases tried in current run
-seed = 6517279870507179685    | random seed to reproduce generated values
+edge-cases#tried = 178        | # of edge cases tried in current run
+seed = -1365531848461553783   | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:29.389068572, CombatRulesPropertyTest:addXpPreservesThreshold = 
+timestamp = 2026-03-30T06:47:08.540537993, CombatRulesPropertyTest:addXpPreservesThreshold = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -1069,11 +1069,11 @@ after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
 when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 100        | # of all combined edge cases
-edge-cases#tried = 81         | # of edge cases tried in current run
-seed = 1151264704286749692    | random seed to reproduce generated values
+edge-cases#tried = 100        | # of edge cases tried in current run
+seed = -5038657741780905910   | random seed to reproduce generated values
 
 
-[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.799 s -- in com.grimoire.domain.combat.rule.CombatRulesPropertyTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.946 s -- in com.grimoire.domain.combat.rule.CombatRulesPropertyTest
 [INFO] 
 [INFO] Results:
 [INFO] 
@@ -1164,7 +1164,7 @@ Audit done.
 [INFO] You have 0 Checkstyle violations.
 [INFO] 
 [INFO] --- formatter:2.29.0:validate (formatter-validate) @ grimoire-domain-navigation ---
-[INFO] Processed 10 files in 174ms (Formatted: 0, Skipped: 0, Unchanged: 10, Failed: 0, Readonly: 0)
+[INFO] Processed 10 files in 82ms (Formatted: 0, Skipped: 0, Unchanged: 10, Failed: 0, Readonly: 0)
 [INFO] 
 [INFO] --- jacoco:0.8.14:prepare-agent (prepare-agent) @ grimoire-domain-navigation ---
 [INFO] argLine set to -javaagent:/home/samuel/.m2/repository/org/jacoco/org.jacoco.agent/0.8.14/org.jacoco.agent-0.8.14-runtime.jar=destfile=/home/samuel/projects/grimoire/grimoire-modules/grimoire-domain-navigation/target/jacoco.exec
@@ -1193,15 +1193,15 @@ Audit done.
 [INFO]  T E S T S
 [INFO] -------------------------------------------------------
 [INFO] Running com.grimoire.domain.navigation.component.PathTest
-[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.319 s -- in com.grimoire.domain.navigation.component.PathTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.231 s -- in com.grimoire.domain.navigation.component.PathTest
 [INFO] Running com.grimoire.domain.navigation.AStarPathfinderTest
-[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.080 s -- in com.grimoire.domain.navigation.AStarPathfinderTest
+[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.056 s -- in com.grimoire.domain.navigation.AStarPathfinderTest
 [INFO] Running com.grimoire.domain.navigation.NavigationGridTest
-[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.067 s -- in com.grimoire.domain.navigation.NavigationGridTest
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.048 s -- in com.grimoire.domain.navigation.NavigationGridTest
 [INFO] Running com.grimoire.domain.navigation.spatial.SpatialGridTest
-[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.041 s -- in com.grimoire.domain.navigation.spatial.SpatialGridTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.032 s -- in com.grimoire.domain.navigation.spatial.SpatialGridTest
 [INFO] Running com.grimoire.domain.navigation.NavigationPropertyTest
-timestamp = 2026-03-29T16:18:41.683518303, NavigationPropertyTest:outOfBoundsIsAlwaysBlocked = 
+timestamp = 2026-03-30T06:47:16.146343148, NavigationPropertyTest:outOfBoundsIsAlwaysBlocked = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -1211,10 +1211,10 @@ when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 16         | # of all combined edge cases
 edge-cases#tried = 16         | # of edge cases tried in current run
-seed = -4730280585596032379   | random seed to reproduce generated values
+seed = 5169248635929817927    | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:41.715852278, NavigationPropertyTest:smoothedPathIsNoLongerThanOriginal = 
+timestamp = 2026-03-30T06:47:16.166291991, NavigationPropertyTest:smoothedPathIsNoLongerThanOriginal = 
                               |-----------------------jqwik-----------------------
 tries = 25                    | # of calls to property
 checks = 25                   | # of not rejected calls
@@ -1224,10 +1224,10 @@ when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 0          | # of all combined edge cases
 edge-cases#tried = 0          | # of edge cases tried in current run
-seed = 4281735760972752430    | random seed to reproduce generated values
+seed = 8132904649511696192    | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:41.729738373, NavigationPropertyTest:setBlockedThenQueryReturnsBlocked = 
+timestamp = 2026-03-30T06:47:16.175254116, NavigationPropertyTest:setBlockedThenQueryReturnsBlocked = 
                               |-----------------------jqwik-----------------------
 tries = 100                   | # of calls to property
 checks = 100                  | # of not rejected calls
@@ -1237,10 +1237,10 @@ when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 0          | # of all combined edge cases
 edge-cases#tried = 0          | # of edge cases tried in current run
-seed = -6581786271756020455   | random seed to reproduce generated values
+seed = 6768298063750896410    | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:41.746327572, NavigationPropertyTest:sameStartAndTargetReturnsEmptyPath = 
+timestamp = 2026-03-30T06:47:16.184728763, NavigationPropertyTest:sameStartAndTargetReturnsEmptyPath = 
                               |-----------------------jqwik-----------------------
 tries = 100                   | # of calls to property
 checks = 100                  | # of not rejected calls
@@ -1250,10 +1250,10 @@ when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 0          | # of all combined edge cases
 edge-cases#tried = 0          | # of edge cases tried in current run
-seed = 8209724547588613015    | random seed to reproduce generated values
+seed = -5983391795523846517   | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:41.804798460, NavigationPropertyTest:pathNeverTraversesBlockedCells = 
+timestamp = 2026-03-30T06:47:16.207376663, NavigationPropertyTest:pathNeverTraversesBlockedCells = 
                               |-----------------------jqwik-----------------------
 tries = 100                   | # of calls to property
 checks = 100                  | # of not rejected calls
@@ -1263,10 +1263,10 @@ when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 0          | # of all combined edge cases
 edge-cases#tried = 0          | # of edge cases tried in current run
-seed = 4950430774961032469    | random seed to reproduce generated values
+seed = 4701684227113969750    | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:42.027421783, NavigationPropertyTest:pathOnEmptyGridAlwaysExists = 
+timestamp = 2026-03-30T06:47:16.299429720, NavigationPropertyTest:pathOnEmptyGridAlwaysExists = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -1275,11 +1275,11 @@ after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
 when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 625        | # of all combined edge cases
-edge-cases#tried = 181        | # of edge cases tried in current run
-seed = -2066395538865545619   | random seed to reproduce generated values
+edge-cases#tried = 172        | # of edge cases tried in current run
+seed = -240902931406933805    | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:42.110879596, NavigationPropertyTest:lineOfSightIsSymmetric = 
+timestamp = 2026-03-30T06:47:16.355475918, NavigationPropertyTest:lineOfSightIsSymmetric = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -1288,11 +1288,11 @@ after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
 when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 625        | # of all combined edge cases
-edge-cases#tried = 166        | # of edge cases tried in current run
-seed = -8517593035886168089   | random seed to reproduce generated values
+edge-cases#tried = 156        | # of edge cases tried in current run
+seed = 984269842044438211     | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:42.119332017, NavigationPropertyTest:worldToGridRoundTripPreservesCell = 
+timestamp = 2026-03-30T06:47:16.365859079, NavigationPropertyTest:worldToGridRoundTripPreservesCell = 
                               |-----------------------jqwik-----------------------
 tries = 100                   | # of calls to property
 checks = 100                  | # of not rejected calls
@@ -1302,10 +1302,10 @@ when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 0          | # of all combined edge cases
 edge-cases#tried = 0          | # of edge cases tried in current run
-seed = -4760215533075247046   | random seed to reproduce generated values
+seed = -4130928967099019969   | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:42.126322940, NavigationPropertyTest:setWalkableRevertsBlocked = 
+timestamp = 2026-03-30T06:47:16.372815057, NavigationPropertyTest:setWalkableRevertsBlocked = 
                               |-----------------------jqwik-----------------------
 tries = 100                   | # of calls to property
 checks = 100                  | # of not rejected calls
@@ -1315,12 +1315,12 @@ when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 0          | # of all combined edge cases
 edge-cases#tried = 0          | # of edge cases tried in current run
-seed = -909816825226955444    | random seed to reproduce generated values
+seed = 5504437343107129821    | random seed to reproduce generated values
 
 
-[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.112 s -- in com.grimoire.domain.navigation.NavigationPropertyTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.570 s -- in com.grimoire.domain.navigation.NavigationPropertyTest
 [INFO] Running com.grimoire.domain.navigation.spatial.SpatialGridPropertyTest
-timestamp = 2026-03-29T16:18:42.294036279, SpatialGridPropertyTest:differentZonesAreIsolated = 
+timestamp = 2026-03-30T06:47:16.461610623, SpatialGridPropertyTest:differentZonesAreIsolated = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -1330,10 +1330,10 @@ when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 25         | # of all combined edge cases
 edge-cases#tried = 25         | # of edge cases tried in current run
-seed = 6736515717738811258    | random seed to reproduce generated values
+seed = 2871945203020313937    | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:42.474279449, SpatialGridPropertyTest:removedEntityIsNeverNearby = 
+timestamp = 2026-03-30T06:47:16.560415208, SpatialGridPropertyTest:removedEntityIsNeverNearby = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -1342,11 +1342,11 @@ after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
 when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 98         | # of all combined edge cases
-edge-cases#tried = 79         | # of edge cases tried in current run
-seed = -5490944671955486986   | random seed to reproduce generated values
+edge-cases#tried = 95         | # of edge cases tried in current run
+seed = -1773070445613076394   | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:42.482306618, SpatialGridPropertyTest:clearRemovesAllEntities = 
+timestamp = 2026-03-30T06:47:16.565894508, SpatialGridPropertyTest:clearRemovesAllEntities = 
                               |-----------------------jqwik-----------------------
 tries = 20                    | # of calls to property
 checks = 20                   | # of not rejected calls
@@ -1356,10 +1356,10 @@ when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 0          | # of all combined edge cases
 edge-cases#tried = 0          | # of edge cases tried in current run
-seed = -7559442541829303127   | random seed to reproduce generated values
+seed = -7311025182862044122   | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:42.491286726, SpatialGridPropertyTest:entityCountTracksInsertions = 
+timestamp = 2026-03-30T06:47:16.572021312, SpatialGridPropertyTest:entityCountTracksInsertions = 
                               |-----------------------jqwik-----------------------
 tries = 50                    | # of calls to property
 checks = 50                   | # of not rejected calls
@@ -1369,10 +1369,10 @@ when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 0          | # of all combined edge cases
 edge-cases#tried = 0          | # of edge cases tried in current run
-seed = 242443481499299253     | random seed to reproduce generated values
+seed = 203260057550404118     | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:42.593429025, SpatialGridPropertyTest:insertedEntityIsAlwaysNearby = 
+timestamp = 2026-03-30T06:47:16.648629054, SpatialGridPropertyTest:insertedEntityIsAlwaysNearby = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -1381,11 +1381,11 @@ after-failure = SAMPLE_FIRST  | try previously failed sample, then previous seed
 when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 98         | # of all combined edge cases
-edge-cases#tried = 72         | # of edge cases tried in current run
-seed = -1123076043048406810   | random seed to reproduce generated values
+edge-cases#tried = 98         | # of edge cases tried in current run
+seed = 136074208086192838     | random seed to reproduce generated values
 
 
-timestamp = 2026-03-29T16:18:42.681348420, SpatialGridPropertyTest:updatePositionMovesEntity = 
+timestamp = 2026-03-30T06:47:16.709715637, SpatialGridPropertyTest:updatePositionMovesEntity = 
                               |-----------------------jqwik-----------------------
 tries = 1000                  | # of calls to property
 checks = 1000                 | # of not rejected calls
@@ -1395,10 +1395,10 @@ when-fixed-seed = ALLOW       | fixing the random seed is allowed
 edge-cases#mode = MIXIN       | edge cases are mixed in
 edge-cases#total = 4          | # of all combined edge cases
 edge-cases#tried = 4          | # of edge cases tried in current run
-seed = 8714340688966749613    | random seed to reproduce generated values
+seed = 5253616352252545158    | random seed to reproduce generated values
 
 
-[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.552 s -- in com.grimoire.domain.navigation.spatial.SpatialGridPropertyTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.334 s -- in com.grimoire.domain.navigation.spatial.SpatialGridPropertyTest
 [INFO] 
 [INFO] Results:
 [INFO] 
@@ -1487,14 +1487,32 @@ seed = 8714340688966749613    | random seed to reproduce generated values
 [INFO] 
 [INFO] --- checkstyle:3.6.0:check (checkstyle-validate) @ grimoire-application-core ---
 [INFO] Starting audit...
+[WARN] /home/samuel/projects/grimoire/grimoire-modules/grimoire-application-core/src/main/java/com/grimoire/application/core/system/CombatSystem.java:41: Line is longer than 120 characters (found 130). [LineLength]
+[WARN] /home/samuel/projects/grimoire/grimoire-modules/grimoire-application-core/src/main/java/com/grimoire/application/core/system/CombatSystem.java:114:13: 'annotation array initialization' child has incorrect indentation level 12, expected level should be one of the following: 8, 23, 26. [Indentation]
+[WARN] /home/samuel/projects/grimoire/grimoire-modules/grimoire-application-core/src/main/java/com/grimoire/application/core/system/ZoneChangeSystem.java:34: Line is longer than 120 characters (found 130). [LineLength]
+[WARN] /home/samuel/projects/grimoire/grimoire-modules/grimoire-application-core/src/main/java/com/grimoire/application/core/system/PortalCooldownSystem.java:24: Line is longer than 120 characters (found 130). [LineLength]
+[WARN] /home/samuel/projects/grimoire/grimoire-modules/grimoire-application-core/src/main/java/com/grimoire/application/core/system/MovementSystem.java:37: Line is longer than 120 characters (found 130). [LineLength]
+[WARN] /home/samuel/projects/grimoire/grimoire-modules/grimoire-application-core/src/main/java/com/grimoire/application/core/system/SpatialGridSystem.java:31: Line is longer than 120 characters (found 130). [LineLength]
+[WARN] /home/samuel/projects/grimoire/grimoire-modules/grimoire-application-core/src/main/java/com/grimoire/application/core/system/SpatialGridSystem.java:77: Line is longer than 120 characters (found 152). [LineLength]
+[WARN] /home/samuel/projects/grimoire/grimoire-modules/grimoire-application-core/src/main/java/com/grimoire/application/core/system/LevelUpSystem.java:28: Line is longer than 120 characters (found 130). [LineLength]
+[WARN] /home/samuel/projects/grimoire/grimoire-modules/grimoire-application-core/src/main/java/com/grimoire/application/core/system/NpcAiSystem.java:42: Line is longer than 120 characters (found 130). [LineLength]
 [WARN] /home/samuel/projects/grimoire/grimoire-modules/grimoire-application-core/src/main/java/com/grimoire/application/core/ecs/EcsWorld.java:53: Line is longer than 120 characters (found 156). [LineLength]
 Audit done.
+[WARNING] src/main/java/com/grimoire/application/core/system/CombatSystem.java:[41] (sizes) LineLength: Line is longer than 120 characters (found 130).
+[WARNING] src/main/java/com/grimoire/application/core/system/CombatSystem.java:[114,13] (indentation) Indentation: 'annotation array initialization' child has incorrect indentation level 12, expected level should be one of the following: 8, 23, 26.
+[WARNING] src/main/java/com/grimoire/application/core/system/ZoneChangeSystem.java:[34] (sizes) LineLength: Line is longer than 120 characters (found 130).
+[WARNING] src/main/java/com/grimoire/application/core/system/PortalCooldownSystem.java:[24] (sizes) LineLength: Line is longer than 120 characters (found 130).
+[WARNING] src/main/java/com/grimoire/application/core/system/MovementSystem.java:[37] (sizes) LineLength: Line is longer than 120 characters (found 130).
+[WARNING] src/main/java/com/grimoire/application/core/system/SpatialGridSystem.java:[31] (sizes) LineLength: Line is longer than 120 characters (found 130).
+[WARNING] src/main/java/com/grimoire/application/core/system/SpatialGridSystem.java:[77] (sizes) LineLength: Line is longer than 120 characters (found 152).
+[WARNING] src/main/java/com/grimoire/application/core/system/LevelUpSystem.java:[28] (sizes) LineLength: Line is longer than 120 characters (found 130).
+[WARNING] src/main/java/com/grimoire/application/core/system/NpcAiSystem.java:[42] (sizes) LineLength: Line is longer than 120 characters (found 130).
 [WARNING] src/main/java/com/grimoire/application/core/ecs/EcsWorld.java:[53] (sizes) LineLength: Line is longer than 120 characters (found 156).
 [WARNING] checkstyle:check violations detected but failOnViolation set to false
-[INFO] You have 1 Checkstyle violation.
+[INFO] You have 10 Checkstyle violations.
 [INFO] 
 [INFO] --- formatter:2.29.0:validate (formatter-validate) @ grimoire-application-core ---
-[INFO] Processed 14 files in 89ms (Formatted: 0, Skipped: 0, Unchanged: 14, Failed: 0, Readonly: 0)
+[INFO] Processed 31 files in 200ms (Formatted: 0, Skipped: 0, Unchanged: 31, Failed: 0, Readonly: 0)
 [INFO] 
 [INFO] --- jacoco:0.8.14:prepare-agent (prepare-agent) @ grimoire-application-core ---
 [INFO] argLine set to -javaagent:/home/samuel/.m2/repository/org/jacoco/org.jacoco.agent/0.8.14/org.jacoco.agent-0.8.14-runtime.jar=destfile=/home/samuel/projects/grimoire/grimoire-modules/grimoire-application-core/target/jacoco.exec
@@ -1507,14 +1525,14 @@ Audit done.
 [INFO] 
 [INFO] --- compiler:3.15.0:compile (default-compile) @ grimoire-application-core ---
 [INFO] Recompiling the module because of changed dependency.
-[INFO] Compiling 8 source files with javac [debug deprecation release 25] to target/classes
+[INFO] Compiling 17 source files with javac [debug deprecation release 25] to target/classes
 [INFO] 
 [INFO] --- resources:3.3.1:testResources (default-testResources) @ grimoire-application-core ---
 [INFO] skip non existing resourceDirectory /home/samuel/projects/grimoire/grimoire-modules/grimoire-application-core/src/test/resources
 [INFO] 
 [INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ grimoire-application-core ---
 [INFO] Recompiling the module because of changed dependency.
-[INFO] Compiling 6 source files with javac [debug deprecation release 25] to target/test-classes
+[INFO] Compiling 14 source files with javac [debug deprecation release 25] to target/test-classes
 [INFO] 
 [INFO] --- surefire:3.5.2:test (default-test) @ grimoire-application-core ---
 [INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
@@ -1522,32 +1540,48 @@ Audit done.
 [INFO] -------------------------------------------------------
 [INFO]  T E S T S
 [INFO] -------------------------------------------------------
-[INFO] Running com.grimoire.application.core.ecs.PrefabTest
-[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.318 s -- in com.grimoire.application.core.ecs.PrefabTest
-[INFO] Running com.grimoire.application.core.ecs.ComponentManagerTest
-[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.067 s -- in com.grimoire.application.core.ecs.ComponentManagerTest
-[INFO] Running com.grimoire.application.core.ecs.EcsWorldTest
-[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.074 s -- in com.grimoire.application.core.ecs.EcsWorldTest
-[INFO] Running com.grimoire.application.core.ecs.GameCommandQueueTest
-[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.025 s -- in com.grimoire.application.core.ecs.GameCommandQueueTest
-[INFO] Running com.grimoire.application.core.ecs.SystemSchedulerTest
+[INFO] Running com.grimoire.application.core.service.GroupServiceTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.243 s -- in com.grimoire.application.core.service.GroupServiceTest
+[INFO] Running com.grimoire.application.core.system.PortalCooldownSystemTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 s -- in com.grimoire.application.core.system.PortalCooldownSystemTest
+[INFO] Running com.grimoire.application.core.system.LevelUpSystemTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in com.grimoire.application.core.system.LevelUpSystemTest
+[INFO] Running com.grimoire.application.core.system.MovementSystemTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.048 s -- in com.grimoire.application.core.system.MovementSystemTest
+[INFO] Running com.grimoire.application.core.system.NpcAiSystemTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.022 s -- in com.grimoire.application.core.system.NpcAiSystemTest
+[INFO] Running com.grimoire.application.core.system.SpatialGridSystemTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in com.grimoire.application.core.system.SpatialGridSystemTest
+[INFO] Running com.grimoire.application.core.system.ZoneChangeSystemTest
 Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html#0.3
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
 WARNING: A Java agent has been loaded dynamically (/home/samuel/.m2/repository/net/bytebuddy/byte-buddy-agent/1.15.11/byte-buddy-agent-1.15.11.jar)
 WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
 WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
 WARNING: Dynamic loading of agents will be disallowed by default in a future release
-OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
 WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
 WARNING: sun.misc.Unsafe::objectFieldOffset has been called by net.bytebuddy.dynamic.loading.ClassInjector$UsingUnsafe$Dispatcher$CreationAction (file:/home/samuel/.m2/repository/net/bytebuddy/byte-buddy/1.15.11/byte-buddy-1.15.11.jar)
 WARNING: Please consider reporting this to the maintainers of class net.bytebuddy.dynamic.loading.ClassInjector$UsingUnsafe$Dispatcher$CreationAction
 WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
-[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.903 s -- in com.grimoire.application.core.ecs.SystemSchedulerTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.195 s -- in com.grimoire.application.core.system.ZoneChangeSystemTest
+[INFO] Running com.grimoire.application.core.system.CombatSystemTest
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.029 s -- in com.grimoire.application.core.system.CombatSystemTest
+[INFO] Running com.grimoire.application.core.ecs.PrefabTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 s -- in com.grimoire.application.core.ecs.PrefabTest
+[INFO] Running com.grimoire.application.core.ecs.ComponentManagerTest
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.038 s -- in com.grimoire.application.core.ecs.ComponentManagerTest
+[INFO] Running com.grimoire.application.core.ecs.EcsWorldTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.025 s -- in com.grimoire.application.core.ecs.EcsWorldTest
+[INFO] Running com.grimoire.application.core.ecs.GameCommandQueueTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.014 s -- in com.grimoire.application.core.ecs.GameCommandQueueTest
+[INFO] Running com.grimoire.application.core.ecs.SystemSchedulerTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.054 s -- in com.grimoire.application.core.ecs.SystemSchedulerTest
 [INFO] Running com.grimoire.application.core.ecs.EntityManagerTest
-[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.014 s -- in com.grimoire.application.core.ecs.EntityManagerTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in com.grimoire.application.core.ecs.EntityManagerTest
 [INFO] 
 [INFO] Results:
 [INFO] 
-[INFO] Tests run: 60, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 135, Failures: 0, Errors: 0, Skipped: 0
 [INFO] 
 [INFO] 
 [INFO] --- jar:3.4.2:jar (default-jar) @ grimoire-application-core ---
@@ -1567,11 +1601,11 @@ WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
 [INFO] 
 [INFO] --- jacoco:0.8.14:report (report) @ grimoire-application-core ---
 [INFO] Loading execution data file /home/samuel/projects/grimoire/grimoire-modules/grimoire-application-core/target/jacoco-merged.exec
-[INFO] Analyzed bundle 'Grimoire Application Core' with 6 classes
+[INFO] Analyzed bundle 'Grimoire Application Core' with 15 classes
 [INFO] 
 [INFO] --- jacoco:0.8.14:check (check) @ grimoire-application-core ---
 [INFO] Loading execution data file /home/samuel/projects/grimoire/grimoire-modules/grimoire-application-core/target/jacoco-merged.exec
-[INFO] Analyzed bundle 'grimoire-application-core' with 6 classes
+[INFO] Analyzed bundle 'grimoire-application-core' with 15 classes
 [INFO] All coverage checks have been met.
 [INFO] 
 [INFO] >>> spotbugs:4.9.1.0:check (spotbugs-check) > :spotbugs @ grimoire-application-core >>>
@@ -1581,6 +1615,7 @@ WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
      [java] The following classes needed for analysis were missing:
      [java]   apply
      [java]   makeConcatWithConstants
+     [java]   accept
 [INFO] Done SpotBugs Analysis....
 [INFO] 
 [INFO] <<< spotbugs:4.9.1.0:check (spotbugs-check) < :spotbugs @ grimoire-application-core <<<
@@ -1632,7 +1667,7 @@ Audit done.
 [INFO] You have 0 Checkstyle violations.
 [INFO] 
 [INFO] --- formatter:2.29.0:validate (formatter-validate) @ grimoire-application-session ---
-[INFO] Processed 5 files in 31ms (Formatted: 0, Skipped: 0, Unchanged: 5, Failed: 0, Readonly: 0)
+[INFO] Processed 5 files in 22ms (Formatted: 0, Skipped: 0, Unchanged: 5, Failed: 0, Readonly: 0)
 [INFO] 
 [INFO] --- jacoco:0.8.14:prepare-agent (prepare-agent) @ grimoire-application-session ---
 [INFO] argLine set to -javaagent:/home/samuel/.m2/repository/org/jacoco/org.jacoco.agent/0.8.14/org.jacoco.agent-0.8.14-runtime.jar=destfile=/home/samuel/projects/grimoire/grimoire-modules/grimoire-application-session/target/jacoco.exec
@@ -1661,67 +1696,67 @@ Audit done.
 [INFO]  T E S T S
 [INFO] -------------------------------------------------------
 [INFO] Running com.grimoire.application.session.SessionManagerTest
-Mar 29, 2026 4:19:08 PM com.grimoire.application.session.SessionManager createSession
-INFO: Created session 7d8f52e6-8272-4035-b746-9f597ce3679d for account player1
-Mar 29, 2026 4:19:08 PM com.grimoire.application.session.SessionManager invalidateSessionForAccount
+Mar 30, 2026 6:47:33 AM com.grimoire.application.session.SessionManager createSession
+INFO: Created session e7bd66d1-d7e7-4363-91d1-1f9e2ee169cc for account player1
+Mar 30, 2026 6:47:33 AM com.grimoire.application.session.SessionManager invalidateSessionForAccount
 INFO: Invalidated session for account ID acc-1
-Mar 29, 2026 4:19:08 PM com.grimoire.application.session.SessionManager createSession
-INFO: Created session 3eb52620-0cab-4799-8280-e41426d243b9 for account player1
-Mar 29, 2026 4:19:08 PM com.grimoire.application.session.SessionManager createSession
-INFO: Created session a11622d3-8269-495b-8d63-552072de77b8 for account player1
-Mar 29, 2026 4:19:08 PM com.grimoire.application.session.SessionManager createSession
-INFO: Created session dfe85b60-d6c4-477e-8c3d-1e52c2ef6c0a for account player1
-Mar 29, 2026 4:19:08 PM com.grimoire.application.session.SessionManager createSession
-INFO: Created session a96e4c85-1c81-404a-9465-96abc735d383 for account player1
-Mar 29, 2026 4:19:08 PM com.grimoire.application.session.SessionManager invalidateSession
-INFO: Invalidated session a96e4c85-1c81-404a-9465-96abc735d383 for account player1
-Mar 29, 2026 4:19:08 PM com.grimoire.application.session.SessionManager createSession
-INFO: Created session 0ae6bc12-b086-4e3f-95a3-21538efe37c2 for account player1
-Mar 29, 2026 4:19:09 PM com.grimoire.application.session.SessionManager createSession
-INFO: Created session 46fdeb16-e062-451e-9a8e-298c7997cfdc for account player2
-Mar 29, 2026 4:19:09 PM com.grimoire.application.session.SessionManager invalidateSession
-INFO: Invalidated session 46fdeb16-e062-451e-9a8e-298c7997cfdc for account player2
-Mar 29, 2026 4:19:09 PM com.grimoire.application.session.SessionManager invalidateSession
-INFO: Invalidated session 0ae6bc12-b086-4e3f-95a3-21538efe37c2 for account player1
-Mar 29, 2026 4:19:09 PM com.grimoire.application.session.SessionManager cleanupExpiredSessions
+Mar 30, 2026 6:47:33 AM com.grimoire.application.session.SessionManager createSession
+INFO: Created session a02a263b-4b12-4125-942c-6d10923b30ef for account player1
+Mar 30, 2026 6:47:34 AM com.grimoire.application.session.SessionManager createSession
+INFO: Created session f79b4898-a443-437e-937d-b2502c9088a4 for account player1
+Mar 30, 2026 6:47:34 AM com.grimoire.application.session.SessionManager createSession
+INFO: Created session acabf8d1-571d-42e6-bd45-20f97192de6b for account player1
+Mar 30, 2026 6:47:34 AM com.grimoire.application.session.SessionManager createSession
+INFO: Created session 99d1e7c8-ae1e-4664-b4ee-eec2b6e9d498 for account player1
+Mar 30, 2026 6:47:34 AM com.grimoire.application.session.SessionManager invalidateSession
+INFO: Invalidated session 99d1e7c8-ae1e-4664-b4ee-eec2b6e9d498 for account player1
+Mar 30, 2026 6:47:34 AM com.grimoire.application.session.SessionManager createSession
+INFO: Created session 84e41ec6-4b7c-4c15-929c-9af07c157e56 for account player1
+Mar 30, 2026 6:47:34 AM com.grimoire.application.session.SessionManager createSession
+INFO: Created session 3c1c1bca-472f-4742-94be-540c4a4acfa1 for account player2
+Mar 30, 2026 6:47:34 AM com.grimoire.application.session.SessionManager invalidateSession
+INFO: Invalidated session 3c1c1bca-472f-4742-94be-540c4a4acfa1 for account player2
+Mar 30, 2026 6:47:34 AM com.grimoire.application.session.SessionManager invalidateSession
+INFO: Invalidated session 84e41ec6-4b7c-4c15-929c-9af07c157e56 for account player1
+Mar 30, 2026 6:47:34 AM com.grimoire.application.session.SessionManager cleanupExpiredSessions
 INFO: Cleaned up 2 expired sessions
-Mar 29, 2026 4:19:09 PM com.grimoire.application.session.SessionManager createSession
-INFO: Created session cc2852cb-2db8-4582-b26e-ef1efe75789e for account player1
-Mar 29, 2026 4:19:09 PM com.grimoire.application.session.SessionManager invalidateSession
-INFO: Invalidated session cc2852cb-2db8-4582-b26e-ef1efe75789e for account player1
-Mar 29, 2026 4:19:09 PM com.grimoire.application.session.SessionManager createSession
-INFO: Created session bb4414b0-bf9c-44d5-a284-b8594833a549 for account player1
-Mar 29, 2026 4:19:09 PM com.grimoire.application.session.SessionManager createSession
-INFO: Created session 39b5e7ea-b739-478c-ba36-67d0e4cdc0e0 for account player1
-Mar 29, 2026 4:19:09 PM com.grimoire.application.session.SessionManager invalidateSessionForAccount
+Mar 30, 2026 6:47:34 AM com.grimoire.application.session.SessionManager createSession
+INFO: Created session 2a77971e-85a3-4f1c-a19e-9857663bef3d for account player1
+Mar 30, 2026 6:47:34 AM com.grimoire.application.session.SessionManager invalidateSession
+INFO: Invalidated session 2a77971e-85a3-4f1c-a19e-9857663bef3d for account player1
+Mar 30, 2026 6:47:34 AM com.grimoire.application.session.SessionManager createSession
+INFO: Created session 7c92c36c-06b1-44c8-b631-7f3e369168b6 for account player1
+Mar 30, 2026 6:47:34 AM com.grimoire.application.session.SessionManager createSession
+INFO: Created session d7f24c2e-872e-4db1-81d8-766d3c2c646c for account player1
+Mar 30, 2026 6:47:34 AM com.grimoire.application.session.SessionManager invalidateSessionForAccount
 INFO: Invalidated session for account ID acc-1
-Mar 29, 2026 4:19:09 PM com.grimoire.application.session.SessionManager createSession
-INFO: Created session 09394ee3-2aa6-45e4-aeca-abb803075df7 for account player1
-Mar 29, 2026 4:19:09 PM com.grimoire.application.session.SessionManager createSession
-INFO: Created session 721a68e9-dd9c-4258-ad92-2a1a0ec82588 for account player1
-Mar 29, 2026 4:19:09 PM com.grimoire.application.session.SessionManager invalidateSessionForAccount
+Mar 30, 2026 6:47:34 AM com.grimoire.application.session.SessionManager createSession
+INFO: Created session 90eed2e3-c17d-403e-9e01-c877c903c05d for account player1
+Mar 30, 2026 6:47:34 AM com.grimoire.application.session.SessionManager createSession
+INFO: Created session 420a3d56-c86c-413c-bde2-c8253fa2d4cd for account player1
+Mar 30, 2026 6:47:34 AM com.grimoire.application.session.SessionManager invalidateSessionForAccount
 INFO: Invalidated session for account ID acc-1
-Mar 29, 2026 4:19:09 PM com.grimoire.application.session.SessionManager createSession
-INFO: Created session 3d5c409a-bd74-47ad-8ce7-37bc8ff09619 for account player1
-Mar 29, 2026 4:19:09 PM com.grimoire.application.session.SessionManager invalidateSession
-INFO: Invalidated session 3d5c409a-bd74-47ad-8ce7-37bc8ff09619 for account player1
-Mar 29, 2026 4:19:09 PM com.grimoire.application.session.SessionManager createSession
-INFO: Created session b331ff7b-e55f-4eea-b4ae-c5b5947485e6 for account player1
-Mar 29, 2026 4:19:09 PM com.grimoire.application.session.SessionManager createSession
-INFO: Created session a0851283-d6bd-49c6-820b-4d8c4cd11729 for account player2
-Mar 29, 2026 4:19:09 PM com.grimoire.application.session.SessionManager createSession
-INFO: Created session 0aca6174-bc3c-48b0-8862-b4b02dcef4c0 for account player1
-Mar 29, 2026 4:19:09 PM com.grimoire.application.session.SessionManager createSession
-INFO: Created session 511862bb-1311-45d0-bac9-e15bd5e9677b for account player2
-Mar 29, 2026 4:19:09 PM com.grimoire.application.session.SessionManager invalidateSession
-INFO: Invalidated session 0aca6174-bc3c-48b0-8862-b4b02dcef4c0 for account player1
-Mar 29, 2026 4:19:09 PM com.grimoire.application.session.SessionManager createSession
-INFO: Created session 010922e1-7d3d-465c-b6f4-84311c4da69b for account player1
-Mar 29, 2026 4:19:09 PM com.grimoire.application.session.SessionManager createSession
-INFO: Created session 9beaf754-7e72-4027-b6a4-d2bf1dee7acc for account player2
-[INFO] Tests run: 22, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.653 s -- in com.grimoire.application.session.SessionManagerTest
+Mar 30, 2026 6:47:34 AM com.grimoire.application.session.SessionManager createSession
+INFO: Created session de96fc4f-fba2-42b8-b9b6-15db4b9603f2 for account player1
+Mar 30, 2026 6:47:34 AM com.grimoire.application.session.SessionManager invalidateSession
+INFO: Invalidated session de96fc4f-fba2-42b8-b9b6-15db4b9603f2 for account player1
+Mar 30, 2026 6:47:34 AM com.grimoire.application.session.SessionManager createSession
+INFO: Created session e9b15416-5332-4ce3-b155-fa1477ededb6 for account player1
+Mar 30, 2026 6:47:34 AM com.grimoire.application.session.SessionManager createSession
+INFO: Created session 8a5f334f-ab75-4b7e-8e7e-b339c089a0b2 for account player2
+Mar 30, 2026 6:47:34 AM com.grimoire.application.session.SessionManager createSession
+INFO: Created session 12ed4604-b72f-4ebe-8f96-c3d5fc0ab632 for account player1
+Mar 30, 2026 6:47:34 AM com.grimoire.application.session.SessionManager createSession
+INFO: Created session ccea0400-3471-46ba-bbc2-c64c41e892b6 for account player2
+Mar 30, 2026 6:47:34 AM com.grimoire.application.session.SessionManager invalidateSession
+INFO: Invalidated session 12ed4604-b72f-4ebe-8f96-c3d5fc0ab632 for account player1
+Mar 30, 2026 6:47:34 AM com.grimoire.application.session.SessionManager createSession
+INFO: Created session e1c5cf2f-e9d2-4ffa-8db4-fcab1d290afc for account player1
+Mar 30, 2026 6:47:34 AM com.grimoire.application.session.SessionManager createSession
+INFO: Created session f9b58261-6155-495d-a3b6-ffba230e17b5 for account player2
+[INFO] Tests run: 22, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.313 s -- in com.grimoire.application.session.SessionManagerTest
 [INFO] Running com.grimoire.application.session.SessionTest
-[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.060 s -- in com.grimoire.application.session.SessionTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.035 s -- in com.grimoire.application.session.SessionTest
 [INFO] 
 [INFO] Results:
 [INFO] 
@@ -2587,32 +2622,32 @@ Audit done.
 [INFO] ------------------------------------------------------------------------
 [INFO] Reactor Summary for grimoire-project 0.0.0-SNAPSHOT:
 [INFO] 
-[INFO] grimoire-project ................................... SUCCESS [  0.226 s]
-[INFO] grimoire-poms ...................................... SUCCESS [  0.008 s]
-[INFO] Grimoire External BOM .............................. SUCCESS [  0.020 s]
+[INFO] grimoire-project ................................... SUCCESS [  0.228 s]
+[INFO] grimoire-poms ...................................... SUCCESS [  0.010 s]
+[INFO] Grimoire External BOM .............................. SUCCESS [  0.024 s]
 [INFO] Grimoire Internal BOM .............................. SUCCESS [  0.021 s]
-[INFO] Grimoire Parent .................................... SUCCESS [  3.584 s]
-[INFO] Grimoire Starter Parent ............................ SUCCESS [  0.274 s]
-[INFO] Grimoire Contracts Api ............................. SUCCESS [  9.383 s]
-[INFO] Grimoire Contracts Wire ............................ SUCCESS [ 11.089 s]
-[INFO] Grimoire Domain Core ............................... SUCCESS [  9.454 s]
-[INFO] Grimoire Domain Combat ............................. SUCCESS [ 13.008 s]
-[INFO] Grimoire Domain Navigation ......................... SUCCESS [ 14.455 s]
-[INFO] Grimoire Application Core .......................... SUCCESS [ 14.486 s]
-[INFO] Grimoire Application Session ....................... SUCCESS [  9.920 s]
-[INFO] Grimoire Infra Network Netty ....................... SUCCESS [  0.622 s]
-[INFO] Grimoire Infra Security Keycloak ................... SUCCESS [  0.450 s]
-[INFO] Grimoire Infra Persistence Jpa ..................... SUCCESS [  0.466 s]
-[INFO] Grimoire Infra Observability ....................... SUCCESS [  0.500 s]
-[INFO] Grimoire Test Kit .................................. SUCCESS [  0.456 s]
-[INFO] grimoire-modules ................................... SUCCESS [  0.005 s]
-[INFO] Grimoire Server App ................................ SUCCESS [  0.681 s]
-[INFO] Grimoire Web App ................................... SUCCESS [  0.701 s]
-[INFO] Grimoire Client App ................................ SUCCESS [  0.894 s]
-[INFO] grimoire-applications .............................. SUCCESS [  0.008 s]
+[INFO] Grimoire Parent .................................... SUCCESS [  3.140 s]
+[INFO] Grimoire Starter Parent ............................ SUCCESS [  0.298 s]
+[INFO] Grimoire Contracts Api ............................. SUCCESS [  7.305 s]
+[INFO] Grimoire Contracts Wire ............................ SUCCESS [  8.477 s]
+[INFO] Grimoire Domain Core ............................... SUCCESS [  7.876 s]
+[INFO] Grimoire Domain Combat ............................. SUCCESS [  7.676 s]
+[INFO] Grimoire Domain Navigation ......................... SUCCESS [  8.702 s]
+[INFO] Grimoire Application Core .......................... SUCCESS [ 10.279 s]
+[INFO] Grimoire Application Session ....................... SUCCESS [  6.290 s]
+[INFO] Grimoire Infra Network Netty ....................... SUCCESS [  0.416 s]
+[INFO] Grimoire Infra Security Keycloak ................... SUCCESS [  0.404 s]
+[INFO] Grimoire Infra Persistence Jpa ..................... SUCCESS [  0.434 s]
+[INFO] Grimoire Infra Observability ....................... SUCCESS [  0.403 s]
+[INFO] Grimoire Test Kit .................................. SUCCESS [  0.353 s]
+[INFO] grimoire-modules ................................... SUCCESS [  0.008 s]
+[INFO] Grimoire Server App ................................ SUCCESS [  0.468 s]
+[INFO] Grimoire Web App ................................... SUCCESS [  0.399 s]
+[INFO] Grimoire Client App ................................ SUCCESS [  0.474 s]
+[INFO] grimoire-applications .............................. SUCCESS [  0.010 s]
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  01:31 min
-[INFO] Finished at: 2026-03-29T16:19:19-05:00
+[INFO] Total time:  01:04 min
+[INFO] Finished at: 2026-03-30T06:47:40-05:00
 [INFO] ------------------------------------------------------------------------
