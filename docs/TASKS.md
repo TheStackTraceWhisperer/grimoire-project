@@ -69,12 +69,12 @@
 > **Rationale:** Small-scope modules that unblock Wave 4b. Codecs (deferred from Wave 1)
 > land in `infra-network-netty` without the full Netty bootstrap.
 
-- [ ] `grimoire-test-kit`: ArchUnit rule catalog enforcing layer boundaries (§7.3 of Unified Plan)
-- [ ] `grimoire-test-kit`: test fixtures and fakes for `GameEventPort`, `SessionConfig`
-- [ ] `grimoire-test-kit`: `EngineTestHarness` abstract base class (inspired by `october`)
-- [ ] `grimoire-infra-observability`: SLF4J + Logback config, structured logging
-- [ ] `grimoire-infra-network-netty`: `ForyEncoder`/`ForyDecoder` codecs (deferred from Wave 1)
-- [ ] `mvn clean verify` green (all quality gates)
+- [x] `grimoire-test-kit`: ArchUnit rule catalog enforcing layer boundaries (§7.3 of Unified Plan)
+- [x] `grimoire-test-kit`: test fixtures and fakes for `GameEventPort`, `SessionConfig`
+- [x] `grimoire-test-kit`: `EngineTestHarness` abstract base class (inspired by `october`)
+- [x] `grimoire-infra-observability`: SLF4J + Logback config, structured logging
+- [x] `grimoire-infra-network-netty`: `ForyEncoder`/`ForyDecoder` codecs (deferred from Wave 1)
+- [x] `mvn clean verify` green (all quality gates)
 
 ## Wave 4b — Infrastructure Adapters
 

@@ -11,4 +11,22 @@
     </parent>
     <artifactId>grimoire-infra-observability</artifactId>
     <name>Grimoire Infra Observability</name>
+    <description>SLF4J + Logback configuration, structured logging markers.</description>
+
+    <properties>
+        <!-- Config-only module — coverage will grow in later waves -->
+        <jacoco.line.coverage>0.0</jacoco.line.coverage>
+        <jacoco.branch.coverage>0.0</jacoco.branch.coverage>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+    </dependencies>
 </project>
