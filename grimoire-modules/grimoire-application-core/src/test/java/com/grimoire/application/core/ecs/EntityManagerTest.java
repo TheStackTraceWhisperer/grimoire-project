@@ -15,30 +15,30 @@ class EntityManagerTest {
     }
 
     @Test
-    void createEntityReturnsNonNullId() {
-        String id = manager.createEntity();
+    void createEntityReturnsNonNegativeId() {
+        int id = manager.createEntity();
 
-        assertThat(id).isNotNull().isNotBlank();
+        assertThat(id).isGreaterThanOrEqualTo(0);
     }
 
     @Test
     void createdEntityExists() {
-        String id = manager.createEntity();
+        int id = manager.createEntity();
 
         assertThat(manager.exists(id)).isTrue();
     }
 
     @Test
-    void multipleEntitiesHaveUniqueIds() {
-        String id1 = manager.createEntity();
-        String id2 = manager.createEntity();
+    void multipleEntitiesHaveSequentialIds() {
+        int id1 = manager.createEntity();
+        int id2 = manager.createEntity();
 
-        assertThat(id1).isNotEqualTo(id2);
+        assertThat(id2).isEqualTo(id1 + 1);
     }
 
     @Test
     void destroyEntityRemovesIt() {
-        String id = manager.createEntity();
+        int id = manager.createEntity();
         manager.destroyEntity(id);
 
         assertThat(manager.exists(id)).isFalse();
@@ -46,33 +46,31 @@ class EntityManagerTest {
 
     @Test
     void destroyNonExistentEntityDoesNotThrow() {
-        manager.destroyEntity("does-not-exist");
+        manager.destroyEntity(9999);
     }
 
     @Test
     void existsReturnsFalseForUnknownId() {
-        assertThat(manager.exists("unknown")).isFalse();
+        assertThat(manager.exists(9999)).isFalse();
     }
 
     @Test
-    void getAllEntityIdsReflectsLiveEntities() {
-        String id1 = manager.createEntity();
-        String id2 = manager.createEntity();
+    void maxEntityIdTracksHighWaterMark() {
+        manager.createEntity();
+        manager.createEntity();
+        manager.createEntity();
 
-        assertThat(manager.getAllEntityIds()).containsExactlyInAnyOrder(id1, id2);
+        assertThat(manager.getMaxEntityId()).isEqualTo(3);
     }
 
     @Test
-    void getAllEntityIdsEmptyInitially() {
-        assertThat(manager.getAllEntityIds()).isEmpty();
-    }
+    void aliveArrayReflectsState() {
+        int id = manager.createEntity();
 
-    @Test
-    void getAllEntityIdsExcludesDestroyed() {
-        String id1 = manager.createEntity();
-        String id2 = manager.createEntity();
-        manager.destroyEntity(id1);
+        assertThat(manager.getAlive()[id]).isTrue();
 
-        assertThat(manager.getAllEntityIds()).containsExactly(id2);
+        manager.destroyEntity(id);
+
+        assertThat(manager.getAlive()[id]).isFalse();
     }
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter
+        xmlns="https://github.com/spotbugs/spotbugs/blob/master/spotbugs/etc/findbugsfilter.xsd"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://github.com/spotbugs/spotbugs/blob/master/spotbugs/etc/findbugsfilter.xsd">
+    <!--
+        Centralised SpotBugs exclusions for architectural patterns.
+        Individual / one-off suppressions still belong inline with a justification.
+    -->
+    <!-- ECS Components: public mutable fields are the canonical ECS
+         data-access pattern for zero-copy, cache-friendly direct access. -->
+    <Match>
+        <Bug pattern="PA_PUBLIC_PRIMITIVE_ATTRIBUTE"/>
+        <Class name="~com\.grimoire\.domain\..*\.component\..*"/>
+    </Match>
+    <!-- ECS Systems: constructor-injected collaborators (EcsWorld,
+         SpatialGridSystem, etc.) are managed refs in a single-threaded game loop. -->
+    <Match>
+        <Or>
+            <Bug pattern="EI_EXPOSE_REP"/>
+            <Bug pattern="EI_EXPOSE_REP2"/>
+        </Or>
+        <Class name="~com\.grimoire\.application\.core\.system\..*"/>
+    </Match>
+    <!-- ComponentManager / EcsWorld: intentionally expose internal
+         arrays and collaborators for zero-copy hot-path access. -->
+    <Match>
+        <Or>
+            <Bug pattern="EI_EXPOSE_REP"/>
+            <Bug pattern="EI_EXPOSE_REP2"/>
+        </Or>
+        <Or>
+            <Class name="com.grimoire.application.core.ecs.ComponentManager"/>
+            <Class name="com.grimoire.application.core.ecs.EcsWorld"/>
+        </Or>
+    </Match>
+    <!-- EntityManager: alive[] array exposed for direct iteration by systems. -->
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP"/>
+        <Class name="com.grimoire.application.core.ecs.EntityManager"/>
+    </Match>
+</FindBugsFilter>

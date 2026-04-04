@@ -24,50 +24,42 @@ class EcsWorldTest {
     // ── Entity lifecycle ──
 
     @Test
-    void createEntityReturnsNonNullId() {
-        assertThat(world.createEntity()).isNotNull().isNotBlank();
+    void createEntityReturnsNonNegativeId() {
+        assertThat(world.createEntity()).isGreaterThanOrEqualTo(0);
     }
 
     @Test
     void createdEntityExists() {
-        String id = world.createEntity();
+        int id = world.createEntity();
 
         assertThat(world.entityExists(id)).isTrue();
     }
 
     @Test
     void destroyEntityRemovesEntityAndComponents() {
-        String id = world.createEntity();
+        int id = world.createEntity();
         world.addComponent(id, new Position(1, 2));
 
         world.destroyEntity(id);
 
         assertThat(world.entityExists(id)).isFalse();
-        assertThat(world.getComponent(id, Position.class)).isEmpty();
-    }
-
-    @Test
-    void getAllEntitiesReflectsLiveEntities() {
-        String id1 = world.createEntity();
-        String id2 = world.createEntity();
-
-        assertThat(world.getAllEntities()).containsExactlyInAnyOrder(id1, id2);
+        assertThat(world.getComponent(id, Position.class)).isNull();
     }
 
     // ── Component CRUD ──
 
     @Test
     void addAndGetComponent() {
-        String id = world.createEntity();
+        int id = world.createEntity();
         var pos = new Position(10, 20);
         world.addComponent(id, pos);
 
-        assertThat(world.getComponent(id, Position.class)).contains(pos);
+        assertThat(world.getComponent(id, Position.class)).isEqualTo(pos);
     }
 
     @Test
     void hasComponent() {
-        String id = world.createEntity();
+        int id = world.createEntity();
         world.addComponent(id, new Position(0, 0));
 
         assertThat(world.hasComponent(id, Position.class)).isTrue();
@@ -76,7 +68,7 @@ class EcsWorldTest {
 
     @Test
     void removeComponent() {
-        String id = world.createEntity();
+        int id = world.createEntity();
         world.addComponent(id, new Position(0, 0));
         world.removeComponent(id, Position.class);
 
@@ -84,17 +76,8 @@ class EcsWorldTest {
     }
 
     @Test
-    void getEntitiesWithComponent() {
-        String id1 = world.createEntity();
-        String id2 = world.createEntity();
-        world.addComponent(id1, new Position(0, 0));
-
-        assertThat(world.getEntitiesWithComponent(Position.class)).containsExactly(id1);
-    }
-
-    @Test
     void getAllComponents() {
-        String id = world.createEntity();
+        int id = world.createEntity();
         var pos = new Position(1, 2);
         var vel = new Velocity(3, 4);
         world.addComponent(id, pos);
@@ -131,11 +114,11 @@ class EcsWorldTest {
                 .addComponent(new Stats(100, 100, 10, 10));
 
         world.registerPrefab(prefab);
-        String id = world.createEntityFromPrefab("test-mob");
+        int id = world.createEntityFromPrefab("test-mob");
 
         assertThat(world.entityExists(id)).isTrue();
-        assertThat(world.getComponent(id, Position.class)).isPresent();
-        assertThat(world.getComponent(id, Stats.class)).isPresent();
+        assertThat(world.getComponent(id, Position.class)).isNotNull();
+        assertThat(world.getComponent(id, Stats.class)).isNotNull();
     }
 
     @Test
@@ -146,7 +129,7 @@ class EcsWorldTest {
 
         world.registerPrefab(prefab);
 
-        String id = world.createEntityFromPrefab("custom", c -> {
+        int id = world.createEntityFromPrefab("custom", c -> {
             if (c instanceof Position) {
                 return new Position(99, 99);
             }
@@ -154,9 +137,9 @@ class EcsWorldTest {
         });
 
         assertThat(world.getComponent(id, Position.class))
-                .contains(new Position(99, 99));
+                .isEqualTo(new Position(99, 99));
         assertThat(world.getComponent(id, Stats.class))
-                .contains(new Stats(50, 50, 5, 5));
+                .isEqualTo(new Stats(50, 50, 5, 5));
     }
 
     @Test
@@ -167,7 +150,7 @@ class EcsWorldTest {
 
         world.registerPrefab(prefab);
 
-        String id = world.createEntityFromPrefab("filter", c -> {
+        int id = world.createEntityFromPrefab("filter", c -> {
             if (c instanceof Velocity) {
                 return null; // skip
             }
@@ -189,5 +172,23 @@ class EcsWorldTest {
     void createFromPrefabThrowsForNullName() {
         assertThatThrownBy(() -> world.createEntityFromPrefab(null))
                 .isInstanceOf(NullPointerException.class);
+    }
+
+    // ── Int-based entity ID ──
+
+    @Test
+    void entitiesAreSequentialInts() {
+        int id1 = world.createEntity();
+        int id2 = world.createEntity();
+
+        assertThat(id2).isEqualTo(id1 + 1);
+    }
+
+    @Test
+    void maxEntityIdTracksHighWaterMark() {
+        world.createEntity();
+        world.createEntity();
+
+        assertThat(world.getMaxEntityId()).isEqualTo(2);
     }
 }

@@ -19,8 +19,8 @@ class ComponentPropertyTest {
     void positionPreservesCoordinates(@ForAll double x, @ForAll double y) {
         var pos = new Position(x, y);
 
-        assertThat(pos.x()).isEqualTo(x);
-        assertThat(pos.y()).isEqualTo(y);
+        assertThat(pos.x).isEqualTo(x);
+        assertThat(pos.y).isEqualTo(y);
     }
 
     @Property
@@ -38,10 +38,10 @@ class ComponentPropertyTest {
             @ForAll @IntRange(min = 0) int attack) {
         var stats = new Stats(hp, maxHp, defense, attack);
 
-        assertThat(stats.hp()).isEqualTo(hp);
-        assertThat(stats.maxHp()).isEqualTo(maxHp);
-        assertThat(stats.defense()).isEqualTo(defense);
-        assertThat(stats.attack()).isEqualTo(attack);
+        assertThat(stats.hp).isEqualTo(hp);
+        assertThat(stats.maxHp).isEqualTo(maxHp);
+        assertThat(stats.defense).isEqualTo(defense);
+        assertThat(stats.attack).isEqualTo(attack);
     }
 
     @Property
@@ -62,8 +62,8 @@ class ComponentPropertyTest {
             @ForAll @IntRange(min = 1) int xpToNextLevel) {
         var exp = new Experience(currentXp, xpToNextLevel);
 
-        assertThat(exp.currentXp()).isEqualTo(currentXp);
-        assertThat(exp.xpToNextLevel()).isEqualTo(xpToNextLevel);
+        assertThat(exp.currentXp).isEqualTo(currentXp);
+        assertThat(exp.xpToNextLevel).isEqualTo(xpToNextLevel);
     }
 
     // ── Velocity ──
@@ -72,8 +72,8 @@ class ComponentPropertyTest {
     void velocityPreservesComponents(@ForAll double dx, @ForAll double dy) {
         var vel = new Velocity(dx, dy);
 
-        assertThat(vel.dx()).isEqualTo(dx);
-        assertThat(vel.dy()).isEqualTo(dy);
+        assertThat(vel.dx).isEqualTo(dx);
+        assertThat(vel.dy).isEqualTo(dy);
     }
 
     // ── BoundingBox ──
@@ -84,8 +84,8 @@ class ComponentPropertyTest {
             @ForAll @DoubleRange(min = 0.0) double height) {
         var bb = new BoundingBox(width, height);
 
-        assertThat(bb.width()).isEqualTo(width);
-        assertThat(bb.height()).isEqualTo(height);
+        assertThat(bb.width).isEqualTo(width);
+        assertThat(bb.height).isEqualTo(height);
     }
 
     // ── MovementIntent ──
@@ -94,8 +94,8 @@ class ComponentPropertyTest {
     void movementIntentPreservesTarget(@ForAll double x, @ForAll double y) {
         var intent = new MovementIntent(x, y);
 
-        assertThat(intent.targetX()).isEqualTo(x);
-        assertThat(intent.targetY()).isEqualTo(y);
+        assertThat(intent.targetX).isEqualTo(x);
+        assertThat(intent.targetY).isEqualTo(y);
     }
 
     // ── SpawnPoint ──
@@ -107,9 +107,9 @@ class ComponentPropertyTest {
             @ForAll @DoubleRange(min = 0.0) double leash) {
         var sp = new SpawnPoint(x, y, leash);
 
-        assertThat(sp.x()).isEqualTo(x);
-        assertThat(sp.y()).isEqualTo(y);
-        assertThat(sp.leashRadius()).isEqualTo(leash);
+        assertThat(sp.x).isEqualTo(x);
+        assertThat(sp.y).isEqualTo(y);
+        assertThat(sp.leashRadius).isEqualTo(leash);
     }
 
     // ── Portal ──
@@ -120,8 +120,8 @@ class ComponentPropertyTest {
             @ForAll @StringLength(min = 1, max = 50) String portalId) {
         var portal = new Portal(zoneId, portalId);
 
-        assertThat(portal.targetZoneId()).isEqualTo(zoneId);
-        assertThat(portal.targetPortalId()).isEqualTo(portalId);
+        assertThat(portal.targetZoneId).isEqualTo(zoneId);
+        assertThat(portal.targetPortalId).isEqualTo(portalId);
     }
 
     // ── PortalCooldown ──
@@ -130,7 +130,7 @@ class ComponentPropertyTest {
     void portalCooldownPreservesTicks(@ForAll @IntRange(min = 0) int ticks) {
         var cd = new PortalCooldown(ticks);
 
-        assertThat(cd.ticksRemaining()).isEqualTo(ticks);
+        assertThat(cd.ticksRemaining).isEqualTo(ticks);
     }
 
     // ── Dirty ──
@@ -139,7 +139,7 @@ class ComponentPropertyTest {
     void dirtyPreservesTick(@ForAll long tick) {
         var dirty = new Dirty(tick);
 
-        assertThat(dirty.tick()).isEqualTo(tick);
+        assertThat(dirty.tick).isEqualTo(tick);
     }
 
     // ── Zone ──
@@ -148,7 +148,7 @@ class ComponentPropertyTest {
     void zonePreservesId(@ForAll @StringLength(min = 1, max = 50) String zoneId) {
         var zone = new Zone(zoneId);
 
-        assertThat(zone.zoneId()).isEqualTo(zoneId);
+        assertThat(zone.zoneId).isEqualTo(zoneId);
     }
 
     // ── All components implement Component ──
@@ -161,7 +161,7 @@ class ComponentPropertyTest {
         assertThat(new Stats(10, 10, 0, 0)).isInstanceOf(Component.class);
         assertThat(new Experience(0, 100)).isInstanceOf(Component.class);
         assertThat(new MovementIntent(x, y)).isInstanceOf(Component.class);
-        assertThat(new Dead(null)).isInstanceOf(Component.class);
+        assertThat(new Dead(-1)).isInstanceOf(Component.class);
         assertThat(new Dirty(0)).isInstanceOf(Component.class);
         assertThat(new Solid()).isInstanceOf(Component.class);
         assertThat(new Portal("z", "p")).isInstanceOf(Component.class);

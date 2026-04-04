@@ -235,6 +235,7 @@
                         <effort>Max</effort>
                         <threshold>Low</threshold>
                         <failOnError>false</failOnError>
+                        <excludeFilterFile>${maven.multiModuleProjectDirectory}/spotbugs-exclude.xml</excludeFilterFile>
                         <xmlOutput>true</xmlOutput>
                         <plugins>
                             <plugin>
@@ -396,6 +397,9 @@
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
+                        <configuration>
+                            <destFile>${project.build.directory}/jacoco-ut.exec</destFile>
+                        </configuration>
                     </execution>
                     <execution>
                         <id>prepare-agent-integration</id>
@@ -440,6 +444,33 @@
          ══════════════════════════════════════════════════════════════════ -->
     <profiles>
 
+        <!-- ── Formatter ── -->
+        <profile>
+            <id>quality-formatter</id>
+            <activation>
+                <property>
+                    <name>!skipQuality</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>net.revelc.code.formatter</groupId>
+                        <artifactId>formatter-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>formatter-validate</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>validate</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <!-- ── Checkstyle ── -->
         <profile>
             <id>quality-checkstyle</id>
@@ -457,33 +488,6 @@
                             <execution>
                                 <id>checkstyle-validate</id>
                                 <phase>validate</phase>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <!-- ── SpotBugs + FindSecBugs ── -->
-        <profile>
-            <id>quality-spotbugs</id>
-            <activation>
-                <property>
-                    <name>!skipQuality</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.github.spotbugs</groupId>
-                        <artifactId>spotbugs-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>spotbugs-check</id>
-                                <phase>verify</phase>
                                 <goals>
                                     <goal>check</goal>
                                 </goals>
@@ -522,9 +526,9 @@
             </build>
         </profile>
 
-        <!-- ── Formatter ── -->
+        <!-- ── SpotBugs + FindSecBugs ── -->
         <profile>
-            <id>quality-formatter</id>
+            <id>quality-spotbugs</id>
             <activation>
                 <property>
                     <name>!skipQuality</name>
@@ -533,14 +537,14 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>net.revelc.code.formatter</groupId>
-                        <artifactId>formatter-maven-plugin</artifactId>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-maven-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>formatter-validate</id>
-                                <phase>validate</phase>
+                                <id>spotbugs-check</id>
+                                <phase>verify</phase>
                                 <goals>
-                                    <goal>validate</goal>
+                                    <goal>check</goal>
                                 </goals>
                             </execution>
                         </executions>
@@ -548,6 +552,7 @@
                 </plugins>
             </build>
         </profile>
+
 
         <!-- ── Coverage enforcement ── -->
         <profile>
@@ -574,12 +579,12 @@
                                         <fileSet>
                                             <directory>${project.build.directory}</directory>
                                             <includes>
-                                                <include>jacoco.exec</include>
+                                                <include>jacoco-ut.exec</include>
                                                 <include>jacoco-it.exec</include>
                                             </includes>
                                         </fileSet>
                                     </fileSets>
-                                    <destFile>${project.build.directory}/jacoco-merged.exec</destFile>
+                                    <destFile>${project.build.directory}/jacoco.exec</destFile>
                                 </configuration>
                             </execution>
                             <execution>
@@ -589,7 +594,7 @@
                                     <goal>report</goal>
                                 </goals>
                                 <configuration>
-                                    <dataFile>${project.build.directory}/jacoco-merged.exec</dataFile>
+                                    <dataFile>${project.build.directory}/jacoco.exec</dataFile>
                                 </configuration>
                             </execution>
                             <execution>
@@ -599,7 +604,7 @@
                                     <goal>check</goal>
                                 </goals>
                                 <configuration>
-                                    <dataFile>${project.build.directory}/jacoco-merged.exec</dataFile>
+                                    <dataFile>${project.build.directory}/jacoco.exec</dataFile>
                                     <rules>
                                         <rule>
                                             <element>BUNDLE</element>

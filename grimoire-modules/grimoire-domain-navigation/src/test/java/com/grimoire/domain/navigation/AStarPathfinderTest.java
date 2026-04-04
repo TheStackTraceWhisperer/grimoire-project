@@ -63,7 +63,7 @@ class AStarPathfinderTest {
         List<Position> path = result.orElseThrow();
         assertThat(path).hasSizeGreaterThan(2);
         for (Position pos : path) {
-            int[] gc = grid.worldToGrid(pos.x(), pos.y());
+            int[] gc = grid.worldToGrid(pos.x, pos.y);
             assertThat(grid.isBlocked(gc[0], gc[1])).isFalse();
         }
     }
@@ -103,7 +103,7 @@ class AStarPathfinderTest {
         assertThat(result).isPresent();
         List<Position> path = result.orElseThrow();
         boolean throughGap = path.stream().anyMatch(p -> {
-            int[] gc = grid.worldToGrid(p.x(), p.y());
+            int[] gc = grid.worldToGrid(p.x, p.y);
             return gc[0] == 4 && gc[1] == 5;
         });
         assertThat(throughGap).isTrue();
@@ -155,7 +155,7 @@ class AStarPathfinderTest {
 
         assertThat(result).isPresent();
         for (Position pos : result.orElseThrow()) {
-            int[] gc = grid.worldToGrid(pos.x(), pos.y());
+            int[] gc = grid.worldToGrid(pos.x, pos.y);
             assertThat(grid.isBlocked(gc[0], gc[1])).isFalse();
         }
     }
@@ -190,11 +190,11 @@ class AStarPathfinderTest {
         assertThat(result).isPresent();
         List<Position> path = result.orElseThrow();
         for (Position pos : path) {
-            int[] gc = grid.worldToGrid(pos.x(), pos.y());
+            int[] gc = grid.worldToGrid(pos.x, pos.y);
             assertThat(grid.isBlocked(gc[0], gc[1])).isFalse();
         }
         boolean throughGap = path.stream().anyMatch(p -> {
-            int[] gc = grid.worldToGrid(p.x(), p.y());
+            int[] gc = grid.worldToGrid(p.x, p.y);
             return gc[0] == 5 && gc[1] == 4;
         });
         assertThat(throughGap).isTrue();

@@ -63,15 +63,13 @@ class EngineTestHarnessTest extends EngineTestHarness {
 
     @Test
     void entityCreationAndComponentAddWork() {
-        String entityId = world.createEntity();
+        int entityId = world.createEntity();
         world.addComponent(entityId, new Position(10.0, 20.0));
 
-        assertThat(world.getComponent(entityId, Position.class))
-                .isPresent()
-                .hasValueSatisfying(pos -> {
-                    assertThat(pos.x()).isEqualTo(10.0);
-                    assertThat(pos.y()).isEqualTo(20.0);
-                });
+        Position pos = world.getComponent(entityId, Position.class);
+        assertThat(pos).isNotNull();
+        assertThat(pos.x).isEqualTo(10.0);
+        assertThat(pos.y).isEqualTo(20.0);
     }
 
     @Test

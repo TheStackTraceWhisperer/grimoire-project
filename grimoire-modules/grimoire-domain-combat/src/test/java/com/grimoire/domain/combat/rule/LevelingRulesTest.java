@@ -28,28 +28,28 @@ class LevelingRulesTest {
     void applyLevelUpRollsOverXp() {
         var exp = new Experience(130, 100);
 
-        var result = LevelingRules.applyLevelUp(exp);
+        LevelingRules.applyLevelUp(exp);
 
-        assertThat(result.currentXp()).isEqualTo(30);
+        assertThat(exp.currentXp).isEqualTo(30);
     }
 
     @Test
     void applyLevelUpScalesThreshold() {
         var exp = new Experience(100, 100);
 
-        var result = LevelingRules.applyLevelUp(exp);
+        LevelingRules.applyLevelUp(exp);
 
-        assertThat(result.xpToNextLevel()).isEqualTo(150); // 100 × 1.5
+        assertThat(exp.xpToNextLevel).isEqualTo(150); // 100 × 1.5
     }
 
     @Test
     void applyLevelUpExactThreshold() {
         var exp = new Experience(100, 100);
 
-        var result = LevelingRules.applyLevelUp(exp);
+        LevelingRules.applyLevelUp(exp);
 
-        assertThat(result.currentXp()).isZero();
-        assertThat(result.xpToNextLevel()).isEqualTo(150);
+        assertThat(exp.currentXp).isZero();
+        assertThat(exp.xpToNextLevel).isEqualTo(150);
     }
 
     @Test
@@ -62,61 +62,63 @@ class LevelingRulesTest {
     void boostStatsIncreasesAttributes() {
         var stats = new Stats(80, 100, 10, 20);
 
-        var result = LevelingRules.boostStatsForLevelUp(stats);
+        LevelingRules.boostStatsForLevelUp(stats);
 
-        assertThat(result.maxHp()).isEqualTo(110);
-        assertThat(result.hp()).isEqualTo(90);
-        assertThat(result.attack()).isEqualTo(22);
-        assertThat(result.defense()).isEqualTo(11);
+        assertThat(stats.maxHp).isEqualTo(110);
+        assertThat(stats.hp).isEqualTo(90);
+        assertThat(stats.attack).isEqualTo(22);
+        assertThat(stats.defense).isEqualTo(11);
     }
 
     @Test
     void boostStatsCapsHpAtMax() {
         var stats = new Stats(100, 100, 5, 10);
 
-        var result = LevelingRules.boostStatsForLevelUp(stats);
+        LevelingRules.boostStatsForLevelUp(stats);
 
-        assertThat(result.hp()).isEqualTo(110);
-        assertThat(result.maxHp()).isEqualTo(110);
+        assertThat(stats.hp).isEqualTo(110);
+        assertThat(stats.maxHp).isEqualTo(110);
     }
 
     @Test
     void boostStatsWhenHpBelowMaxStillHeals() {
         var stats = new Stats(95, 100, 5, 10);
 
-        var result = LevelingRules.boostStatsForLevelUp(stats);
+        LevelingRules.boostStatsForLevelUp(stats);
 
-        assertThat(result.hp()).isEqualTo(105);
-        assertThat(result.maxHp()).isEqualTo(110);
+        assertThat(stats.hp).isEqualTo(105);
+        assertThat(stats.maxHp).isEqualTo(110);
     }
 
     @Test
     void applyAllLevelUpsMultiple() {
-        // 500 XP, threshold 100 → should level up multiple times
         var exp = new Experience(500, 100);
 
-        var result = LevelingRules.applyAllLevelUps(exp);
+        LevelingRules.applyAllLevelUps(exp);
 
-        assertThat(result.currentXp()).isLessThan(result.xpToNextLevel());
+        assertThat(exp.currentXp).isLessThan(exp.xpToNextLevel);
     }
 
     @Test
     void applyAllLevelUpsNone() {
         var exp = new Experience(50, 100);
+        int originalXp = exp.currentXp;
+        int originalThreshold = exp.xpToNextLevel;
 
-        var result = LevelingRules.applyAllLevelUps(exp);
+        LevelingRules.applyAllLevelUps(exp);
 
-        assertThat(result).isEqualTo(exp);
+        assertThat(exp.currentXp).isEqualTo(originalXp);
+        assertThat(exp.xpToNextLevel).isEqualTo(originalThreshold);
     }
 
     @Test
     void addXp() {
         var exp = new Experience(50, 100);
 
-        var result = LevelingRules.addXp(exp, 30);
+        LevelingRules.addXp(exp, 30);
 
-        assertThat(result.currentXp()).isEqualTo(80);
-        assertThat(result.xpToNextLevel()).isEqualTo(100);
+        assertThat(exp.currentXp).isEqualTo(80);
+        assertThat(exp.xpToNextLevel).isEqualTo(100);
     }
 
     @Test
@@ -128,8 +130,11 @@ class LevelingRulesTest {
     @Test
     void addXpZeroIsNoOp() {
         var exp = new Experience(50, 100);
+        int before = exp.currentXp;
 
-        assertThat(LevelingRules.addXp(exp, 0)).isEqualTo(exp);
+        LevelingRules.addXp(exp, 0);
+
+        assertThat(exp.currentXp).isEqualTo(before);
     }
 
     @Test
@@ -140,8 +145,6 @@ class LevelingRulesTest {
 
     @Test
     void countPendingMultipleLevelUps() {
-        // 350 XP, threshold 100 → level 1 (100→150, remaining 250),
-        // level 2 (150→225, remaining 100), not enough for 225
         assertThat(LevelingRules.countPendingLevelUps(new Experience(350, 100))).isEqualTo(2);
     }
 }

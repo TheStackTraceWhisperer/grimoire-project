@@ -22,18 +22,18 @@ class PortalCooldownSystemTest {
 
     @Test
     void tickDecrementsCooldown() {
-        String entity = world.createEntity();
+        int entity = world.createEntity();
         world.addComponent(entity, new PortalCooldown(5));
 
         system.tick(0.05f);
 
-        PortalCooldown cooldown = world.getComponent(entity, PortalCooldown.class).orElseThrow();
-        assertThat(cooldown.ticksRemaining()).isEqualTo(4);
+        PortalCooldown cooldown = world.getComponent(entity, PortalCooldown.class);
+        assertThat(cooldown.ticksRemaining).isEqualTo(4);
     }
 
     @Test
     void cooldownRemovedWhenReachesZero() {
-        String entity = world.createEntity();
+        int entity = world.createEntity();
         world.addComponent(entity, new PortalCooldown(1));
 
         system.tick(0.05f);
@@ -43,20 +43,20 @@ class PortalCooldownSystemTest {
 
     @Test
     void multipleTicksCountDown() {
-        String entity = world.createEntity();
+        int entity = world.createEntity();
         world.addComponent(entity, new PortalCooldown(3));
 
         system.tick(0.05f);
         system.tick(0.05f);
 
-        PortalCooldown cooldown = world.getComponent(entity, PortalCooldown.class).orElseThrow();
-        assertThat(cooldown.ticksRemaining()).isEqualTo(1);
+        PortalCooldown cooldown = world.getComponent(entity, PortalCooldown.class);
+        assertThat(cooldown.ticksRemaining).isEqualTo(1);
     }
 
     @Test
     void multipleEntitiesProcessed() {
-        String e1 = world.createEntity();
-        String e2 = world.createEntity();
+        int e1 = world.createEntity();
+        int e2 = world.createEntity();
         world.addComponent(e1, new PortalCooldown(2));
         world.addComponent(e2, new PortalCooldown(1));
 
@@ -68,7 +68,7 @@ class PortalCooldownSystemTest {
 
     @Test
     void entityWithoutCooldownIsUnaffected() {
-        String entity = world.createEntity();
+        int entity = world.createEntity();
         // No PortalCooldown component
 
         system.tick(0.05f);

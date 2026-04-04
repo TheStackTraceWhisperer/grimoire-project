@@ -10,8 +10,7 @@ import java.util.Set;
  *
  * <p>
  * Entities are partitioned into cells based on position. Queries return
- * entities in the same cell and its 8 neighbors, reducing proximity checks from
- * O(N²) to O(N·k) where k is the average entities per cell.
+ * entities in the same cell and its 8 neighbors. Entity IDs are primitive ints.
  * </p>
  *
  * <p>
@@ -25,10 +24,10 @@ public final class SpatialGrid {
     private final int cellSize;
 
     /** Maps cell keys to the set of entity IDs in that cell. */
-    private final Map<CellKey, Set<String>> cells;
+    private final Map<CellKey, Set<Integer>> cells;
 
     /** Maps entity IDs to their current cell key. */
-    private final Map<String, CellKey> entityCells;
+    private final Map<Integer, CellKey> entityCells;
 
     /**
      * Creates a spatial grid with the specified cell size.
@@ -59,7 +58,7 @@ public final class SpatialGrid {
      * @param zoneId
      *            the zone (entities in different zones never collide)
      */
-    public void updateEntity(String entityId, double x, double y, String zoneId) {
+    public void updateEntity(int entityId, double x, double y, String zoneId) {
         CellKey newCell = cellKey(x, y, zoneId);
         CellKey oldCell = entityCells.get(entityId);
 
@@ -79,7 +78,7 @@ public final class SpatialGrid {
      * @param entityId
      *            the entity ID
      */
-    public void removeEntity(String entityId) {
+    public void removeEntity(int entityId) {
         CellKey cell = entityCells.remove(entityId);
         if (cell != null) {
             removeFromCell(entityId, cell);
@@ -98,13 +97,13 @@ public final class SpatialGrid {
      * @return set of nearby entity IDs (never null)
      */
     @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
-    public Set<String> getNearbyEntities(double x, double y, String zoneId) {
-        Set<String> result = new HashSet<>();
+    public Set<Integer> getNearbyEntities(double x, double y, String zoneId) {
+        Set<Integer> result = new HashSet<>();
         int cx = (int) Math.floor(x / cellSize);
         int cy = (int) Math.floor(y / cellSize);
         for (int dx = -1; dx <= 1; dx++) {
             for (int dy = -1; dy <= 1; dy++) {
-                Set<String> set = cells.get(new CellKey(cx + dx, cy + dy, zoneId));
+                Set<Integer> set = cells.get(new CellKey(cx + dx, cy + dy, zoneId));
                 if (set != null) {
                     result.addAll(set);
                 }
@@ -129,8 +128,8 @@ public final class SpatialGrid {
         return cells.size();
     }
 
-    private void removeFromCell(String entityId, CellKey cell) {
-        Set<String> cellEntities = cells.get(cell);
+    private void removeFromCell(int entityId, CellKey cell) {
+        Set<Integer> cellEntities = cells.get(cell);
         if (cellEntities != null) {
             cellEntities.remove(entityId);
             if (cellEntities.isEmpty()) {

@@ -94,7 +94,7 @@ class NavigationPropertyTest {
 
         result.ifPresent(path -> {
             for (Position pos : path) {
-                int[] gc = grid.worldToGrid(pos.x(), pos.y());
+                int[] gc = grid.worldToGrid(pos.x, pos.y);
                 assertThat(grid.isBlocked(gc[0], gc[1])).isFalse();
             }
         });

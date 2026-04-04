@@ -13,7 +13,7 @@ class CombatRulesTest {
         var attacker = new Stats(100, 100, 5, 20);
         var target = new Stats(80, 80, 8, 10);
 
-        assertThat(CombatRules.calculateDamage(attacker, target)).isEqualTo(12); // 20 - 8
+        assertThat(CombatRules.calculateDamage(attacker, target)).isEqualTo(12);
     }
 
     @Test
@@ -28,21 +28,21 @@ class CombatRulesTest {
     void applyDamageReducesHp() {
         var target = new Stats(50, 100, 5, 10);
 
-        var result = CombatRules.applyDamage(target, 20);
+        CombatRules.applyDamage(target, 20);
 
-        assertThat(result.hp()).isEqualTo(30);
-        assertThat(result.maxHp()).isEqualTo(100);
-        assertThat(result.defense()).isEqualTo(5);
-        assertThat(result.attack()).isEqualTo(10);
+        assertThat(target.hp).isEqualTo(30);
+        assertThat(target.maxHp).isEqualTo(100);
+        assertThat(target.defense).isEqualTo(5);
+        assertThat(target.attack).isEqualTo(10);
     }
 
     @Test
     void applyDamageFloorsAtZero() {
         var target = new Stats(10, 100, 5, 10);
 
-        var result = CombatRules.applyDamage(target, 999);
+        CombatRules.applyDamage(target, 999);
 
-        assertThat(result.hp()).isZero();
+        assertThat(target.hp).isZero();
     }
 
     @Test
@@ -63,7 +63,7 @@ class CombatRulesTest {
     @Test
     void isInRangeWhenClose() {
         var a = new Position(0, 0);
-        var b = new Position(3, 4); // distance = 5
+        var b = new Position(3, 4);
 
         assertThat(CombatRules.isInRange(a, b, 5.0)).isTrue();
     }
@@ -71,7 +71,7 @@ class CombatRulesTest {
     @Test
     void isInRangeExactBoundary() {
         var a = new Position(0, 0);
-        var b = new Position(3, 4); // distance = 5
+        var b = new Position(3, 4);
 
         assertThat(CombatRules.isInRange(a, b, 5.0)).isTrue();
     }
@@ -79,7 +79,7 @@ class CombatRulesTest {
     @Test
     void isOutOfRange() {
         var a = new Position(0, 0);
-        var b = new Position(3, 4); // distance = 5
+        var b = new Position(3, 4);
 
         assertThat(CombatRules.isInRange(a, b, 4.9)).isFalse();
     }

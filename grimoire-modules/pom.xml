@@ -29,6 +29,7 @@
     <module>grimoire-infra-persistence-jpa</module>
     <module>grimoire-infra-observability</module>
     <module>grimoire-test-kit</module>
+    <module>grimoire-coverage-report</module>
   </modules>
 
 </project>

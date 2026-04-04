@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
@@ -43,20 +44,20 @@ class CombatSystemTest {
 
     @Test
     void attackDealsDamage() {
-        String attacker = createEntityWithStats(0, 0, 100, 100, 0, 20);
-        String target = createEntityWithStats(5, 0, 50, 50, 5, 10);
+        int attacker = createEntityWithStats(0, 0, 100, 100, 0, 20);
+        int target = createEntityWithStats(5, 0, 50, 50, 5, 10);
         world.addComponent(attacker, new AttackIntent(target));
 
         system.tick(0.05f);
 
-        Stats targetStats = world.getComponent(target, Stats.class).orElseThrow();
-        assertThat(targetStats.hp()).isEqualTo(35); // 50 - max(1, 20-5) = 50-15 = 35
+        Stats targetStats = world.getComponent(target, Stats.class);
+        assertThat(targetStats.hp).isEqualTo(35); // 50 - max(1, 20-5) = 50-15 = 35
     }
 
     @Test
     void attackMarksTargetDirty() {
-        String attacker = createEntityWithStats(0, 0, 100, 100, 0, 20);
-        String target = createEntityWithStats(5, 0, 50, 50, 5, 10);
+        int attacker = createEntityWithStats(0, 0, 100, 100, 0, 20);
+        int target = createEntityWithStats(5, 0, 50, 50, 5, 10);
         world.addComponent(attacker, new AttackIntent(target));
 
         system.tick(0.05f);
@@ -66,8 +67,8 @@ class CombatSystemTest {
 
     @Test
     void attackIntentRemovedAfterProcessing() {
-        String attacker = createEntityWithStats(0, 0, 100, 100, 0, 20);
-        String target = createEntityWithStats(5, 0, 50, 50, 5, 10);
+        int attacker = createEntityWithStats(0, 0, 100, 100, 0, 20);
+        int target = createEntityWithStats(5, 0, 50, 50, 5, 10);
         world.addComponent(attacker, new AttackIntent(target));
 
         system.tick(0.05f);
@@ -77,8 +78,8 @@ class CombatSystemTest {
 
     @Test
     void attackAppliesCooldown() {
-        String attacker = createEntityWithStats(0, 0, 100, 100, 0, 20);
-        String target = createEntityWithStats(5, 0, 50, 50, 5, 10);
+        int attacker = createEntityWithStats(0, 0, 100, 100, 0, 20);
+        int target = createEntityWithStats(5, 0, 50, 50, 5, 10);
         world.addComponent(attacker, new AttackIntent(target));
 
         system.tick(0.05f);
@@ -88,44 +89,44 @@ class CombatSystemTest {
 
     @Test
     void attackRejectedWhileOnCooldown() {
-        String attacker = createEntityWithStats(0, 0, 100, 100, 0, 20);
-        String target = createEntityWithStats(5, 0, 50, 50, 5, 10);
+        int attacker = createEntityWithStats(0, 0, 100, 100, 0, 20);
+        int target = createEntityWithStats(5, 0, 50, 50, 5, 10);
         world.addComponent(attacker, new AttackCooldown(10));
         world.addComponent(attacker, new AttackIntent(target));
 
         system.tick(0.05f);
 
-        Stats targetStats = world.getComponent(target, Stats.class).orElseThrow();
-        assertThat(targetStats.hp()).isEqualTo(50); // No damage
+        Stats targetStats = world.getComponent(target, Stats.class);
+        assertThat(targetStats.hp).isEqualTo(50); // No damage
     }
 
     @Test
     void attackRejectedWhenOutOfRange() {
-        String attacker = createEntityWithStats(0, 0, 100, 100, 0, 20);
+        int attacker = createEntityWithStats(0, 0, 100, 100, 0, 20);
         // Place target far away (>50 units default range)
-        String target = createEntityWithStats(1000, 1000, 50, 50, 5, 10);
+        int target = createEntityWithStats(1000, 1000, 50, 50, 5, 10);
         world.addComponent(attacker, new AttackIntent(target));
 
         system.tick(0.05f);
 
-        Stats targetStats = world.getComponent(target, Stats.class).orElseThrow();
-        assertThat(targetStats.hp()).isEqualTo(50);
+        Stats targetStats = world.getComponent(target, Stats.class);
+        assertThat(targetStats.hp).isEqualTo(50);
     }
 
     @Test
     void cooldownDecrements() {
-        String entity = world.createEntity();
+        int entity = world.createEntity();
         world.addComponent(entity, new AttackCooldown(3));
 
         system.tick(0.05f);
 
-        AttackCooldown cd = world.getComponent(entity, AttackCooldown.class).orElseThrow();
-        assertThat(cd.ticksRemaining()).isEqualTo(2);
+        AttackCooldown cd = world.getComponent(entity, AttackCooldown.class);
+        assertThat(cd.ticksRemaining).isEqualTo(2);
     }
 
     @Test
     void cooldownRemovedAtZero() {
-        String entity = world.createEntity();
+        int entity = world.createEntity();
         world.addComponent(entity, new AttackCooldown(1));
 
         system.tick(0.05f);
@@ -135,8 +136,8 @@ class CombatSystemTest {
 
     @Test
     void targetKilledWhenHpReachesZero() {
-        String attacker = createEntityWithStats(0, 0, 100, 100, 0, 100);
-        String target = createEntityWithStats(5, 0, 1, 50, 0, 10);
+        int attacker = createEntityWithStats(0, 0, 100, 100, 0, 100);
+        int target = createEntityWithStats(5, 0, 1, 50, 0, 10);
         world.addComponent(attacker, new AttackIntent(target));
 
         system.tick(0.05f);
@@ -148,8 +149,8 @@ class CombatSystemTest {
 
     @Test
     void deadEntityIsDestroyedAndDespawnNotified() {
-        String attacker = createEntityWithStats(0, 0, 100, 100, 0, 100);
-        String target = createEntityWithStats(5, 0, 1, 50, 0, 10);
+        int attacker = createEntityWithStats(0, 0, 100, 100, 0, 100);
+        int target = createEntityWithStats(5, 0, 1, 50, 0, 10);
         world.addComponent(target, new Zone("zone1"));
         world.addComponent(attacker, new AttackIntent(target));
 
@@ -161,33 +162,33 @@ class CombatSystemTest {
 
     @Test
     void xpAwardedFromMonsterKill() {
-        String attacker = createEntityWithStats(0, 0, 100, 100, 0, 100);
+        int attacker = createEntityWithStats(0, 0, 100, 100, 0, 100);
         world.addComponent(attacker, new Experience(0, 100));
-        String monster = createEntityWithStats(5, 0, 1, 50, 0, 10);
+        int monster = createEntityWithStats(5, 0, 1, 50, 0, 10);
         world.addComponent(monster, new Monster(Monster.MonsterType.RAT, 25));
         world.addComponent(attacker, new AttackIntent(monster));
 
         system.tick(0.05f);
 
-        Experience exp = world.getComponent(attacker, Experience.class).orElseThrow();
-        assertThat(exp.currentXp()).isEqualTo(25);
+        Experience exp = world.getComponent(attacker, Experience.class);
+        assertThat(exp.currentXp).isEqualTo(25);
     }
 
     @Test
     void attackOnNonExistentTargetIsIgnored() {
-        String attacker = createEntityWithStats(0, 0, 100, 100, 0, 20);
-        world.addComponent(attacker, new AttackIntent("nonexistent"));
+        int attacker = createEntityWithStats(0, 0, 100, 100, 0, 20);
+        world.addComponent(attacker, new AttackIntent(99999));
 
         system.tick(0.05f);
 
-        verify(gameEventPort, never()).onEntityDespawn(anyString(), anyString());
+        verify(gameEventPort, never()).onEntityDespawn(anyInt(), anyString());
     }
 
     @Test
     void attackOnAlreadyDeadTargetIsIgnored() {
-        String attacker = createEntityWithStats(0, 0, 100, 100, 0, 20);
-        String target = createEntityWithStats(5, 0, 50, 50, 5, 10);
-        world.addComponent(target, new Dead("someone"));
+        int attacker = createEntityWithStats(0, 0, 100, 100, 0, 20);
+        int target = createEntityWithStats(5, 0, 50, 50, 5, 10);
+        world.addComponent(target, new Dead(-1));
         world.addComponent(attacker, new AttackIntent(target));
 
         system.tick(0.05f);
@@ -199,19 +200,19 @@ class CombatSystemTest {
     @Test
     void minimumDamageIsOne() {
         // Target has very high defense
-        String attacker = createEntityWithStats(0, 0, 100, 100, 0, 1);
-        String target = createEntityWithStats(5, 0, 50, 50, 100, 10);
+        int attacker = createEntityWithStats(0, 0, 100, 100, 0, 1);
+        int target = createEntityWithStats(5, 0, 50, 50, 100, 10);
         world.addComponent(attacker, new AttackIntent(target));
 
         system.tick(0.05f);
 
-        Stats targetStats = world.getComponent(target, Stats.class).orElseThrow();
-        assertThat(targetStats.hp()).isEqualTo(49);
+        Stats targetStats = world.getComponent(target, Stats.class);
+        assertThat(targetStats.hp).isEqualTo(49);
     }
 
-    private String createEntityWithStats(double x, double y, int hp, int maxHp,
+    private int createEntityWithStats(double x, double y, int hp, int maxHp,
             int defense, int attack) {
-        String entity = world.createEntity();
+        int entity = world.createEntity();
         world.addComponent(entity, new Position(x, y));
         world.addComponent(entity, new Stats(hp, maxHp, defense, attack));
         return entity;

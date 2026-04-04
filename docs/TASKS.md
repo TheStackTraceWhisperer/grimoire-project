@@ -64,6 +64,54 @@
 - [x] Unit tests for all systems (ports faked/mocked)
 - [x] `mvn clean verify` green (all quality gates)
 
+## Wave 3.9 — Primitive-Backed Engine Upgrade
+
+> **Rationale:** The Artemis-ODB ECS migration (Wave 7 evaluation) is permanently abandoned
+> — Artemis lacks Java 25 bytecode weaving support and violates [ADR-000](adr/000-java-25-mandate.md).
+> Instead, the existing custom ECS in `application-core` is upgraded to achieve AAA-grade
+> performance using contiguous primitive arrays. Pure JDK 25 — zero new dependencies.
+
+### Step 1 — Mutable Domain Shift (domain-core, domain-combat, domain-navigation)
+- [x] Refactor all 21 ECS components from immutable records to mutable `public class` POJOs
+- [x] Public fields for zero-allocation direct access
+- [x] No-arg constructors for array pre-allocation
+- [x] Zero-allocation `update()` methods on every component (e.g., `Position.update(double, double)`)
+- [x] `Position.translate(double, double)` for delta movement
+- [x] `AttackCooldown.decrement()` for tick countdown
+- [x] `Experience.addXp(int)` for zero-allocation XP gain
+- [x] `equals()`/`hashCode()`/`toString()` on all components
+- [x] `Component` marker interface Javadoc updated to describe mutable POJO contract
+
+### Step 2 — The Integer World (application-core)
+- [x] `EntityManager` — entities are primitive `int` IDs from `AtomicInteger`
+- [x] `boolean[] alive` array tracks entity liveness (no `Set<String>`)
+- [x] `maxAliveId` high-water mark for bounded iteration
+- [x] `EcsWorld.createEntity()` returns `int`; all methods accept `int entityId`
+- [x] All `String`/`UUID` entity tracking removed
+
+### Step 3 — The Contiguous ComponentManager (application-core)
+- [x] 21 fixed-size contiguous arrays (one per component type, `new T[100_000]`)
+- [x] All `HashMap` storage removed; entity ID is the array index
+- [x] Direct typed accessors for hot path (`getPositions()`, `getVelocities()`, etc.)
+- [x] Generic `addComponent(int, Component)` / `getComponent(int, Class)` via `arrayMap`
+- [x] `removeAllComponents(int)` nulls all arrays for an entity
+- [x] `MethodReturnsInternalArray` PMD rule globally excluded (by design)
+
+### Step 4 — System Iteration (application-core)
+- [x] All 7 `GameSystem` implementations use `for (int i = 0; i < max; i++)` loops
+- [x] Systems query `ecsWorld.getMaxEntityId()` and `ecsWorld.getAlive()` directly
+- [x] Systems access `ComponentManager` arrays by index — no string-based queries
+- [x] `MovementSystem` — contiguous loop over `velocities[]`/`positions[]`
+- [x] `CombatSystem` — three-phase tick (cooldowns, attacks, death) via contiguous loops
+- [x] `LevelUpSystem` — contiguous loop over `experiences[]`/`stats[]`
+- [x] `NpcAiSystem` — contiguous loop over `npcAis[]`, spatial grid for aggro
+- [x] `PortalCooldownSystem` — contiguous loop over `portalCooldowns[]`
+- [x] `SpatialGridSystem` — contiguous loop rebuilding spatial grid
+- [x] `ZoneChangeSystem` — contiguous loops for portal overlap detection
+- [x] `FakeGameEventPortTest` updated to `int` entity IDs
+- [x] PMD ruleset: `UseVarargs`, `MethodReturnsInternalArray` globally excluded for ECS
+- [x] `mvn clean verify` green (all quality gates)
+
 ## Wave 4a — Test Kit, Observability & Codecs
 
 > **Rationale:** Small-scope modules that unblock Wave 4b. Codecs (deferred from Wave 1)
@@ -74,6 +122,7 @@
 - [x] `grimoire-test-kit`: `EngineTestHarness` abstract base class (inspired by `october`)
 - [x] `grimoire-infra-observability`: SLF4J + Logback config, structured logging
 - [x] `grimoire-infra-network-netty`: `ForyEncoder`/`ForyDecoder` codecs (deferred from Wave 1)
+- [x] `grimoire-coverage-report`: JaCoCo aggregate coverage across all modules (`report-aggregate`)
 - [x] `mvn clean verify` green (all quality gates)
 
 ## Wave 4b — Infrastructure Adapters
@@ -109,6 +158,6 @@
 
 ## Wave 7 — Incubator Evaluation
 
-- [ ] Evaluate Artemis-ODB ECS behind `SimulationPort`
+- [x] ~~Evaluate Artemis-ODB ECS behind `SimulationPort`~~ — **ABANDONED.** Artemis lacks Java 25 bytecode weaving; violates [ADR-000](adr/000-java-25-mandate.md). Replaced by Wave 3.9 primitive-backed engine upgrade.
 - [ ] Evaluate `october` lifecycle/FSM patterns for client scene architecture
 - [ ] Pitest mutation testing evaluation

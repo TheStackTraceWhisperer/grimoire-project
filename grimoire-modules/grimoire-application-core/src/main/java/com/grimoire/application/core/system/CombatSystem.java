@@ -1,5 +1,6 @@
 package com.grimoire.application.core.system;
 
+import com.grimoire.application.core.ecs.ComponentManager;
 import com.grimoire.application.core.ecs.EcsWorld;
 import com.grimoire.application.core.ecs.GameSystem;
 import com.grimoire.application.core.port.GameConfig;
@@ -15,43 +16,27 @@ import com.grimoire.domain.core.component.Experience;
 import com.grimoire.domain.core.component.Position;
 import com.grimoire.domain.core.component.Stats;
 import com.grimoire.domain.core.component.Zone;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * Processes combat logic: cooldowns, attack resolution, death, and XP rewards.
  *
  * <p>
- * Each tick the system: (1) decrements {@link AttackCooldown} timers; (2)
- * resolves {@link AttackIntent} components using {@link CombatRules}; (3)
- * handles death — awarding XP, notifying via {@link GameEventPort}, and
- * destroying the dead entity.
+ * Iterates entities using contiguous for-loops over component arrays.
  * </p>
  */
 public class CombatSystem implements GameSystem {
 
-    /** System logger. */
     private static final System.Logger LOG = System.getLogger(CombatSystem.class.getName());
 
-    /** The ECS world. */
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "EcsWorld is a managed collaborator, not external mutable data")
     private final EcsWorld ecsWorld;
 
-    /** Port for entity despawn notifications. */
     private final GameEventPort gameEventPort;
 
-    /** Spatial grid for entity cleanup on death. */
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "SpatialGridSystem is a managed collaborator")
     private final SpatialGridSystem spatialGridSystem;
 
-    /** Maximum attack range in world units. */
     private final double attackRange;
-
-    /** Cooldown duration in ticks after each attack. */
     private final int attackCooldownTicks;
 
     /**
@@ -60,7 +45,7 @@ public class CombatSystem implements GameSystem {
      * @param ecsWorld
      *            the ECS world
      * @param gameConfig
-     *            configuration providing attack range and cooldown
+     *            configuration
      * @param gameEventPort
      *            port for entity despawn notifications
      * @param spatialGridSystem
@@ -85,149 +70,133 @@ public class CombatSystem implements GameSystem {
         processDeath();
     }
 
-    /**
-     * Decrements all {@link AttackCooldown} timers, removing expired ones.
-     */
-    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     private void processCooldowns() {
-        List<String> entities = new ArrayList<>();
-        for (String entityId : ecsWorld.getEntitiesWithComponent(AttackCooldown.class)) {
-            entities.add(entityId);
-        }
+        int max = ecsWorld.getMaxEntityId();
+        boolean[] alive = ecsWorld.getAlive();
+        AttackCooldown[] cooldowns = ecsWorld.getComponentManager().getAttackCooldowns();
 
-        for (String entityId : entities) {
-            ecsWorld.getComponent(entityId, AttackCooldown.class).ifPresent(cooldown -> {
-                int remaining = cooldown.ticksRemaining() - 1;
-                if (remaining <= 0) {
-                    ecsWorld.removeComponent(entityId, AttackCooldown.class);
-                } else {
-                    ecsWorld.addComponent(entityId, new AttackCooldown(remaining));
-                }
-            });
+        for (int i = 0; i < max; i++) {
+            if (!alive[i] || cooldowns[i] == null) {
+                continue;
+            }
+            int remaining = cooldowns[i].decrement();
+            if (remaining <= 0) {
+                cooldowns[i] = null;
+            }
         }
     }
 
-    /**
-     * Resolves all pending {@link AttackIntent} components.
-     */
-    @SuppressWarnings({"PMD.CognitiveComplexity", "PMD.CyclomaticComplexity",
-            "PMD.AvoidInstantiatingObjectsInLoops"})
     private void processAttacks() {
-        List<String> attackers = new ArrayList<>();
-        for (String entityId : ecsWorld.getEntitiesWithComponent(AttackIntent.class)) {
-            attackers.add(entityId);
-        }
+        int max = ecsWorld.getMaxEntityId();
+        boolean[] alive = ecsWorld.getAlive();
+        ComponentManager cm = ecsWorld.getComponentManager();
+        AttackIntent[] intents = cm.getAttackIntents();
+        AttackCooldown[] cooldowns = cm.getAttackCooldowns();
+        Dead[] deads = cm.getDeads();
+        Stats[] allStats = cm.getStats();
+        Position[] positions = cm.getPositions();
+        Dirty[] dirties = cm.getDirties();
 
-        for (String attackerId : attackers) {
-            Optional<AttackIntent> intentOpt = ecsWorld.getComponent(attackerId,
-                    AttackIntent.class);
-            if (intentOpt.isEmpty()) {
+        for (int attackerId = 0; attackerId < max; attackerId++) {
+            if (!alive[attackerId] || intents[attackerId] == null) {
                 continue;
             }
 
-            String targetId = intentOpt.get().targetEntityId();
-            ecsWorld.removeComponent(attackerId, AttackIntent.class);
+            int targetId = intents[attackerId].targetEntityId;
+            intents[attackerId] = null; // consume the intent
 
-            if (ecsWorld.hasComponent(attackerId, AttackCooldown.class)) {
+            if (cooldowns[attackerId] != null) {
                 continue;
             }
-            if (!ecsWorld.entityExists(targetId) || ecsWorld.hasComponent(targetId, Dead.class)) {
+            if (!ecsWorld.entityExists(targetId) || deads[targetId] != null) {
                 continue;
             }
-            if (!isInRange(attackerId, targetId)) {
-                continue;
-            }
-
-            Optional<Stats> attackerStatsOpt = ecsWorld.getComponent(attackerId, Stats.class);
-            Optional<Stats> targetStatsOpt = ecsWorld.getComponent(targetId, Stats.class);
-            if (attackerStatsOpt.isEmpty() || targetStatsOpt.isEmpty()) {
+            if (!isInRange(attackerId, targetId, positions)) {
                 continue;
             }
 
-            ecsWorld.addComponent(attackerId, new AttackCooldown(attackCooldownTicks));
+            Stats attackerStats = allStats[attackerId];
+            Stats targetStats = allStats[targetId];
+            if (attackerStats == null || targetStats == null) {
+                continue;
+            }
 
-            int damage = CombatRules.calculateDamage(attackerStatsOpt.get(), targetStatsOpt.get());
-            Stats newTargetStats = CombatRules.applyDamage(targetStatsOpt.get(), damage);
-            ecsWorld.addComponent(targetId, newTargetStats);
-            ecsWorld.addComponent(targetId, new Dirty(ecsWorld.getCurrentTick()));
+            cooldowns[attackerId] = new AttackCooldown(attackCooldownTicks);
 
-            if (CombatRules.isDead(newTargetStats)) {
-                ecsWorld.addComponent(targetId, new Dead(attackerId));
+            int damage = CombatRules.calculateDamage(attackerStats, targetStats);
+            CombatRules.applyDamage(targetStats, damage);
+            if (dirties[targetId] == null) {
+                dirties[targetId] = new Dirty(ecsWorld.getCurrentTick());
+            } else {
+                dirties[targetId].tick = ecsWorld.getCurrentTick();
+            }
+
+            if (CombatRules.isDead(targetStats)) {
+                deads[targetId] = new Dead(attackerId);
             }
         }
     }
 
-    /**
-     * Handles entities marked as {@link Dead}: awards XP, fires notifications, and
-     * destroys the entity.
-     */
     private void processDeath() {
-        List<String> deadEntities = new ArrayList<>();
-        for (String entityId : ecsWorld.getEntitiesWithComponent(Dead.class)) {
-            deadEntities.add(entityId);
-        }
+        int max = ecsWorld.getMaxEntityId();
+        boolean[] alive = ecsWorld.getAlive();
+        ComponentManager cm = ecsWorld.getComponentManager();
+        Dead[] deads = cm.getDeads();
+        Zone[] zones = cm.getZones();
 
-        for (String deadEntityId : deadEntities) {
-            String zoneId = ecsWorld.getComponent(deadEntityId, Zone.class)
-                    .map(Zone::zoneId)
-                    .orElse("unknown");
+        for (int i = 0; i < max; i++) {
+            if (!alive[i] || deads[i] == null) {
+                continue;
+            }
+            String zoneId = zones[i] != null ? zones[i].zoneId : "unknown";
 
-            awardXpToKiller(deadEntityId);
+            awardXpToKiller(i, cm);
 
-            gameEventPort.onEntityDespawn(deadEntityId, zoneId);
-            spatialGridSystem.removeEntity(deadEntityId);
-            ecsWorld.destroyEntity(deadEntityId);
+            gameEventPort.onEntityDespawn(i, zoneId);
+            spatialGridSystem.removeEntity(i);
+            ecsWorld.destroyEntity(i);
         }
     }
 
-    /**
-     * Awards XP to the killer if the dead entity was a {@link Monster}.
-     *
-     * @param deadEntityId
-     *            the entity that died
-     */
-    private void awardXpToKiller(String deadEntityId) {
-        Optional<Dead> deadOpt = ecsWorld.getComponent(deadEntityId, Dead.class);
-        if (deadOpt.isEmpty() || deadOpt.get().killerId() == null) {
+    private void awardXpToKiller(int deadEntityId, ComponentManager cm) {
+        Dead dead = cm.getDeads()[deadEntityId];
+        if (dead == null || dead.killerId < 0) {
             return;
         }
 
-        String killerId = deadOpt.get().killerId();
-        Optional<Monster> monsterOpt = ecsWorld.getComponent(deadEntityId, Monster.class);
-        if (monsterOpt.isEmpty()) {
+        Monster monster = cm.getMonsters()[deadEntityId];
+        if (monster == null) {
             return;
         }
 
-        if (!ecsWorld.entityExists(killerId)
-                || !ecsWorld.hasComponent(killerId, Experience.class)) {
+        int killerId = dead.killerId;
+        if (!ecsWorld.entityExists(killerId)) {
+            return;
+        }
+        Experience killerExp = cm.getExperiences()[killerId];
+        if (killerExp == null) {
             return;
         }
 
-        Experience currentExp = ecsWorld.getComponent(killerId, Experience.class).orElseThrow();
-        Experience newExp = LevelingRules.addXp(currentExp, monsterOpt.get().xpReward());
-        ecsWorld.addComponent(killerId, newExp);
-        ecsWorld.addComponent(killerId, new Dirty(ecsWorld.getCurrentTick()));
+        LevelingRules.addXp(killerExp, monster.xpReward);
+        Dirty[] dirties = cm.getDirties();
+        if (dirties[killerId] == null) {
+            dirties[killerId] = new Dirty(ecsWorld.getCurrentTick());
+        } else {
+            dirties[killerId].tick = ecsWorld.getCurrentTick();
+        }
 
         LOG.log(System.Logger.Level.DEBUG,
                 "Entity {0} gained {1} XP from killing {2}",
-                killerId, monsterOpt.get().xpReward(), deadEntityId);
+                killerId, monster.xpReward, deadEntityId);
     }
 
-    /**
-     * Checks whether the attacker is within attack range of the target.
-     *
-     * @param attackerId
-     *            the attacker entity ID
-     * @param targetId
-     *            the target entity ID
-     * @return {@code true} if the attacker is within range
-     */
-    private boolean isInRange(String attackerId, String targetId) {
-        Optional<Position> attackerPos = ecsWorld.getComponent(attackerId, Position.class);
-        Optional<Position> targetPos = ecsWorld.getComponent(targetId, Position.class);
-        if (attackerPos.isEmpty() || targetPos.isEmpty()) {
+    private boolean isInRange(int attackerId, int targetId, Position[] positions) {
+        Position attackerPos = positions[attackerId];
+        Position targetPos = positions[targetId];
+        if (attackerPos == null || targetPos == null) {
             return false;
         }
-        return CombatRules.isInRange(attackerPos.get(), targetPos.get(), attackRange);
+        return CombatRules.isInRange(attackerPos, targetPos, attackRange);
     }
 }

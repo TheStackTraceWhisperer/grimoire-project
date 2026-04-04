@@ -24,47 +24,47 @@ class LevelUpSystemTest {
 
     @Test
     void noLevelUpWhenBelowThreshold() {
-        String entity = world.createEntity();
+        int entity = world.createEntity();
         world.addComponent(entity, new Experience(50, 100));
         world.addComponent(entity, new Stats(100, 100, 5, 10));
 
         system.tick(0.05f);
 
-        Experience exp = world.getComponent(entity, Experience.class).orElseThrow();
-        assertThat(exp.currentXp()).isEqualTo(50);
-        assertThat(exp.xpToNextLevel()).isEqualTo(100);
+        Experience exp = world.getComponent(entity, Experience.class);
+        assertThat(exp.currentXp).isEqualTo(50);
+        assertThat(exp.xpToNextLevel).isEqualTo(100);
     }
 
     @Test
     void levelUpAppliedWhenXpReachesThreshold() {
-        String entity = world.createEntity();
+        int entity = world.createEntity();
         world.addComponent(entity, new Experience(100, 100));
         world.addComponent(entity, new Stats(100, 100, 5, 10));
 
         system.tick(0.05f);
 
-        Experience exp = world.getComponent(entity, Experience.class).orElseThrow();
-        assertThat(exp.currentXp()).isZero();
-        assertThat(exp.xpToNextLevel()).isGreaterThan(100);
+        Experience exp = world.getComponent(entity, Experience.class);
+        assertThat(exp.currentXp).isZero();
+        assertThat(exp.xpToNextLevel).isGreaterThan(100);
     }
 
     @Test
     void statsAreBoostedOnLevelUp() {
-        String entity = world.createEntity();
+        int entity = world.createEntity();
         world.addComponent(entity, new Experience(100, 100));
         world.addComponent(entity, new Stats(100, 100, 5, 10));
 
         system.tick(0.05f);
 
-        Stats stats = world.getComponent(entity, Stats.class).orElseThrow();
-        assertThat(stats.maxHp()).isEqualTo(110);
-        assertThat(stats.attack()).isEqualTo(12);
-        assertThat(stats.defense()).isEqualTo(6);
+        Stats stats = world.getComponent(entity, Stats.class);
+        assertThat(stats.maxHp).isEqualTo(110);
+        assertThat(stats.attack).isEqualTo(12);
+        assertThat(stats.defense).isEqualTo(6);
     }
 
     @Test
     void entityMarkedDirtyAfterLevelUp() {
-        String entity = world.createEntity();
+        int entity = world.createEntity();
         world.addComponent(entity, new Experience(100, 100));
         world.addComponent(entity, new Stats(100, 100, 5, 10));
 
@@ -75,7 +75,7 @@ class LevelUpSystemTest {
 
     @Test
     void notDirtyWhenNoLevelUp() {
-        String entity = world.createEntity();
+        int entity = world.createEntity();
         world.addComponent(entity, new Experience(50, 100));
         world.addComponent(entity, new Stats(100, 100, 5, 10));
 
@@ -86,41 +86,41 @@ class LevelUpSystemTest {
 
     @Test
     void multipleLevelUpsInOneTick() {
-        String entity = world.createEntity();
+        int entity = world.createEntity();
         // XP=500, threshold=100 → should level up multiple times
         world.addComponent(entity, new Experience(500, 100));
         world.addComponent(entity, new Stats(100, 100, 5, 10));
 
         system.tick(0.05f);
 
-        Experience exp = world.getComponent(entity, Experience.class).orElseThrow();
-        assertThat(exp.currentXp()).isLessThan(exp.xpToNextLevel());
-        Stats stats = world.getComponent(entity, Stats.class).orElseThrow();
-        assertThat(stats.maxHp()).isGreaterThan(110);
+        Experience exp = world.getComponent(entity, Experience.class);
+        assertThat(exp.currentXp).isLessThan(exp.xpToNextLevel);
+        Stats stats = world.getComponent(entity, Stats.class);
+        assertThat(stats.maxHp).isGreaterThan(110);
     }
 
     @Test
     void entityWithoutStatsStillLevelsExperience() {
-        String entity = world.createEntity();
+        int entity = world.createEntity();
         world.addComponent(entity, new Experience(100, 100));
         // No Stats component
 
         system.tick(0.05f);
 
-        Experience exp = world.getComponent(entity, Experience.class).orElseThrow();
-        assertThat(exp.currentXp()).isZero();
-        assertThat(exp.xpToNextLevel()).isGreaterThan(100);
+        Experience exp = world.getComponent(entity, Experience.class);
+        assertThat(exp.currentXp).isZero();
+        assertThat(exp.xpToNextLevel).isGreaterThan(100);
     }
 
     @Test
     void xpRollsOverOnLevelUp() {
-        String entity = world.createEntity();
+        int entity = world.createEntity();
         world.addComponent(entity, new Experience(130, 100));
         world.addComponent(entity, new Stats(100, 100, 5, 10));
 
         system.tick(0.05f);
 
-        Experience exp = world.getComponent(entity, Experience.class).orElseThrow();
-        assertThat(exp.currentXp()).isEqualTo(30);
+        Experience exp = world.getComponent(entity, Experience.class);
+        assertThat(exp.currentXp).isEqualTo(30);
     }
 }

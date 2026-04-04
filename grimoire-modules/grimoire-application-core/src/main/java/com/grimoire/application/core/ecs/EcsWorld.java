@@ -1,11 +1,9 @@
 package com.grimoire.application.core.ecs;
 
 import com.grimoire.domain.core.component.Component;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
@@ -13,10 +11,8 @@ import java.util.function.Function;
  * The primary game state bean managing all entities, components, and prefabs.
  *
  * <p>
- * Delegates entity lifecycle to {@link EntityManager} and component storage to
- * {@link ComponentManager}. Prefab registration uses a
- * {@link ConcurrentHashMap} since prefabs may be registered from any thread
- * during startup.
+ * Entities are primitive ints. Delegates entity lifecycle to
+ * {@link EntityManager} and component storage to {@link ComponentManager}.
  * </p>
  *
  * <p>
@@ -50,7 +46,6 @@ public class EcsWorld {
      * @param componentManager
      *            the component manager
      */
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "EntityManager and ComponentManager are managed collaborators, not external mutable data")
     public EcsWorld(EntityManager entityManager, ComponentManager componentManager) {
         this.entityManager = entityManager;
         this.componentManager = componentManager;
@@ -59,9 +54,9 @@ public class EcsWorld {
     /**
      * Creates a new entity.
      *
-     * @return the entity ID
+     * @return the entity ID (primitive int)
      */
-    public String createEntity() {
+    public int createEntity() {
         return entityManager.createEntity();
     }
 
@@ -71,7 +66,7 @@ public class EcsWorld {
      * @param entityId
      *            the entity ID
      */
-    public void destroyEntity(String entityId) {
+    public void destroyEntity(int entityId) {
         componentManager.removeAllComponents(entityId);
         entityManager.destroyEntity(entityId);
     }
@@ -84,7 +79,7 @@ public class EcsWorld {
      * @param component
      *            the component
      */
-    public void addComponent(String entityId, Component component) {
+    public void addComponent(int entityId, Component component) {
         componentManager.addComponent(entityId, component);
     }
 
@@ -97,9 +92,9 @@ public class EcsWorld {
      *            the component class
      * @param <T>
      *            the component type
-     * @return Optional containing the component if present
+     * @return the component, or null if absent
      */
-    public <T extends Component> Optional<T> getComponent(String entityId, Class<T> componentClass) {
+    public <T extends Component> T getComponent(int entityId, Class<T> componentClass) {
         return componentManager.getComponent(entityId, componentClass);
     }
 
@@ -112,7 +107,7 @@ public class EcsWorld {
      *            the component class
      * @return true if the entity has the component
      */
-    public boolean hasComponent(String entityId, Class<? extends Component> componentClass) {
+    public boolean hasComponent(int entityId, Class<? extends Component> componentClass) {
         return componentManager.hasComponent(entityId, componentClass);
     }
 
@@ -124,28 +119,26 @@ public class EcsWorld {
      * @param componentClass
      *            the component class
      */
-    public void removeComponent(String entityId, Class<? extends Component> componentClass) {
+    public void removeComponent(int entityId, Class<? extends Component> componentClass) {
         componentManager.removeComponent(entityId, componentClass);
     }
 
     /**
-     * Gets all entity IDs.
+     * Returns the high-water mark for entity iteration.
      *
-     * @return iterable of all entity IDs
+     * @return the exclusive upper bound of entity IDs ever created
      */
-    public Iterable<String> getAllEntities() {
-        return entityManager.getAllEntityIds();
+    public int getMaxEntityId() {
+        return entityManager.getMaxEntityId();
     }
 
     /**
-     * Gets all entity IDs that have a specific component.
+     * Returns the alive array for direct system iteration.
      *
-     * @param componentClass
-     *            the component class
-     * @return iterable of entity IDs
+     * @return the alive flags indexed by entity ID
      */
-    public Iterable<String> getEntitiesWithComponent(Class<? extends Component> componentClass) {
-        return componentManager.getEntitiesWithComponent(componentClass);
+    public boolean[] getAlive() {
+        return entityManager.getAlive();
     }
 
     /**
@@ -155,8 +148,17 @@ public class EcsWorld {
      *            the entity ID
      * @return map of component class to component instance
      */
-    public Map<Class<? extends Component>, Component> getAllComponents(String entityId) {
+    public Map<Class<? extends Component>, Component> getAllComponents(int entityId) {
         return componentManager.getAllComponents(entityId);
+    }
+
+    /**
+     * Returns the underlying ComponentManager for direct array access by systems.
+     *
+     * @return the component manager
+     */
+    public ComponentManager getComponentManager() {
+        return componentManager;
     }
 
     /**
@@ -182,7 +184,7 @@ public class EcsWorld {
      *            the entity ID
      * @return true if the entity exists
      */
-    public boolean entityExists(String entityId) {
+    public boolean entityExists(int entityId) {
         return entityManager.exists(entityId);
     }
 
@@ -203,7 +205,7 @@ public class EcsWorld {
      *            the name of the prefab
      * @return the entity ID
      */
-    public String createEntityFromPrefab(String prefabName) {
+    public int createEntityFromPrefab(String prefabName) {
         return createEntityFromPrefab(prefabName, null);
     }
 
@@ -213,17 +215,17 @@ public class EcsWorld {
      * @param prefabName
      *            the name of the prefab
      * @param componentCustomizer
-     *            optional function to customize components before adding them
+     *            optional function to customize components
      * @return the entity ID
      */
-    public String createEntityFromPrefab(String prefabName, Function<Component, Component> componentCustomizer) {
+    public int createEntityFromPrefab(String prefabName, Function<Component, Component> componentCustomizer) {
         Objects.requireNonNull(prefabName, "Prefab name cannot be null");
         Prefab prefab = prefabs.get(prefabName);
         if (prefab == null) {
             throw new IllegalArgumentException("Prefab not found: " + prefabName);
         }
 
-        String entityId = createEntity();
+        int entityId = createEntity();
         for (Component component : prefab.getComponentTemplates()) {
             Component toAdd = componentCustomizer != null ? componentCustomizer.apply(component) : component;
             if (toAdd != null) {

@@ -30,7 +30,7 @@ class SpatialGridSystemTest {
 
     @Test
     void solidEntityIsAddedToGrid() {
-        String entity = world.createEntity();
+        int entity = world.createEntity();
         world.addComponent(entity, new Position(10, 20));
         world.addComponent(entity, new Solid());
         world.addComponent(entity, new Zone("zone1"));
@@ -38,26 +38,26 @@ class SpatialGridSystemTest {
         system.tick(0.05f);
 
         SpatialGrid grid = system.getGrid();
-        Set<String> nearby = grid.getNearbyEntities(10, 20, "zone1");
+        Set<Integer> nearby = grid.getNearbyEntities(10, 20, "zone1");
         assertThat(nearby).contains(entity);
     }
 
     @Test
     void nonSolidEntityIsNotInGrid() {
-        String entity = world.createEntity();
+        int entity = world.createEntity();
         world.addComponent(entity, new Position(10, 20));
         // No Solid component
 
         system.tick(0.05f);
 
         SpatialGrid grid = system.getGrid();
-        Set<String> nearby = grid.getNearbyEntities(10, 20, "default");
+        Set<Integer> nearby = grid.getNearbyEntities(10, 20, "default");
         assertThat(nearby).doesNotContain(entity);
     }
 
     @Test
     void gridIsClearedEachTick() {
-        String entity = world.createEntity();
+        int entity = world.createEntity();
         world.addComponent(entity, new Position(10, 20));
         world.addComponent(entity, new Solid());
 
@@ -72,7 +72,7 @@ class SpatialGridSystemTest {
 
     @Test
     void entityWithoutPositionIsSkipped() {
-        String entity = world.createEntity();
+        int entity = world.createEntity();
         world.addComponent(entity, new Solid());
         // No Position component
 
@@ -83,19 +83,19 @@ class SpatialGridSystemTest {
 
     @Test
     void defaultZoneUsedWhenZoneComponentAbsent() {
-        String entity = world.createEntity();
+        int entity = world.createEntity();
         world.addComponent(entity, new Position(5, 5));
         world.addComponent(entity, new Solid());
 
         system.tick(0.05f);
 
-        Set<String> nearby = system.getGrid().getNearbyEntities(5, 5, "default");
+        Set<Integer> nearby = system.getGrid().getNearbyEntities(5, 5, "default");
         assertThat(nearby).contains(entity);
     }
 
     @Test
     void removeEntityFromGrid() {
-        String entity = world.createEntity();
+        int entity = world.createEntity();
         world.addComponent(entity, new Position(10, 20));
         world.addComponent(entity, new Solid());
 

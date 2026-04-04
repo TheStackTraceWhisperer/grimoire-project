@@ -4,11 +4,57 @@ import com.grimoire.domain.core.component.Component;
 
 /**
  * NPC AI component defining behaviour type.
- *
- * @param type
- *            the AI behaviour type
  */
-public record NpcAi(AiType type) implements Component {
+public class NpcAi implements Component {
+
+    /** The AI behaviour type. */
+    public AiType type;
+
+    /** No-arg constructor for array pre-allocation. */
+    public NpcAi() {
+        // default values
+    }
+
+    /**
+     * Creates an NPC AI component.
+     *
+     * @param type
+     *            the AI behaviour type
+     */
+    public NpcAi(AiType type) {
+        this.type = type;
+    }
+
+    /**
+     * Zero-allocation update.
+     *
+     * @param newType
+     *            the new AI type
+     */
+    public void update(AiType newType) {
+        this.type = newType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof NpcAi n)) {
+            return false;
+        }
+        return type == n.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return type != null ? type.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "NpcAi[type=" + type + "]";
+    }
 
     /**
      * AI behaviour classification.

@@ -22,4 +22,9 @@ class SolidTest {
     void equality() {
         assertThat(new Solid()).isEqualTo(new Solid());
     }
+
+    @Test
+    void toStringFormat() {
+        assertThat(new Solid().toString()).contains("Solid");
+    }
 }

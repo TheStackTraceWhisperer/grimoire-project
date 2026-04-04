@@ -1,0 +1,337 @@
+@startuml quality-tools
+!theme plain
+!pragma layout smetana
+
+skinparam backgroundColor white
+skinparam defaultFontName "Courier"
+skinparam defaultFontSize 22
+skinparam defaultFontColor #333333
+skinparam rectangle {
+    RoundCorner 5
+    FontColor #333333
+    BorderColor #AAAAAA
+}
+skinparam frame {
+    BorderStyle solid
+    BorderColor #AAAAAA
+    BackgroundColor #FAFAFA
+    FontColor #333333
+}
+skinparam noteFontSize 14
+skinparam noteFontColor #333333
+skinparam legendFontColor #333333
+skinparam legendBackgroundColor white
+skinparam legendBorderColor #CCCCCC
+
+' ── Feature toggles ──
+ !define SHOW_NOTES
+' !define SHOW_GROUP
+ !define SHOW_GOALS
+ hide stereotype
+' To show stereotypes, comment out the line above
+
+' ══════════════════════════════════════
+' Procedures — all toggle logic lives here
+' ══════════════════════════════════════
+
+' ── Type colors ──
+!$c_phase  = "#EDF2F7"
+!$c_plugin = "#DCEEFB"
+!$c_exec   = "#FFF9EC"
+
+!procedure $phase($name, $alias)
+rectangle "**$name**" <<phase>> as $alias $c_phase {
+!endprocedure
+
+!procedure $plugin($name, $group, $alias)
+!ifdef SHOW_GROUP
+rectangle "$group:$name" <<plugin>> as $alias $c_plugin {
+!else
+rectangle "$name" <<plugin>> as $alias $c_plugin {
+!endif
+!endprocedure
+
+!procedure $exec($name, $goal, $alias, $detail = "")
+!$lbl = "<color:#1A237E>" + $name + "</color>"
+!ifdef SHOW_GOALS
+!$lbl = $lbl + "\n....\n<i><color:#00695C>" + $goal + "</color></i>"
+!endif
+!if %strlen($detail) > 0
+!$lbl = $lbl + "\n" + $detail
+!endif
+rectangle "$lbl" <<execution>> as $alias $c_exec
+!endprocedure
+
+!procedure $exec2($name, $goal1, $goal2, $alias)
+!$lbl = "<color:#1A237E>" + $name + "</color>"
+!ifdef SHOW_GOALS
+!$lbl = $lbl + "\n....\n<i><color:#00695C>" + $goal1 + "</color></i>"
+!$lbl = $lbl + "\n<i><color:#00695C>" + $goal2 + "</color></i>"
+!endif
+rectangle "$lbl" <<execution>> as $alias $c_exec
+!endprocedure
+
+' ══════════════════════════════════════
+
+title Grimoire Maven Build Topology\n(quality profiles disabled with -DskipQuality)
+
+legend top
+  |= Maven Concept |= Color |
+  |<back:#FAFAFA> <size:20><i>Lifecycle</i></size> |<back:#FAFAFA>     |
+  |<#EDF2F7> <size:20>**Phase**</size> |<#EDF2F7>     |
+  |<#DCEEFB> <size:20>Plugin</size> |<#DCEEFB>     |
+  |<#FFF9EC> <size:20><color:#1A237E>Execution</color></size> |<#FFF9EC>     |
+  |<#FFF9EC> <size:20><i><color:#00695C>Goal</color></i></size> |<#FFF9EC>     |
+endlegend
+
+' ══════════════════════════════════════
+' ● Clean Lifecycle
+' ══════════════════════════════════════
+
+frame "    <size:22><b><color:#388E3C>clean</color></b> lifecycle</size>    " as LC_CLN {
+
+$phase("clean", "PH_CLN")
+    $plugin("flatten-maven-plugin", "org.codehaus.mojo", "FLT_CLN")
+        $exec("flatten-clean", "clean", "FLT_CLN_E1")
+    }
+    $plugin("maven-clean-plugin", "org.apache.maven.plugins", "CLN")
+        $exec("default-clean", "clean", "CLN_E1")
+    }
+    CLN_E1 -> FLT_CLN_E1
+}
+
+}
+
+' ══════════════════════════════════════
+' ● Default Lifecycle
+' ══════════════════════════════════════
+
+frame "    <size:22><b><color:#1565C0>default</color></b> lifecycle</size>    " as LC_DEF {
+
+$phase("validate", "PH_V")
+    $plugin("maven-checkstyle-plugin", "org.apache.maven.plugins", "CS")
+        $exec("checkstyle-validate", "check", "CS_E1")
+    }
+    $plugin("formatter-maven-plugin", "net.revelc.code.formatter", "FMT")
+        $exec("formatter-validate", "validate", "FMT_E1")
+    }
+    $plugin("maven-enforcer-plugin", "org.apache.maven.plugins", "ENF")
+        $exec("enforce-build-environment", "enforce", "ENF_E1", "<size:14><i>1. Java 25</i></size>\n<size:14><i>2. Maven 3.9.9</i></size>")
+    }
+    ENF_E1 -> FMT_E1
+    FMT_E1 -> CS_E1
+}
+
+$phase("initialize", "PH_I")
+    $plugin("jacoco-maven-plugin", "org.jacoco", "JC_PA")
+        $exec("prepare-agent", "prepare-agent", "JC_PA_E1", "<size:14><i>→ jacoco-ut.exec</i></size>")
+    }
+}
+
+$phase("process-resources", "PH_PR")
+    $plugin("flatten-maven-plugin", "org.codehaus.mojo", "FLT")
+        $exec("flatten", "flatten", "FLT_E1")
+    }
+    $plugin("maven-resources-plugin", "org.apache.maven.plugins", "RES")
+        $exec("default-resources", "resources", "RES_E1")
+    }
+    RES_E1 -> FLT_E1
+}
+
+$phase("compile", "PH_C")
+    $plugin("maven-compiler-plugin", "org.apache.maven.plugins", "CC")
+        $exec("default-compile", "compile", "CC_E1", "<size:14><i>1. Lombok</i></size>\n<size:14><i>2. Micronaut AP</i></size>")
+    }
+}
+
+$phase("process-test-resources", "PH_PTR")
+    $plugin("maven-resources-plugin", "org.apache.maven.plugins", "RES_T")
+        $exec("default-testResources", "testResources", "RES_T_E1")
+    }
+}
+
+$phase("test-compile", "PH_TC")
+    $plugin("maven-compiler-plugin", "org.apache.maven.plugins", "CC_T")
+        $exec("default-testCompile", "testCompile", "CC_T_E1")
+    }
+}
+
+$phase("test", "PH_T")
+    $plugin("maven-surefire-plugin", "org.apache.maven.plugins", "SUR")
+        $exec("default-test", "test", "SUR_E1", "<size:14><i>*Test.java</i></size>")
+    }
+}
+
+$phase("package", "PH_P")
+    $plugin("maven-jar-plugin", "org.apache.maven.plugins", "JAR")
+        $exec("default-jar", "jar", "JAR_E1")
+    }
+}
+
+$phase("pre-integration-test", "PH_PIT2")
+    $plugin("jacoco-maven-plugin", "org.jacoco", "JC_PAI")
+        $exec("prepare-agent-integration", "prepare-agent-integration", "JC_PAI_E1", "<size:14><i>→ jacoco-it.exec</i></size>")
+    }
+}
+
+$phase("integration-test", "PH_IT")
+    $plugin("maven-failsafe-plugin", "org.apache.maven.plugins", "FS_IT")
+        $exec("default", "integration-test", "FS_IT_E1", "<size:14><i>*IT.java</i></size>")
+    }
+}
+
+$phase("post-integration-test", "PH_PIT")
+    $plugin("jacoco-maven-plugin", "org.jacoco", "JC_M")
+        $exec("merge", "merge", "JC_M_E1", "<size:14><i>jacoco-ut.exec + jacoco-it.exec</i></size>\n<size:14><i>→ jacoco.exec</i></size>")
+    }
+}
+
+$phase("verify", "PH_VY")
+    $plugin("jacoco-maven-plugin", "org.jacoco", "JC_RC")
+        $exec("report", "report", "JC_RC_E1", "<size:14><i>← jacoco.exec</i></size>")
+        $exec("check", "check", "JC_RC_E2", "<size:14><i>← jacoco.exec</i></size>\n<size:14><i>line ≥ 0.80 / branch ≥ 0.60</i></size>")
+    }
+    $plugin("spotbugs-maven-plugin", "com.github.spotbugs", "SB")
+        $exec("spotbugs-check", "check", "SB_E1")
+    }
+    $plugin("maven-pmd-plugin", "org.apache.maven.plugins", "PMD")
+        $exec2("pmd-check", "check", "cpd-check", "PMD_E1")
+    }
+    $plugin("maven-failsafe-plugin", "org.apache.maven.plugins", "FS_VY")
+        $exec("default", "verify", "FS_VY_E1")
+    }
+    FS_VY_E1 -> PMD_E1
+    PMD_E1 -> SB_E1
+    SB_E1 -> JC_RC_E1
+    JC_RC_E1 -> JC_RC_E2
+}
+
+$phase("install", "PH_IN")
+    $plugin("maven-install-plugin", "org.apache.maven.plugins", "INS")
+        $exec("default-install", "install", "INS_E1")
+    }
+}
+
+$phase("deploy", "PH_D")
+    $plugin("maven-deploy-plugin", "org.apache.maven.plugins", "DEP")
+        $exec("default-deploy", "deploy", "DEP_E1")
+    }
+}
+
+}
+
+' ══════════════════════════════════════
+' ● Site Lifecycle
+' ══════════════════════════════════════
+
+frame "    <size:22><b><color:#E65100>site</color></b> lifecycle</size>    " as LC_SITE {
+
+$phase("pre-site", "PH_PSITE")
+    rectangle "<color:#EDF2F7>(no plugins bound)</color>" as PH_PSITE_P #EDF2F7;line:EDF2F7 {
+        rectangle "<color:#AAAAAA>(none)</color>" as PH_PSITE_X #EDF2F7;line:EDF2F7
+    }
+}
+
+$phase("site", "PH_SITE")
+    $plugin("maven-site-plugin", "org.apache.maven.plugins", "SITE")
+        $exec("default-site", "site", "SITE_E1")
+    }
+}
+
+$phase("post-site", "PH_POSITE")
+    rectangle "<color:#EDF2F7>(no plugins bound)</color>" as PH_POSITE_P #EDF2F7;line:EDF2F7 {
+        rectangle "<color:#AAAAAA>(none)</color>" as PH_POSITE_X #EDF2F7;line:EDF2F7
+    }
+}
+
+$phase("site-deploy", "PH_SDEP")
+    $plugin("maven-site-plugin", "org.apache.maven.plugins", "SITE_D")
+        $exec("default-deploy", "deploy", "SITE_D_E1")
+    }
+}
+
+PH_PSITE -down-> PH_SITE
+PH_SITE -down-> PH_POSITE
+PH_POSITE -down-> PH_SDEP
+
+}
+
+' ── Phase spine ──
+
+PH_CLN -down-> PH_V
+PH_V -down-> PH_I
+PH_I -down-> PH_PR
+PH_PR -down-> PH_C
+PH_C -down-> PH_PTR
+PH_PTR -down-> PH_TC
+PH_TC -down-> PH_T
+PH_T -down-> PH_P
+PH_P -down-> PH_PIT2
+PH_PIT2 -down-> PH_IT
+PH_IT -down-> PH_PIT
+PH_PIT -down-> PH_VY
+PH_VY -down-> PH_IN
+PH_IN -down-> PH_D
+PH_D -down-> PH_PSITE
+
+' ── Detail notes (toggled) ──
+
+!ifdef SHOW_NOTES
+    note right of PH_V
+    <b>■ formatter-maven-plugin</b>
+    **Auto-fixes layout** (can rewrite files)
+    ....
+    ~ Tabs -> spaces, indent = 4
+    ~ Line length <= 120
+    ~ Brace placement (end-of-line)
+    ~ Blank lines (package, imports, methods)
+    ~ Line wrapping / join policy
+    ~ Trailing newline
+    ====
+    <b>■ maven-checkstyle-plugin</b>
+    **Read-only gate** (fails build, never rewrites)
+    ....
+    <b>Formatting overlap</b> (safety net)
+    ~ FileTabCharacter, Indentation
+    ~ LineLength <= 120
+    ~ WhitespaceAround, GenericWhitespace
+    ....
+    <b>Naming conventions</b>
+    ~ PackageName, TypeName, MemberName
+    ~ ParameterName, MethodName, etc.
+    ....
+    <b>Structure / correctness</b>
+    ~ AvoidStarImport, NeedBraces
+    ~ EmptyBlock, FallThrough
+    ~ MissingSwitchDefault, ModifierOrder
+    ....
+    <b>Javadoc</b>
+    ~ JavadocMethod, AtclauseOrder
+    end note
+
+    note right of PH_VY
+    <b>■ maven-pmd-plugin</b>
+    **Static analysis** (source code)
+    ....
+    ~ Best practices, code style
+    ~ Design (complexity, coupling)
+    ~ Error-prone, security
+    ~ Documentation, performance
+    ====
+    <b>■ spotbugs-maven-plugin</b>
+    **Bytecode analysis** (.class files)
+    ....
+    ~ Null-pointer risks
+    ~ Resource leaks
+    ~ Concurrency bugs
+    ~ Security (FindSecBugs)
+    ====
+    <b>■ jacoco-maven-plugin</b>
+    ~ Line + branch coverage >= threshold
+    end note
+!endif
+
+
+footer Config files: checkstyle.xml - formatter.xml - pmd-ruleset.xml - spotbugs-exclude.xml
+@enduml
+

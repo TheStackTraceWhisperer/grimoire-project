@@ -37,9 +37,9 @@ class CombatRulesPropertyTest {
             @ForAll @IntRange(min = 1, max = 10000) int damage) {
         var target = new Stats(hp, 1000, 0, 0);
 
-        var result = CombatRules.applyDamage(target, damage);
+        CombatRules.applyDamage(target, damage);
 
-        assertThat(result.hp()).isGreaterThanOrEqualTo(0);
+        assertThat(target.hp).isGreaterThanOrEqualTo(0);
     }
 
     @Property
@@ -48,9 +48,9 @@ class CombatRulesPropertyTest {
             @ForAll @IntRange(min = 1, max = 10000) int damage) {
         var target = new Stats(hp, 1000, 0, 0);
 
-        var result = CombatRules.applyDamage(target, damage);
+        CombatRules.applyDamage(target, damage);
 
-        assertThat(result.hp()).isLessThanOrEqualTo(hp);
+        assertThat(target.hp).isLessThanOrEqualTo(hp);
     }
 
     @Property
@@ -62,11 +62,11 @@ class CombatRulesPropertyTest {
             @ForAll @IntRange(min = 1, max = 10000) int damage) {
         var target = new Stats(hp, maxHp, def, atk);
 
-        var result = CombatRules.applyDamage(target, damage);
+        CombatRules.applyDamage(target, damage);
 
-        assertThat(result.maxHp()).isEqualTo(maxHp);
-        assertThat(result.defense()).isEqualTo(def);
-        assertThat(result.attack()).isEqualTo(atk);
+        assertThat(target.maxHp).isEqualTo(maxHp);
+        assertThat(target.defense).isEqualTo(def);
+        assertThat(target.attack).isEqualTo(atk);
     }
 
     @Property
@@ -104,11 +104,11 @@ class CombatRulesPropertyTest {
     @Property
     void levelUpThresholdAlwaysIncreases(
             @ForAll @IntRange(min = 1, max = 10000) int xpToNext) {
-        var exp = new Experience(xpToNext, xpToNext); // exactly enough to level
+        var exp = new Experience(xpToNext, xpToNext);
 
-        var result = LevelingRules.applyLevelUp(exp);
+        LevelingRules.applyLevelUp(exp);
 
-        assertThat(result.xpToNextLevel()).isGreaterThan(xpToNext);
+        assertThat(exp.xpToNextLevel).isGreaterThan(xpToNext);
     }
 
     @Property
@@ -117,10 +117,10 @@ class CombatRulesPropertyTest {
             @ForAll @IntRange(min = 1, max = 10000) int threshold) {
         var exp = new Experience(threshold + excess, threshold);
 
-        var result = LevelingRules.applyLevelUp(exp);
+        LevelingRules.applyLevelUp(exp);
 
-        assertThat(result.currentXp()).isGreaterThanOrEqualTo(0);
-        assertThat(result.currentXp()).isEqualTo(excess);
+        assertThat(exp.currentXp).isGreaterThanOrEqualTo(0);
+        assertThat(exp.currentXp).isEqualTo(excess);
     }
 
     @Property
@@ -129,9 +129,9 @@ class CombatRulesPropertyTest {
             @ForAll @IntRange(min = 1, max = 1000) int threshold) {
         var exp = new Experience(xp, threshold);
 
-        var result = LevelingRules.applyAllLevelUps(exp);
+        LevelingRules.applyAllLevelUps(exp);
 
-        assertThat(result.currentXp()).isLessThan(result.xpToNextLevel());
+        assertThat(exp.currentXp).isLessThan(exp.xpToNextLevel);
     }
 
     @Property
@@ -139,15 +139,15 @@ class CombatRulesPropertyTest {
             @ForAll @IntRange(min = 1, max = 1000) int maxHp,
             @ForAll @IntRange(min = 0, max = 500) int def,
             @ForAll @IntRange(min = 0, max = 500) int atk) {
-        int hp = maxHp; // full health — worst case for the HP cap check
+        int hp = maxHp;
         var stats = new Stats(hp, maxHp, def, atk);
 
-        var result = LevelingRules.boostStatsForLevelUp(stats);
+        LevelingRules.boostStatsForLevelUp(stats);
 
-        assertThat(result.maxHp()).isGreaterThan(maxHp);
-        assertThat(result.attack()).isGreaterThan(atk);
-        assertThat(result.defense()).isGreaterThan(def);
-        assertThat(result.hp()).isGreaterThanOrEqualTo(hp);
+        assertThat(stats.maxHp).isGreaterThan(maxHp);
+        assertThat(stats.attack).isGreaterThan(atk);
+        assertThat(stats.defense).isGreaterThan(def);
+        assertThat(stats.hp).isGreaterThanOrEqualTo(hp);
     }
 
     @Property
@@ -158,9 +158,9 @@ class CombatRulesPropertyTest {
             @ForAll @IntRange(min = 0, max = 500) int atk) {
         var stats = new Stats(hp, maxHp, def, atk);
 
-        var result = LevelingRules.boostStatsForLevelUp(stats);
+        LevelingRules.boostStatsForLevelUp(stats);
 
-        assertThat(result.hp()).isLessThanOrEqualTo(result.maxHp());
+        assertThat(stats.hp).isLessThanOrEqualTo(stats.maxHp);
     }
 
     @Property
@@ -170,9 +170,9 @@ class CombatRulesPropertyTest {
             @ForAll @IntRange(min = 0, max = 10000) int gain) {
         var exp = new Experience(xp, threshold);
 
-        var result = LevelingRules.addXp(exp, gain);
+        LevelingRules.addXp(exp, gain);
 
-        assertThat(result.xpToNextLevel()).isEqualTo(threshold);
-        assertThat(result.currentXp()).isEqualTo(xp + gain);
+        assertThat(exp.xpToNextLevel).isEqualTo(threshold);
+        assertThat(exp.currentXp).isEqualTo(xp + gain);
     }
 }

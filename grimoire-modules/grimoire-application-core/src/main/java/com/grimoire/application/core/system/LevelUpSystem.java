@@ -1,31 +1,26 @@
 package com.grimoire.application.core.system;
 
+import com.grimoire.application.core.ecs.ComponentManager;
 import com.grimoire.application.core.ecs.EcsWorld;
 import com.grimoire.application.core.ecs.GameSystem;
+import com.grimoire.domain.combat.rule.LevelingRules;
 import com.grimoire.domain.core.component.Dirty;
 import com.grimoire.domain.core.component.Experience;
 import com.grimoire.domain.core.component.Stats;
-import com.grimoire.domain.combat.rule.LevelingRules;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * Processes level-up progression for entities with {@link Experience}.
  *
  * <p>
- * When an entity's current XP reaches the threshold, this system applies
- * level-ups via {@link LevelingRules} — boosting stats, rolling over excess XP,
- * and scaling the next threshold. Multiple level-ups per tick are supported.
+ * Iterates all entities using a contiguous for-loop. When an entity's current
+ * XP reaches the threshold, level-ups are applied in place via
+ * {@link LevelingRules}.
  * </p>
  */
 public class LevelUpSystem implements GameSystem {
 
-    /** The ECS world. */
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "EcsWorld is a managed collaborator, not external mutable data")
     private final EcsWorld ecsWorld;
 
     /**
@@ -40,47 +35,38 @@ public class LevelUpSystem implements GameSystem {
 
     @Override
     public void tick(float deltaTime) {
-        List<String> entities = new ArrayList<>();
-        for (String entityId : ecsWorld.getEntitiesWithComponent(Experience.class)) {
-            entities.add(entityId);
-        }
+        int max = ecsWorld.getMaxEntityId();
+        boolean[] alive = ecsWorld.getAlive();
+        ComponentManager cm = ecsWorld.getComponentManager();
+        Experience[] experiences = cm.getExperiences();
+        Stats[] allStats = cm.getStats();
+        Dirty[] dirties = cm.getDirties();
 
-        for (String entityId : entities) {
-            processLevelUps(entityId);
+        for (int i = 0; i < max; i++) {
+            if (!alive[i] || experiences[i] == null) {
+                continue;
+            }
+            processLevelUps(i, experiences[i], allStats[i], dirties);
         }
     }
 
-    /**
-     * Applies all pending level-ups for a single entity.
-     *
-     * @param entityId
-     *            the entity to check
-     */
-    private void processLevelUps(String entityId) {
-        Optional<Experience> expOpt = ecsWorld.getComponent(entityId, Experience.class);
-        if (expOpt.isEmpty()) {
-            return;
-        }
-
-        Experience exp = expOpt.get();
+    private void processLevelUps(int entityId, Experience exp, Stats stats,
+            Dirty[] dirties) {
         if (!LevelingRules.canLevelUp(exp)) {
             return;
         }
 
-        Optional<Stats> statsOpt = ecsWorld.getComponent(entityId, Stats.class);
-        Stats stats = statsOpt.orElse(null);
-
         while (LevelingRules.canLevelUp(exp)) {
-            exp = LevelingRules.applyLevelUp(exp);
+            LevelingRules.applyLevelUp(exp);
             if (stats != null) {
-                stats = LevelingRules.boostStatsForLevelUp(stats);
+                LevelingRules.boostStatsForLevelUp(stats);
             }
         }
 
-        ecsWorld.addComponent(entityId, exp);
-        if (stats != null) {
-            ecsWorld.addComponent(entityId, stats);
+        if (dirties[entityId] == null) {
+            dirties[entityId] = new Dirty(ecsWorld.getCurrentTick());
+        } else {
+            dirties[entityId].tick = ecsWorld.getCurrentTick();
         }
-        ecsWorld.addComponent(entityId, new Dirty(ecsWorld.getCurrentTick()));
     }
 }

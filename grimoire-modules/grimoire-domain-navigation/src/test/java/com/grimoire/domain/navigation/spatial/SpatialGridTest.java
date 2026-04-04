@@ -19,7 +19,7 @@ class SpatialGridTest {
 
     @Test
     void addEntity() {
-        grid.updateEntity("e1", 100, 100, "z1");
+        grid.updateEntity(1, 100, 100, "z1");
 
         assertThat(grid.getEntityCount()).isEqualTo(1);
         assertThat(grid.getCellCount()).isEqualTo(1);
@@ -27,43 +27,43 @@ class SpatialGridTest {
 
     @Test
     void nearbyEntitiesSameCell() {
-        grid.updateEntity("e1", 100, 100, "z1");
-        grid.updateEntity("e2", 110, 110, "z1");
+        grid.updateEntity(1, 100, 100, "z1");
+        grid.updateEntity(2, 110, 110, "z1");
 
-        Set<String> nearby = grid.getNearbyEntities(105, 105, "z1");
+        Set<Integer> nearby = grid.getNearbyEntities(105, 105, "z1");
 
-        assertThat(nearby).containsExactlyInAnyOrder("e1", "e2");
+        assertThat(nearby).containsExactlyInAnyOrder(1, 2);
     }
 
     @Test
     void nearbyEntitiesAdjacentCell() {
-        grid.updateEntity("e1", 30, 30, "z1");
-        grid.updateEntity("e2", 70, 70, "z1");
+        grid.updateEntity(1, 30, 30, "z1");
+        grid.updateEntity(2, 70, 70, "z1");
 
-        assertThat(grid.getNearbyEntities(40, 40, "z1")).contains("e1", "e2");
+        assertThat(grid.getNearbyEntities(40, 40, "z1")).contains(1, 2);
     }
 
     @Test
     void farEntitiesNotReturned() {
-        grid.updateEntity("e1", 0, 0, "z1");
-        grid.updateEntity("e2", 200, 200, "z1");
+        grid.updateEntity(1, 0, 0, "z1");
+        grid.updateEntity(2, 200, 200, "z1");
 
-        assertThat(grid.getNearbyEntities(0, 0, "z1")).contains("e1").doesNotContain("e2");
+        assertThat(grid.getNearbyEntities(0, 0, "z1")).contains(1).doesNotContain(2);
     }
 
     @Test
     void differentZonesIsolated() {
-        grid.updateEntity("e1", 100, 100, "z1");
-        grid.updateEntity("e2", 100, 100, "z2");
+        grid.updateEntity(1, 100, 100, "z1");
+        grid.updateEntity(2, 100, 100, "z2");
 
-        assertThat(grid.getNearbyEntities(100, 100, "z1")).containsExactly("e1");
-        assertThat(grid.getNearbyEntities(100, 100, "z2")).containsExactly("e2");
+        assertThat(grid.getNearbyEntities(100, 100, "z1")).containsExactly(1);
+        assertThat(grid.getNearbyEntities(100, 100, "z2")).containsExactly(2);
     }
 
     @Test
     void removeEntity() {
-        grid.updateEntity("e1", 100, 100, "z1");
-        grid.removeEntity("e1");
+        grid.updateEntity(1, 100, 100, "z1");
+        grid.removeEntity(1);
 
         assertThat(grid.getEntityCount()).isZero();
         assertThat(grid.getNearbyEntities(100, 100, "z1")).isEmpty();
@@ -71,17 +71,17 @@ class SpatialGridTest {
 
     @Test
     void updatePosition() {
-        grid.updateEntity("e1", 0, 0, "z1");
-        grid.updateEntity("e1", 200, 200, "z1");
+        grid.updateEntity(1, 0, 0, "z1");
+        grid.updateEntity(1, 200, 200, "z1");
 
-        assertThat(grid.getNearbyEntities(0, 0, "z1")).doesNotContain("e1");
-        assertThat(grid.getNearbyEntities(200, 200, "z1")).contains("e1");
+        assertThat(grid.getNearbyEntities(0, 0, "z1")).doesNotContain(1);
+        assertThat(grid.getNearbyEntities(200, 200, "z1")).contains(1);
     }
 
     @Test
     void updateSameCellIsNoOp() {
-        grid.updateEntity("e1", 10, 10, "z1");
-        grid.updateEntity("e1", 20, 20, "z1");
+        grid.updateEntity(1, 10, 10, "z1");
+        grid.updateEntity(1, 20, 20, "z1");
 
         assertThat(grid.getEntityCount()).isEqualTo(1);
         assertThat(grid.getCellCount()).isEqualTo(1);
@@ -89,8 +89,8 @@ class SpatialGridTest {
 
     @Test
     void clear() {
-        grid.updateEntity("e1", 100, 100, "z1");
-        grid.updateEntity("e2", 200, 200, "z1");
+        grid.updateEntity(1, 100, 100, "z1");
+        grid.updateEntity(2, 200, 200, "z1");
         grid.clear();
 
         assertThat(grid.getEntityCount()).isZero();
@@ -105,8 +105,8 @@ class SpatialGridTest {
 
     @Test
     void negativeCoordinates() {
-        grid.updateEntity("e1", -100, -100, "z1");
+        grid.updateEntity(1, -100, -100, "z1");
 
-        assertThat(grid.getNearbyEntities(-100, -100, "z1")).contains("e1");
+        assertThat(grid.getNearbyEntities(-100, -100, "z1")).contains(1);
     }
 }

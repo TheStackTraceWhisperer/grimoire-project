@@ -31,23 +31,20 @@ public final class CombatRules {
      * @return the damage amount (always ≥ 1)
      */
     public static int calculateDamage(Stats attacker, Stats target) {
-        int rawDamage = attacker.attack() - target.defense();
+        int rawDamage = attacker.attack - target.defense;
         return Math.max(1, rawDamage);
     }
 
     /**
-     * Returns a new {@link Stats} with HP reduced by the given damage, floored at
-     * zero.
+     * Applies damage to a target's stats in place.
      *
      * @param target
-     *            the current target stats
+     *            the target stats (mutated)
      * @param damage
      *            the damage amount to apply
-     * @return a new Stats with updated HP
      */
-    public static Stats applyDamage(Stats target, int damage) {
-        int newHp = Math.max(0, target.hp() - damage);
-        return new Stats(newHp, target.maxHp(), target.defense(), target.attack());
+    public static void applyDamage(Stats target, int damage) {
+        target.hp = Math.max(0, target.hp - damage);
     }
 
     /**
@@ -58,7 +55,7 @@ public final class CombatRules {
      * @return {@code true} if the entity should be considered dead
      */
     public static boolean isDead(Stats stats) {
-        return stats.hp() <= 0;
+        return stats.hp <= 0;
     }
 
     /**
@@ -73,8 +70,8 @@ public final class CombatRules {
      * @return {@code true} if the squared distance is ≤ attackRange²
      */
     public static boolean isInRange(Position attacker, Position target, double attackRange) {
-        double dx = attacker.x() - target.x();
-        double dy = attacker.y() - target.y();
+        double dx = attacker.x - target.x;
+        double dy = attacker.y - target.y;
         return (dx * dx + dy * dy) <= (attackRange * attackRange);
     }
 }

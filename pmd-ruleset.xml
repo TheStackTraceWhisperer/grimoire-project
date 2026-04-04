@@ -3,57 +3,88 @@
          xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
-
     <description>
-        PMD ruleset for the Grimoire project enforcing code quality and best practices.
+        PMD ruleset for the Grimoire project.
+        Architectural decisions that lead to centralised exclusions:
+          - ECS components are mutable POJOs with public fields
+          - Single-threaded game loop (no concurrent collections needed)
+          - Systems have inherently complex tick() methods
+          - Domain names (Dead, Zone, Path) are intentionally short
     </description>
-
+    <!-- Best Practices -->
     <rule ref="category/java/bestpractices.xml">
+        <!-- ECS arrays are intentionally exposed for zero-copy access -->
+        <exclude name="MethodReturnsInternalArray"/>
+        <!-- ECS systems pass component arrays as parameters by design -->
+        <exclude name="UseVarargs"/>
     </rule>
-
+    <!-- Code Style -->
     <rule ref="category/java/codestyle.xml">
         <exclude name="MethodArgumentCouldBeFinal"/>
         <exclude name="LocalVariableCouldBeFinal"/>
-
         <exclude name="UnnecessaryConstructor"/>
-
         <exclude name="AtLeastOneConstructor"/>
         <exclude name="OnlyOneReturn"/>
         <exclude name="ShortVariable"/>
         <exclude name="LongVariable"/>
         <exclude name="TooManyStaticImports"/>
         <exclude name="CommentDefaultAccessModifier"/>
+        <!-- Domain names like Dead, Zone, Path are intentional -->
+        <exclude name="ShortClassName"/>
     </rule>
-
+    <!-- Design -->
     <rule ref="category/java/design.xml">
         <exclude name="LawOfDemeter"/>
         <exclude name="LoosePackageCoupling"/>
         <exclude name="UseUtilityClass"/>
+        <!-- ECS component equals() methods use idiomatic pattern -->
+        <exclude name="SimplifyBooleanReturns"/>
+        <!-- Raised thresholds below instead -->
+        <exclude name="CyclomaticComplexity"/>
+        <exclude name="CognitiveComplexity"/>
     </rule>
-
+    <!-- ECS system tick() methods are inherently complex -->
+    <rule ref="category/java/design.xml/CyclomaticComplexity">
+        <properties>
+            <property name="methodReportLevel" value="20"/>
+        </properties>
+    </rule>
+    <rule ref="category/java/design.xml/CognitiveComplexity">
+        <properties>
+            <property name="reportLevel" value="26"/>
+        </properties>
+    </rule>
+    <!-- Documentation -->
     <rule ref="category/java/documentation.xml">
         <exclude name="CommentSize"/>
+        <!-- Private fields with descriptive names don't need Javadoc -->
+        <exclude name="CommentRequired"/>
     </rule>
-
+    <!-- Error Prone -->
     <rule ref="category/java/errorprone.xml">
+        <!-- Standard ECS cleanup pattern: array[i] = null -->
+        <exclude name="NullAssignment"/>
     </rule>
-
-    <rule ref="category/java/multithreading.xml"/>
-
-    <rule ref="category/java/performance.xml"/>
-
+    <!-- Multithreading -->
+    <rule ref="category/java/multithreading.xml">
+        <!-- Single-threaded game loop; HashMap is correct -->
+        <exclude name="UseConcurrentHashMap"/>
+    </rule>
+    <!-- Performance -->
+    <rule ref="category/java/performance.xml">
+        <!-- ECS arrays are intentionally exposed for zero-copy access -->
+        <exclude name="MethodReturnsInternalArray"/>
+    </rule>
+    <!-- Security -->
     <rule ref="category/java/security.xml"/>
-
+    <!-- Priority overrides -->
     <rule ref="category/java/errorprone.xml/AvoidCatchingThrowable">
         <priority>1</priority>
     </rule>
-
     <rule ref="category/java/errorprone.xml/EmptyCatchBlock">
         <priority>1</priority>
     </rule>
-
     <rule ref="category/java/errorprone.xml/AvoidFieldNameMatchingMethodName">
         <priority>2</priority>
     </rule>
 </ruleset>
-

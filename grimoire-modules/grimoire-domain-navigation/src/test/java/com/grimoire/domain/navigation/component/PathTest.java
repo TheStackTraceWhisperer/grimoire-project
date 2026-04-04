@@ -14,20 +14,20 @@ class PathTest {
     void fromListWithTarget() {
         var waypoints = List.of(new Position(100, 100), new Position(200, 200), new Position(300, 300));
 
-        var path = Path.fromList(waypoints, "target-id", 50L);
+        var path = Path.fromList(waypoints, 42, 50L);
 
         assertThat(path.size()).isEqualTo(3);
-        assertThat(path.currentIndex()).isZero();
-        assertThat(path.targetEntityId()).isEqualTo("target-id");
-        assertThat(path.lastCalculationTick()).isEqualTo(50L);
+        assertThat(path.currentIndex).isZero();
+        assertThat(path.targetEntityId).isEqualTo(42);
+        assertThat(path.lastCalculationTick).isEqualTo(50L);
     }
 
     @Test
     void fromListWithoutTarget() {
         var path = Path.fromList(List.of(new Position(1, 2)), 75L);
 
-        assertThat(path.targetEntityId()).isNull();
-        assertThat(path.lastCalculationTick()).isEqualTo(75L);
+        assertThat(path.targetEntityId).isEqualTo(-1);
+        assertThat(path.lastCalculationTick).isEqualTo(75L);
     }
 
     @Test
@@ -42,7 +42,7 @@ class PathTest {
 
     @Test
     void nullWaypointsNormalisedToEmpty() {
-        var path = new Path(null, 0, null, 0L);
+        var path = new Path(null, 0, -1, 0L);
         assertThat(path.isEmpty()).isTrue();
         assertThat(path.waypoints()).isNotNull().isEmpty();
     }
@@ -50,7 +50,7 @@ class PathTest {
     @Test
     void isEmptyWhenIndexPastEnd() {
         var waypoints = List.of(new Position(1, 1));
-        assertThat(new Path(waypoints, 1, null, 0L).isEmpty()).isTrue();
+        assertThat(new Path(waypoints, 1, -1, 0L).isEmpty()).isTrue();
     }
 
     @Test
@@ -70,18 +70,15 @@ class PathTest {
         var waypoints = List.of(new Position(1, 1), new Position(2, 2), new Position(3, 3));
         var path = Path.fromList(waypoints, 0L);
 
-        var p2 = path.advanceToNextWaypoint();
-        assertThat(p2.getCurrentWaypoint()).isEqualTo(new Position(2, 2));
-        assertThat(p2.remainingWaypoints()).isEqualTo(2);
+        path.advanceToNextWaypoint();
+        assertThat(path.getCurrentWaypoint()).isEqualTo(new Position(2, 2));
+        assertThat(path.remainingWaypoints()).isEqualTo(2);
 
-        // original is immutable
-        assertThat(path.getCurrentWaypoint()).isEqualTo(new Position(1, 1));
+        path.advanceToNextWaypoint();
+        assertThat(path.getCurrentWaypoint()).isEqualTo(new Position(3, 3));
 
-        var p3 = p2.advanceToNextWaypoint();
-        assertThat(p3.getCurrentWaypoint()).isEqualTo(new Position(3, 3));
-
-        var p4 = p3.advanceToNextWaypoint();
-        assertThat(p4.isEmpty()).isTrue();
+        path.advanceToNextWaypoint();
+        assertThat(path.isEmpty()).isTrue();
     }
 
     @Test
@@ -89,9 +86,10 @@ class PathTest {
         var path = Path.fromList(List.of(new Position(1, 1), new Position(2, 2)), 0L);
 
         assertThat(path.remainingWaypoints()).isEqualTo(2);
-        assertThat(path.advanceToNextWaypoint().remainingWaypoints()).isEqualTo(1);
+        path.advanceToNextWaypoint();
+        assertThat(path.remainingWaypoints()).isEqualTo(1);
 
-        assertThat(new Path(null, 0, null, 0L).remainingWaypoints()).isZero();
+        assertThat(new Path(null, 0, -1, 0L).remainingWaypoints()).isZero();
     }
 
     @Test
@@ -99,9 +97,10 @@ class PathTest {
         var path = Path.fromList(List.of(new Position(1, 1), new Position(2, 2)), 0L);
 
         assertThat(path.size()).isEqualTo(2);
-        assertThat(path.advanceToNextWaypoint().size()).isEqualTo(2); // size unchanged
+        path.advanceToNextWaypoint();
+        assertThat(path.size()).isEqualTo(2); // size unchanged
 
-        assertThat(new Path(null, 0, null, 0L).size()).isZero();
+        assertThat(new Path(null, 0, -1, 0L).size()).isZero();
     }
 
     @Test
@@ -111,6 +110,6 @@ class PathTest {
         assertThat(path.getLastWaypoint()).isEqualTo(new Position(9, 9));
 
         assertThat(Path.fromList(List.of(), 0L).getLastWaypoint()).isNull();
-        assertThat(new Path(null, 0, null, 0L).getLastWaypoint()).isNull();
+        assertThat(new Path(null, 0, -1, 0L).getLastWaypoint()).isNull();
     }
 }

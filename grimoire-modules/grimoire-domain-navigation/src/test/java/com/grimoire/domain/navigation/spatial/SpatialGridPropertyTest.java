@@ -20,9 +20,9 @@ class SpatialGridPropertyTest {
             @ForAll @StringLength(min = 1, max = 20) String zoneId) {
         var grid = new SpatialGrid(64);
 
-        grid.updateEntity("e1", x, y, zoneId);
+        grid.updateEntity(1, x, y, zoneId);
 
-        assertThat(grid.getNearbyEntities(x, y, zoneId)).contains("e1");
+        assertThat(grid.getNearbyEntities(x, y, zoneId)).contains(1);
     }
 
     @Property
@@ -32,10 +32,10 @@ class SpatialGridPropertyTest {
             @ForAll @StringLength(min = 1, max = 20) String zoneId) {
         var grid = new SpatialGrid(64);
 
-        grid.updateEntity("e1", x, y, zoneId);
-        grid.removeEntity("e1");
+        grid.updateEntity(1, x, y, zoneId);
+        grid.removeEntity(1);
 
-        assertThat(grid.getNearbyEntities(x, y, zoneId)).doesNotContain("e1");
+        assertThat(grid.getNearbyEntities(x, y, zoneId)).doesNotContain(1);
         assertThat(grid.getEntityCount()).isZero();
     }
 
@@ -45,7 +45,7 @@ class SpatialGridPropertyTest {
         var grid = new SpatialGrid(64);
 
         for (int i = 0; i < count; i++) {
-            grid.updateEntity("e" + i, i * 10.0, i * 10.0, "z1");
+            grid.updateEntity(i, i * 10.0, i * 10.0, "z1");
         }
 
         assertThat(grid.getEntityCount()).isEqualTo(count);
@@ -57,15 +57,15 @@ class SpatialGridPropertyTest {
             @ForAll @DoubleRange(min = 0, max = 100) double y) {
         var grid = new SpatialGrid(64);
 
-        grid.updateEntity("e1", x, y, "zone-a");
-        grid.updateEntity("e2", x, y, "zone-b");
+        grid.updateEntity(1, x, y, "zone-a");
+        grid.updateEntity(2, x, y, "zone-b");
 
         assertThat(grid.getNearbyEntities(x, y, "zone-a"))
-                .contains("e1")
-                .doesNotContain("e2");
+                .contains(1)
+                .doesNotContain(2);
         assertThat(grid.getNearbyEntities(x, y, "zone-b"))
-                .contains("e2")
-                .doesNotContain("e1");
+                .contains(2)
+                .doesNotContain(1);
     }
 
     @Property
@@ -74,7 +74,7 @@ class SpatialGridPropertyTest {
         var grid = new SpatialGrid(64);
 
         for (int i = 0; i < count; i++) {
-            grid.updateEntity("e" + i, i * 100.0, i * 100.0, "z1");
+            grid.updateEntity(i, i * 100.0, i * 100.0, "z1");
         }
 
         grid.clear();
@@ -89,10 +89,10 @@ class SpatialGridPropertyTest {
             @ForAll @DoubleRange(min = 200, max = 500) double newX) {
         var grid = new SpatialGrid(64);
 
-        grid.updateEntity("e1", oldX, 0, "z1");
-        grid.updateEntity("e1", newX, 0, "z1");
+        grid.updateEntity(1, oldX, 0, "z1");
+        grid.updateEntity(1, newX, 0, "z1");
 
-        assertThat(grid.getNearbyEntities(newX, 0, "z1")).contains("e1");
+        assertThat(grid.getNearbyEntities(newX, 0, "z1")).contains(1);
         assertThat(grid.getEntityCount()).isEqualTo(1);
     }
 }

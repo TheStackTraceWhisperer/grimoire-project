@@ -18,7 +18,7 @@ public interface GameEventPort {
      * @param zoneId
      *            the zone in which the despawn occurred
      */
-    void onEntityDespawn(String entityId, String zoneId);
+    void onEntityDespawn(int entityId, String zoneId);
 
     /**
      * Notifies that an entity has changed zones.
@@ -32,5 +32,5 @@ public interface GameEventPort {
      * @param y
      *            the new Y position in the target zone
      */
-    void onZoneChange(String entityId, String newZoneId, double x, double y);
+    void onZoneChange(int entityId, String newZoneId, double x, double y);
 }

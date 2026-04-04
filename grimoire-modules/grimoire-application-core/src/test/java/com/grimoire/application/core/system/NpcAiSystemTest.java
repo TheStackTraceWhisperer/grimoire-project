@@ -52,7 +52,7 @@ class NpcAiSystemTest {
 
     @Test
     void friendlyWanderSetsVelocity() {
-        String npc = world.createEntity();
+        int npc = world.createEntity();
         world.addComponent(npc, new NpcAi(NpcAi.AiType.FRIENDLY_WANDER));
         world.addComponent(npc, new Position(0, 0));
 
@@ -66,48 +66,48 @@ class NpcAiSystemTest {
 
     @Test
     void hostileNpcChasesNearbyPlayer() {
-        String npc = createNpc(0, 0, NpcAi.AiType.HOSTILE_AGGRO_MELEE);
-        String player = createPlayer(30, 0);
+        int npc = createNpc(0, 0, NpcAi.AiType.HOSTILE_AGGRO_MELEE);
+        int player = createPlayer(30, 0);
 
         // Rebuild spatial grid so player appears nearby
-        rebuildGrid(player);
+        rebuildGrid();
 
         system.tick(0.05f);
 
-        Velocity vel = world.getComponent(npc, Velocity.class).orElseThrow();
-        assertThat(vel.dx()).isGreaterThan(0); // Moving toward player
+        Velocity vel = world.getComponent(npc, Velocity.class);
+        assertThat(vel.dx).isGreaterThan(0); // Moving toward player
     }
 
     @Test
     void hostileNpcAttacksWhenInRange() {
-        String npc = createNpc(0, 0, NpcAi.AiType.HOSTILE_AGGRO_MELEE);
-        String player = createPlayer(2, 0); // Within 5-unit attack range
+        int npc = createNpc(0, 0, NpcAi.AiType.HOSTILE_AGGRO_MELEE);
+        int player = createPlayer(2, 0); // Within 5-unit attack range
 
-        rebuildGrid(player);
+        rebuildGrid();
 
         system.tick(0.05f);
 
         assertThat(world.hasComponent(npc, AttackIntent.class)).isTrue();
-        AttackIntent intent = world.getComponent(npc, AttackIntent.class).orElseThrow();
-        assertThat(intent.targetEntityId()).isEqualTo(player);
+        AttackIntent intent = world.getComponent(npc, AttackIntent.class);
+        assertThat(intent.targetEntityId).isEqualTo(player);
     }
 
     @Test
     void hostileNpcStopsWhenNoPlayersNearby() {
-        String npc = createNpc(0, 0, NpcAi.AiType.HOSTILE_AGGRO_MELEE);
+        int npc = createNpc(0, 0, NpcAi.AiType.HOSTILE_AGGRO_MELEE);
         // No players anywhere
 
         system.tick(0.05f);
 
-        Velocity vel = world.getComponent(npc, Velocity.class).orElseThrow();
-        assertThat(vel.dx()).isZero();
-        assertThat(vel.dy()).isZero();
+        Velocity vel = world.getComponent(npc, Velocity.class);
+        assertThat(vel.dx).isZero();
+        assertThat(vel.dy).isZero();
     }
 
     @Test
     void hostileNpcReturnsToSpawnWhenOutOfLeash() {
         // NPC at (100, 0) with spawn at (0, 0) and leash radius 50
-        String npc = world.createEntity();
+        int npc = world.createEntity();
         world.addComponent(npc, new NpcAi(NpcAi.AiType.HOSTILE_AGGRO_MELEE));
         world.addComponent(npc, new Position(100, 0));
         world.addComponent(npc, new Zone("zone1"));
@@ -115,22 +115,22 @@ class NpcAiSystemTest {
         world.addComponent(npc, new SpawnPoint(0, 0, 50));
 
         // Player near the NPC but beyond leash
-        String player = createPlayer(105, 0);
-        rebuildGrid(player);
+        int player = createPlayer(105, 0);
+        rebuildGrid();
         spatialGridSystem.getGrid().updateEntity(npc, 100, 0, "zone1");
 
         system.tick(0.05f);
 
-        Velocity vel = world.getComponent(npc, Velocity.class).orElseThrow();
-        assertThat(vel.dx()).isLessThan(0); // Moving back toward spawn (0,0)
+        Velocity vel = world.getComponent(npc, Velocity.class);
+        assertThat(vel.dx).isLessThan(0); // Moving back toward spawn (0,0)
     }
 
     @Test
     void deadNpcIsSkipped() {
-        String npc = createNpc(0, 0, NpcAi.AiType.HOSTILE_AGGRO_MELEE);
-        world.addComponent(npc, new Dead("someone"));
-        String player = createPlayer(10, 0);
-        rebuildGrid(player);
+        int npc = createNpc(0, 0, NpcAi.AiType.HOSTILE_AGGRO_MELEE);
+        world.addComponent(npc, new Dead(-1));
+        int player = createPlayer(10, 0);
+        rebuildGrid();
 
         system.tick(0.05f);
 
@@ -139,37 +139,36 @@ class NpcAiSystemTest {
 
     @Test
     void npcIgnoresDeadPlayers() {
-        String npc = createNpc(0, 0, NpcAi.AiType.HOSTILE_AGGRO_MELEE);
-        String player = createPlayer(10, 0);
-        world.addComponent(player, new Dead("someone"));
-        rebuildGrid(player);
+        int npc = createNpc(0, 0, NpcAi.AiType.HOSTILE_AGGRO_MELEE);
+        int player = createPlayer(10, 0);
+        world.addComponent(player, new Dead(-1));
+        rebuildGrid();
 
         system.tick(0.05f);
 
-        Velocity vel = world.getComponent(npc, Velocity.class).orElseThrow();
-        assertThat(vel.dx()).isZero();
+        Velocity vel = world.getComponent(npc, Velocity.class);
+        assertThat(vel.dx).isZero();
     }
 
     @Test
     void npcChasesClosestPlayer() {
-        String npc = createNpc(0, 0, NpcAi.AiType.HOSTILE_AGGRO_MELEE);
-        String farPlayer = createPlayer(50, 0);
-        String nearPlayer = createPlayer(10, 0);
+        int npc = createNpc(0, 0, NpcAi.AiType.HOSTILE_AGGRO_MELEE);
+        int farPlayer = createPlayer(50, 0);
+        int nearPlayer = createPlayer(10, 0);
 
         spatialGridSystem.getGrid().updateEntity(farPlayer, 50, 0, "zone1");
         spatialGridSystem.getGrid().updateEntity(nearPlayer, 10, 0, "zone1");
 
         system.tick(0.05f);
 
-        // Should attack the near player (within 5-unit range? No, 10 > 5)
         // Should chase nearest
-        Velocity vel = world.getComponent(npc, Velocity.class).orElseThrow();
-        assertThat(vel.dx()).isGreaterThan(0);
+        Velocity vel = world.getComponent(npc, Velocity.class);
+        assertThat(vel.dx).isGreaterThan(0);
     }
 
     @Test
     void npcWithoutPositionIsSkipped() {
-        String npc = world.createEntity();
+        int npc = world.createEntity();
         world.addComponent(npc, new NpcAi(NpcAi.AiType.HOSTILE_AGGRO_MELEE));
         world.addComponent(npc, new Zone("zone1"));
         // No Position
@@ -179,8 +178,8 @@ class NpcAiSystemTest {
         assertThat(world.hasComponent(npc, Velocity.class)).isFalse();
     }
 
-    private String createNpc(double x, double y, NpcAi.AiType type) {
-        String npc = world.createEntity();
+    private int createNpc(double x, double y, NpcAi.AiType type) {
+        int npc = world.createEntity();
         world.addComponent(npc, new NpcAi(type));
         world.addComponent(npc, new Position(x, y));
         world.addComponent(npc, new Zone("zone1"));
@@ -188,8 +187,8 @@ class NpcAiSystemTest {
         return npc;
     }
 
-    private String createPlayer(double x, double y) {
-        String player = world.createEntity();
+    private int createPlayer(double x, double y) {
+        int player = world.createEntity();
         world.addComponent(player, new PlayerControlled("session-1"));
         world.addComponent(player, new Position(x, y));
         world.addComponent(player, new Zone("zone1"));
@@ -197,7 +196,7 @@ class NpcAiSystemTest {
         return player;
     }
 
-    private void rebuildGrid(String... entities) {
+    private void rebuildGrid() {
         spatialGridSystem.tick(0.05f);
     }
 }

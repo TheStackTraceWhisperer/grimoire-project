@@ -3,25 +3,19 @@ package com.grimoire.application.core.system;
 import com.grimoire.application.core.ecs.EcsWorld;
 import com.grimoire.application.core.ecs.GameSystem;
 import com.grimoire.domain.core.component.PortalCooldown;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**
  * Decrements portal cooldown timers and removes expired ones.
  *
  * <p>
- * After a zone transition, entities receive a {@link PortalCooldown} component
- * to prevent immediate re-entry. This system counts down the remaining ticks
- * and removes the component when it reaches zero.
+ * Iterates all entities using a contiguous for-loop over the PortalCooldown
+ * array.
  * </p>
  */
 public class PortalCooldownSystem implements GameSystem {
 
-    /** The ECS world. */
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "EcsWorld is a managed collaborator, not external mutable data")
     private final EcsWorld ecsWorld;
 
     /**
@@ -35,22 +29,19 @@ public class PortalCooldownSystem implements GameSystem {
     }
 
     @Override
-    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public void tick(float deltaTime) {
-        List<String> entities = new ArrayList<>();
-        for (String entityId : ecsWorld.getEntitiesWithComponent(PortalCooldown.class)) {
-            entities.add(entityId);
-        }
+        int max = ecsWorld.getMaxEntityId();
+        boolean[] alive = ecsWorld.getAlive();
+        PortalCooldown[] cooldowns = ecsWorld.getComponentManager().getPortalCooldowns();
 
-        for (String entityId : entities) {
-            ecsWorld.getComponent(entityId, PortalCooldown.class).ifPresent(cooldown -> {
-                long remaining = cooldown.ticksRemaining() - 1;
-                if (remaining <= 0) {
-                    ecsWorld.removeComponent(entityId, PortalCooldown.class);
-                } else {
-                    ecsWorld.addComponent(entityId, new PortalCooldown(remaining));
-                }
-            });
+        for (int i = 0; i < max; i++) {
+            if (!alive[i] || cooldowns[i] == null) {
+                continue;
+            }
+            long remaining = cooldowns[i].decrement();
+            if (remaining <= 0) {
+                cooldowns[i] = null;
+            }
         }
     }
 }

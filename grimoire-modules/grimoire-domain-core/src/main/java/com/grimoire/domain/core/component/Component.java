@@ -4,9 +4,9 @@ package com.grimoire.domain.core.component;
  * Base interface for all server-side ECS components.
  *
  * <p>
- * All components must be immutable records. Components are pure data — they
- * carry no behavior beyond what Java records provide (accessors,
- * equals/hashCode, toString).
+ * Components are mutable POJOs with public fields for zero-allocation updates.
+ * They are stored in contiguous arrays inside the {@code ComponentManager} and
+ * accessed by primitive {@code int} entity IDs.
  * </p>
  *
  * <p>

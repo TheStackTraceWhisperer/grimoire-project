@@ -120,8 +120,8 @@ public final class AStarPathfinder {
      * @return {@code true} if no blocked cells lie between the two positions
      */
     public static boolean hasLineOfSight(Position from, Position to, NavigationGrid grid) {
-        int[] fg = grid.worldToGrid(from.x(), from.y());
-        int[] tg = grid.worldToGrid(to.x(), to.y());
+        int[] fg = grid.worldToGrid(from.x, from.y);
+        int[] tg = grid.worldToGrid(to.x, to.y);
 
         int x = fg[0];
         int y = fg[1];
@@ -164,7 +164,6 @@ public final class AStarPathfinder {
         return furthest;
     }
 
-    @SuppressWarnings("PMD.UseConcurrentHashMap")
     private static Optional<List<int[]>> searchGrid(int sx, int sy, int tx, int ty,
             NavigationGrid grid) {
         Queue<Node> open = new PriorityQueue<>(Comparator.comparingDouble(Node::f));
@@ -220,7 +219,6 @@ public final class AStarPathfinder {
         }
     }
 
-    @SuppressWarnings("PMD.UseVarargs")
     private static boolean isDiagonal(int[] dir) {
         return dir[0] != 0 && dir[1] != 0;
     }

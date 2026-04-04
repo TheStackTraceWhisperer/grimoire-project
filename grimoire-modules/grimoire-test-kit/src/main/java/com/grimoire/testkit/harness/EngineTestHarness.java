@@ -15,42 +15,11 @@ import java.util.List;
 /**
  * Abstract base class for tests that need a live ECS world with a system
  * scheduler.
- *
- * <p>
- * Inspired by the {@code october} project's {@code EngineTestHarness}, but
- * adapted for Grimoire's server-side ECS architecture (no OpenGL, no DI
- * container). Subclasses get a fully initialised {@link EcsWorld} and
- * {@link SystemScheduler} with overridable system lists and port fakes.
- * </p>
- *
- * <p>
- * Usage:
- * </p>
- *
- * <pre>
- * {
- *     &#64;code
- *     class MySystemTest extends EngineTestHarness {
- *         &#64;Override
- *         protected List<GameSystem> createSystems() {
- *             return List.of(new MySystem(world));
- *         }
- *
- *         @Test
- *         void myBehaviour() {
- *             // set up entities...
- *             tick();
- *             // assert results...
- *         }
- *     }
- * }
- * </pre>
  */
 @SuppressWarnings("PMD.AbstractClassWithoutAbstractMethod")
 @SuppressFBWarnings(value = "URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD", justification = "Protected fields are intended for subclass access in test code")
 public abstract class EngineTestHarness {
 
-    /** Default delta time for {@link #tick()} in seconds (50 ms = 20 TPS). */
     private static final float DEFAULT_DELTA = 0.05f;
 
     /** The ECS world — accessible in subclasses for entity/component setup. */
