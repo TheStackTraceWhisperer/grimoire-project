@@ -25,7 +25,7 @@ class PortalCooldownSystemTest {
         int entity = world.createEntity();
         world.addComponent(entity, new PortalCooldown(5));
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         PortalCooldown cooldown = world.getComponent(entity, PortalCooldown.class);
         assertThat(cooldown.ticksRemaining).isEqualTo(4);
@@ -36,7 +36,7 @@ class PortalCooldownSystemTest {
         int entity = world.createEntity();
         world.addComponent(entity, new PortalCooldown(1));
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         assertThat(world.hasComponent(entity, PortalCooldown.class)).isFalse();
     }
@@ -46,8 +46,8 @@ class PortalCooldownSystemTest {
         int entity = world.createEntity();
         world.addComponent(entity, new PortalCooldown(3));
 
-        system.tick(0.05f);
-        system.tick(0.05f);
+        system.tick(0L);
+        system.tick(0L);
 
         PortalCooldown cooldown = world.getComponent(entity, PortalCooldown.class);
         assertThat(cooldown.ticksRemaining).isEqualTo(1);
@@ -60,7 +60,7 @@ class PortalCooldownSystemTest {
         world.addComponent(e1, new PortalCooldown(2));
         world.addComponent(e2, new PortalCooldown(1));
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         assertThat(world.hasComponent(e1, PortalCooldown.class)).isTrue();
         assertThat(world.hasComponent(e2, PortalCooldown.class)).isFalse();
@@ -71,7 +71,7 @@ class PortalCooldownSystemTest {
         int entity = world.createEntity();
         // No PortalCooldown component
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         assertThat(world.hasComponent(entity, PortalCooldown.class)).isFalse();
     }

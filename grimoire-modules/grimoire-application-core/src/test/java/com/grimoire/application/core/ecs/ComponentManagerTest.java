@@ -1,6 +1,8 @@
 package com.grimoire.application.core.ecs;
 
 import com.grimoire.domain.core.component.Component;
+import com.grimoire.domain.core.component.Dead;
+import com.grimoire.domain.core.component.Dirty;
 import com.grimoire.domain.core.component.Position;
 import com.grimoire.domain.core.component.Stats;
 import com.grimoire.domain.core.component.Velocity;
@@ -132,5 +134,104 @@ class ComponentManagerTest {
         manager.addComponent(42, pos);
 
         assertThat(manager.getPositions()[42]).isEqualTo(pos);
+    }
+
+    // ── Signature tests ──
+
+    @Test
+    void signatureSetOnAddComponent() {
+        manager.addComponent(0, new Position(1, 2));
+
+        long sig = manager.getSignatures()[0];
+        assertThat(sig & ComponentManager.BIT_POSITION).isNotZero();
+    }
+
+    @Test
+    void signatureClearedOnRemoveComponent() {
+        manager.addComponent(0, new Position(1, 2));
+        manager.removeComponent(0, Position.class);
+
+        long sig = manager.getSignatures()[0];
+        assertThat(sig & ComponentManager.BIT_POSITION).isZero();
+    }
+
+    @Test
+    void signatureZeroedOnRemoveAllComponents() {
+        manager.addComponent(0, new Position(1, 2));
+        manager.addComponent(0, new Stats(10, 10, 5, 5));
+        manager.removeAllComponents(0);
+
+        assertThat(manager.getSignatures()[0]).isZero();
+    }
+
+    @Test
+    void multipleSignatureBitsSetCorrectly() {
+        manager.addComponent(0, new Position(1, 2));
+        manager.addComponent(0, new Velocity(3, 4));
+
+        long sig = manager.getSignatures()[0];
+        assertThat(sig & ComponentManager.BIT_POSITION).isNotZero();
+        assertThat(sig & ComponentManager.BIT_VELOCITY).isNotZero();
+        assertThat(sig & ComponentManager.BIT_STATS).isZero();
+    }
+
+    // ── Typed add method tests ──
+
+    @Test
+    void typedAddPositionWipesAndSetsFields() {
+        manager.addPosition(0, 10, 20);
+
+        Position pos = manager.getPositions()[0];
+        assertThat(pos).isNotNull();
+        assertThat(pos.x).isEqualTo(10.0);
+        assertThat(pos.y).isEqualTo(20.0);
+        assertThat(manager.getSignatures()[0] & ComponentManager.BIT_POSITION).isNotZero();
+    }
+
+    @Test
+    void typedAddPositionReusesExistingObject() {
+        manager.addPosition(0, 10, 20);
+        Position first = manager.getPositions()[0];
+
+        manager.addPosition(0, 30, 40);
+        Position second = manager.getPositions()[0];
+
+        assertThat(second).isSameAs(first);
+        assertThat(second.x).isEqualTo(30.0);
+        assertThat(second.y).isEqualTo(40.0);
+    }
+
+    @Test
+    void typedAddDirtySetsSignature() {
+        manager.addDirty(0, 42L);
+
+        assertThat(manager.getDirties()[0]).isNotNull();
+        assertThat(manager.getDirties()[0].tick).isEqualTo(42L);
+        assertThat(manager.getSignatures()[0] & ComponentManager.BIT_DIRTY).isNotZero();
+    }
+
+    @Test
+    void typedAddDeadSetsSignature() {
+        manager.addDead(0, 5);
+
+        assertThat(manager.getDeads()[0]).isNotNull();
+        assertThat(manager.getDeads()[0].killerId).isEqualTo(5);
+        assertThat(manager.getSignatures()[0] & ComponentManager.BIT_DEAD).isNotZero();
+    }
+
+    @Test
+    void recycledSlotHasNoStaleData() {
+        // Simulate recycling: add Position, then removeAll, then add fresh
+        manager.addPosition(0, 100, 200);
+        manager.removeAllComponents(0);
+
+        // Signature should be zero
+        assertThat(manager.getSignatures()[0]).isZero();
+
+        // Adding fresh data should wipe the old fields
+        manager.addPosition(0, 1, 2);
+        Position pos = manager.getPositions()[0];
+        assertThat(pos.x).isEqualTo(1.0);
+        assertThat(pos.y).isEqualTo(2.0);
     }
 }

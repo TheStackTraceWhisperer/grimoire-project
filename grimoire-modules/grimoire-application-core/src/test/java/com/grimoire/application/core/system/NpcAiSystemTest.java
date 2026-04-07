@@ -58,7 +58,7 @@ class NpcAiSystemTest {
 
         // Tick many times to hit the 5% wander chance
         for (int i = 0; i < 100; i++) {
-            system.tick(0.05f);
+            system.tick(0L);
         }
 
         assertThat(world.hasComponent(npc, Velocity.class)).isTrue();
@@ -72,7 +72,7 @@ class NpcAiSystemTest {
         // Rebuild spatial grid so player appears nearby
         rebuildGrid();
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         Velocity vel = world.getComponent(npc, Velocity.class);
         assertThat(vel.dx).isGreaterThan(0); // Moving toward player
@@ -85,7 +85,7 @@ class NpcAiSystemTest {
 
         rebuildGrid();
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         assertThat(world.hasComponent(npc, AttackIntent.class)).isTrue();
         AttackIntent intent = world.getComponent(npc, AttackIntent.class);
@@ -97,7 +97,7 @@ class NpcAiSystemTest {
         int npc = createNpc(0, 0, NpcAi.AiType.HOSTILE_AGGRO_MELEE);
         // No players anywhere
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         Velocity vel = world.getComponent(npc, Velocity.class);
         assertThat(vel.dx).isZero();
@@ -119,7 +119,7 @@ class NpcAiSystemTest {
         rebuildGrid();
         spatialGridSystem.getGrid().updateEntity(npc, 100, 0, "zone1");
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         Velocity vel = world.getComponent(npc, Velocity.class);
         assertThat(vel.dx).isLessThan(0); // Moving back toward spawn (0,0)
@@ -132,7 +132,7 @@ class NpcAiSystemTest {
         int player = createPlayer(10, 0);
         rebuildGrid();
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         assertThat(world.hasComponent(npc, AttackIntent.class)).isFalse();
     }
@@ -144,7 +144,7 @@ class NpcAiSystemTest {
         world.addComponent(player, new Dead(-1));
         rebuildGrid();
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         Velocity vel = world.getComponent(npc, Velocity.class);
         assertThat(vel.dx).isZero();
@@ -159,7 +159,7 @@ class NpcAiSystemTest {
         spatialGridSystem.getGrid().updateEntity(farPlayer, 50, 0, "zone1");
         spatialGridSystem.getGrid().updateEntity(nearPlayer, 10, 0, "zone1");
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         // Should chase nearest
         Velocity vel = world.getComponent(npc, Velocity.class);
@@ -173,7 +173,7 @@ class NpcAiSystemTest {
         world.addComponent(npc, new Zone("zone1"));
         // No Position
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         assertThat(world.hasComponent(npc, Velocity.class)).isFalse();
     }
@@ -197,6 +197,6 @@ class NpcAiSystemTest {
     }
 
     private void rebuildGrid() {
-        spatialGridSystem.tick(0.05f);
+        spatialGridSystem.tick(0L);
     }
 }

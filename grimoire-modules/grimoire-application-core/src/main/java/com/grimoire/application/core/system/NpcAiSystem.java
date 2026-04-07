@@ -4,13 +4,9 @@ import com.grimoire.application.core.ecs.ComponentManager;
 import com.grimoire.application.core.ecs.EcsWorld;
 import com.grimoire.application.core.ecs.GameSystem;
 import com.grimoire.application.core.port.GameConfig;
-import com.grimoire.domain.combat.component.AttackIntent;
 import com.grimoire.domain.combat.component.NpcAi;
-import com.grimoire.domain.core.component.Dead;
-import com.grimoire.domain.core.component.PlayerControlled;
 import com.grimoire.domain.core.component.Position;
 import com.grimoire.domain.core.component.SpawnPoint;
-import com.grimoire.domain.core.component.Velocity;
 import com.grimoire.domain.core.component.Zone;
 import com.grimoire.domain.navigation.spatial.SpatialGrid;
 
@@ -18,17 +14,26 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 
+import static com.grimoire.application.core.ecs.ComponentManager.BIT_DEAD;
+import static com.grimoire.application.core.ecs.ComponentManager.BIT_NPC_AI;
+import static com.grimoire.application.core.ecs.ComponentManager.BIT_PLAYER_CONTROLLED;
+
 /**
  * Manages NPC AI behaviour: wandering and hostile aggro.
  *
  * <p>
- * Iterates all entities using a contiguous for-loop over the NpcAi array.
+ * Iterates the dense active-entity array using bitwise signature checks.
  * </p>
  */
 public class NpcAiSystem implements GameSystem {
 
     private static final double WANDER_CHANCE = 0.05;
     private static final double MIN_DISTANCE = 0.01;
+
+    /** Required: NPC_AI present. */
+    private static final long REQUIRED_MASK = BIT_NPC_AI;
+    /** Excluded: skip dead NPCs. */
+    private static final long EXCLUDED_MASK = BIT_DEAD;
 
     private final EcsWorld ecsWorld;
 
@@ -66,15 +71,19 @@ public class NpcAiSystem implements GameSystem {
     }
 
     @Override
-    public void tick(float deltaTime) {
-        int max = ecsWorld.getMaxEntityId();
-        boolean[] alive = ecsWorld.getAlive();
+    public void tick(long currentTick) {
+        int[] active = ecsWorld.getActiveEntities();
+        int count = ecsWorld.getActiveCount();
         ComponentManager cm = ecsWorld.getComponentManager();
+        long[] sigs = cm.getSignatures();
         NpcAi[] npcAis = cm.getNpcAis();
-        Dead[] deads = cm.getDeads();
 
-        for (int i = 0; i < max; i++) {
-            if (!alive[i] || npcAis[i] == null || deads[i] != null) {
+        for (int j = 0; j < count; j++) {
+            int i = active[j];
+            if ((sigs[i] & REQUIRED_MASK) != REQUIRED_MASK) {
+                continue;
+            }
+            if ((sigs[i] & EXCLUDED_MASK) != 0) {
                 continue;
             }
             NpcAi ai = npcAis[i];
@@ -90,12 +99,7 @@ public class NpcAiSystem implements GameSystem {
         if (random.nextDouble() < WANDER_CHANCE) {
             double vx = (random.nextDouble() - 0.5) * 2.0 * npcSpeed;
             double vy = (random.nextDouble() - 0.5) * 2.0 * npcSpeed;
-            Velocity vel = cm.getVelocities()[entityId];
-            if (vel == null) {
-                cm.addComponent(entityId, new Velocity(vx, vy));
-            } else {
-                vel.update(vx, vy);
-            }
+            cm.addVelocity(entityId, vx, vy);
         }
     }
 
@@ -120,12 +124,12 @@ public class NpcAiSystem implements GameSystem {
         double closestDistSq = Double.MAX_VALUE;
         Position closestPlayerPos = null;
 
-        PlayerControlled[] pcs = cm.getPlayerControlled();
-        Dead[] deads = cm.getDeads();
+        long[] sigs = cm.getSignatures();
         Position[] positions = cm.getPositions();
 
         for (int nearbyId : nearbyEntities) {
-            if (pcs[nearbyId] == null || deads[nearbyId] != null) {
+            if ((sigs[nearbyId] & BIT_PLAYER_CONTROLLED) == 0
+                    || (sigs[nearbyId] & BIT_DEAD) != 0) {
                 continue;
             }
             Position playerPos = positions[nearbyId];
@@ -144,23 +148,13 @@ public class NpcAiSystem implements GameSystem {
         if (closestPlayerId >= 0) {
             double distance = Math.sqrt(closestDistSq);
             if (distance <= attackRange) {
-                cm.getAttackIntents()[entityId] = new AttackIntent(closestPlayerId);
-                Velocity vel = cm.getVelocities()[entityId];
-                if (vel == null) {
-                    cm.addComponent(entityId, new Velocity(0, 0));
-                } else {
-                    vel.update(0, 0);
-                }
+                cm.addAttackIntent(entityId, closestPlayerId);
+                cm.addVelocity(entityId, 0, 0);
             } else {
                 moveToward(entityId, npcPos, closestPlayerPos, cm);
             }
         } else {
-            Velocity vel = cm.getVelocities()[entityId];
-            if (vel == null) {
-                cm.addComponent(entityId, new Velocity(0, 0));
-            } else {
-                vel.update(0, 0);
-            }
+            cm.addVelocity(entityId, 0, 0);
         }
     }
 
@@ -180,12 +174,7 @@ public class NpcAiSystem implements GameSystem {
             ComponentManager cm) {
         SpawnPoint spawn = cm.getSpawnPoints()[entityId];
         if (spawn == null) {
-            Velocity vel = cm.getVelocities()[entityId];
-            if (vel == null) {
-                cm.addComponent(entityId, new Velocity(0, 0));
-            } else {
-                vel.update(0, 0);
-            }
+            cm.addVelocity(entityId, 0, 0);
             return;
         }
         moveToward(entityId, currentPos, new Position(spawn.x, spawn.y), cm);
@@ -197,21 +186,11 @@ public class NpcAiSystem implements GameSystem {
         double dy = to.y - from.y;
         double distance = Math.sqrt(dx * dx + dy * dy);
         if (distance < MIN_DISTANCE) {
-            Velocity vel = cm.getVelocities()[entityId];
-            if (vel == null) {
-                cm.addComponent(entityId, new Velocity(0, 0));
-            } else {
-                vel.update(0, 0);
-            }
+            cm.addVelocity(entityId, 0, 0);
             return;
         }
         double vx = dx / distance * npcSpeed;
         double vy = dy / distance * npcSpeed;
-        Velocity vel = cm.getVelocities()[entityId];
-        if (vel == null) {
-            cm.addComponent(entityId, new Velocity(vx, vy));
-        } else {
-            vel.update(vx, vy);
-        }
+        cm.addVelocity(entityId, vx, vy);
     }
 }

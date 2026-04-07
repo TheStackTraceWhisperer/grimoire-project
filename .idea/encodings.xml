@@ -27,6 +27,8 @@
     <file url="file://$PROJECT_DIR$/grimoire-modules/grimoire-contracts-api/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/grimoire-modules/grimoire-contracts-wire/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/grimoire-modules/grimoire-contracts-wire/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/grimoire-modules/grimoire-coverage-report/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/grimoire-modules/grimoire-coverage-report/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/grimoire-modules/grimoire-domain-combat/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/grimoire-modules/grimoire-domain-combat/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/grimoire-modules/grimoire-domain-core/src/main/java" charset="UTF-8" />

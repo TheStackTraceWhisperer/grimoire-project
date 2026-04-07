@@ -4,24 +4,29 @@ import com.grimoire.application.core.ecs.EcsWorld;
 import com.grimoire.application.core.ecs.GameSystem;
 import com.grimoire.application.core.port.GameConfig;
 import com.grimoire.domain.core.component.Position;
-import com.grimoire.domain.core.component.Solid;
 import com.grimoire.domain.core.component.Zone;
 import com.grimoire.domain.navigation.spatial.SpatialGrid;
 
 import java.util.Objects;
 
+import static com.grimoire.application.core.ecs.ComponentManager.BIT_POSITION;
+import static com.grimoire.application.core.ecs.ComponentManager.BIT_SOLID;
+
 /**
  * Maintains the {@link SpatialGrid} for efficient proximity queries.
  *
  * <p>
- * Rebuilds the spatial grid each tick from all entities with {@link Solid} and
- * {@link Position} components using a contiguous int-based for-loop.
+ * Rebuilds the spatial grid each tick from all entities with {@code Solid} and
+ * {@code Position} components using the dense active-entity array and bitwise
+ * signature checks.
  * </p>
  */
 public class SpatialGridSystem implements GameSystem {
 
     /** Default zone ID for entities without a Zone component. */
     private static final String DEFAULT_ZONE_ID = "default";
+
+    private static final long REQUIRED_MASK = BIT_SOLID | BIT_POSITION;
 
     /** The ECS world. */
     private final EcsWorld ecsWorld;
@@ -44,17 +49,18 @@ public class SpatialGridSystem implements GameSystem {
     }
 
     @Override
-    public void tick(float deltaTime) {
+    public void tick(long currentTick) {
         grid.clear();
 
-        int max = ecsWorld.getMaxEntityId();
-        boolean[] alive = ecsWorld.getAlive();
-        Solid[] solids = ecsWorld.getComponentManager().getSolids();
+        int[] active = ecsWorld.getActiveEntities();
+        int count = ecsWorld.getActiveCount();
+        long[] sigs = ecsWorld.getComponentManager().getSignatures();
         Position[] positions = ecsWorld.getComponentManager().getPositions();
         Zone[] zones = ecsWorld.getComponentManager().getZones();
 
-        for (int i = 0; i < max; i++) {
-            if (!alive[i] || solids[i] == null || positions[i] == null) {
+        for (int j = 0; j < count; j++) {
+            int i = active[j];
+            if ((sigs[i] & REQUIRED_MASK) != REQUIRED_MASK) {
                 continue;
             }
             Position pos = positions[i];

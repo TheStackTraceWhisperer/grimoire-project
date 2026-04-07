@@ -35,7 +35,7 @@ class SpatialGridSystemTest {
         world.addComponent(entity, new Solid());
         world.addComponent(entity, new Zone("zone1"));
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         SpatialGrid grid = system.getGrid();
         Set<Integer> nearby = grid.getNearbyEntities(10, 20, "zone1");
@@ -48,7 +48,7 @@ class SpatialGridSystemTest {
         world.addComponent(entity, new Position(10, 20));
         // No Solid component
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         SpatialGrid grid = system.getGrid();
         Set<Integer> nearby = grid.getNearbyEntities(10, 20, "default");
@@ -61,12 +61,12 @@ class SpatialGridSystemTest {
         world.addComponent(entity, new Position(10, 20));
         world.addComponent(entity, new Solid());
 
-        system.tick(0.05f);
+        system.tick(0L);
         assertThat(system.getGrid().getEntityCount()).isEqualTo(1);
 
         // Remove the Solid component and re-tick
         world.removeComponent(entity, Solid.class);
-        system.tick(0.05f);
+        system.tick(0L);
         assertThat(system.getGrid().getEntityCount()).isZero();
     }
 
@@ -76,7 +76,7 @@ class SpatialGridSystemTest {
         world.addComponent(entity, new Solid());
         // No Position component
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         assertThat(system.getGrid().getEntityCount()).isZero();
     }
@@ -87,7 +87,7 @@ class SpatialGridSystemTest {
         world.addComponent(entity, new Position(5, 5));
         world.addComponent(entity, new Solid());
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         Set<Integer> nearby = system.getGrid().getNearbyEntities(5, 5, "default");
         assertThat(nearby).contains(entity);
@@ -99,7 +99,7 @@ class SpatialGridSystemTest {
         world.addComponent(entity, new Position(10, 20));
         world.addComponent(entity, new Solid());
 
-        system.tick(0.05f);
+        system.tick(0L);
         assertThat(system.getGrid().getEntityCount()).isEqualTo(1);
 
         system.removeEntity(entity);

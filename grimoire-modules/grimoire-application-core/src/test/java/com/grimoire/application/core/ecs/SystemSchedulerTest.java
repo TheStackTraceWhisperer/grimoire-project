@@ -27,12 +27,12 @@ class SystemSchedulerTest {
         GameSystem s3 = mock(GameSystem.class);
 
         var scheduler = new SystemScheduler(world, List.of(s1, s2, s3));
-        scheduler.tick(0.05f);
+        scheduler.tick();
 
         InOrder inOrder = Mockito.inOrder(s1, s2, s3);
-        inOrder.verify(s1).tick(0.05f);
-        inOrder.verify(s2).tick(0.05f);
-        inOrder.verify(s3).tick(0.05f);
+        inOrder.verify(s1).tick(0L);
+        inOrder.verify(s2).tick(0L);
+        inOrder.verify(s3).tick(0L);
     }
 
     @Test
@@ -41,10 +41,10 @@ class SystemSchedulerTest {
 
         assertThat(world.getCurrentTick()).isZero();
 
-        scheduler.tick(0.05f);
+        scheduler.tick();
         assertThat(world.getCurrentTick()).isEqualTo(1);
 
-        scheduler.tick(0.05f);
+        scheduler.tick();
         assertThat(world.getCurrentTick()).isEqualTo(2);
     }
 
@@ -52,7 +52,7 @@ class SystemSchedulerTest {
     void emptySystemListOnlyIncrementsTick() {
         var scheduler = new SystemScheduler(world, List.of());
 
-        scheduler.tick(0.05f);
+        scheduler.tick();
 
         assertThat(world.getCurrentTick()).isEqualTo(1);
     }
@@ -97,10 +97,10 @@ class SystemSchedulerTest {
         GameSystem system = mock(GameSystem.class);
         var scheduler = new SystemScheduler(world, List.of(system));
 
-        scheduler.tick(0.05f);
-        scheduler.tick(0.05f);
-        scheduler.tick(0.05f);
+        scheduler.tick();
+        scheduler.tick();
+        scheduler.tick();
 
-        verify(system, times(3)).tick(0.05f);
+        verify(system, times(3)).tick(anyLong());
     }
 }

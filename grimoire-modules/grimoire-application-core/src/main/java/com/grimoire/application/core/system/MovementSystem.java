@@ -4,7 +4,6 @@ import com.grimoire.application.core.ecs.ComponentManager;
 import com.grimoire.application.core.ecs.EcsWorld;
 import com.grimoire.application.core.ecs.GameSystem;
 import com.grimoire.domain.core.component.BoundingBox;
-import com.grimoire.domain.core.component.Dirty;
 import com.grimoire.domain.core.component.Position;
 import com.grimoire.domain.core.component.Velocity;
 import com.grimoire.domain.core.component.Zone;
@@ -13,18 +12,26 @@ import com.grimoire.domain.navigation.spatial.SpatialGrid;
 import java.util.Objects;
 import java.util.Set;
 
+import static com.grimoire.application.core.ecs.ComponentManager.BIT_POSITION;
+import static com.grimoire.application.core.ecs.ComponentManager.BIT_VELOCITY;
+
 /**
  * Updates entity positions based on velocity, with AABB collision detection.
  *
  * <p>
- * Iterates all entities with {@link Velocity} and {@link Position} using a
- * contiguous for-loop over the component arrays.
+ * Iterates the dense active-entity array using bitwise signature checks for
+ * entities with {@link Velocity} and {@link Position}.
  * </p>
  */
 public class MovementSystem implements GameSystem {
 
     private static final String DEFAULT_ZONE_ID = "default";
     private static final double MOVEMENT_THRESHOLD = 0.01;
+
+    /** Fixed delta per tick (50 ms at 20 Hz). */
+    private static final float TICK_DELTA = 0.05f;
+
+    private static final long REQUIRED_MASK = BIT_VELOCITY | BIT_POSITION;
 
     private final EcsWorld ecsWorld;
 
@@ -45,44 +52,41 @@ public class MovementSystem implements GameSystem {
     }
 
     @Override
-    public void tick(float deltaTime) {
-        int max = ecsWorld.getMaxEntityId();
-        boolean[] alive = ecsWorld.getAlive();
+    public void tick(long currentTick) {
+        int[] active = ecsWorld.getActiveEntities();
+        int count = ecsWorld.getActiveCount();
         ComponentManager cm = ecsWorld.getComponentManager();
+        long[] sigs = cm.getSignatures();
         Velocity[] velocities = cm.getVelocities();
         Position[] positions = cm.getPositions();
 
-        for (int i = 0; i < max; i++) {
-            if (!alive[i] || velocities[i] == null || positions[i] == null) {
+        for (int j = 0; j < count; j++) {
+            int i = active[j];
+            if ((sigs[i] & REQUIRED_MASK) != REQUIRED_MASK) {
                 continue;
             }
-            processMovement(i, velocities[i], positions[i], deltaTime, cm);
+            processMovement(i, velocities[i], positions[i], cm);
         }
     }
 
     private void processMovement(int entityId, Velocity velocity, Position position,
-            float deltaTime, ComponentManager cm) {
+            ComponentManager cm) {
         if (Math.abs(velocity.dx) > MOVEMENT_THRESHOLD
                 || Math.abs(velocity.dy) > MOVEMENT_THRESHOLD) {
-            applyMovement(entityId, velocity, position, deltaTime, cm);
+            applyMovement(entityId, velocity, position, cm);
         }
     }
 
     private void applyMovement(int entityId, Velocity velocity, Position position,
-            float deltaTime, ComponentManager cm) {
-        double newX = position.x + velocity.dx * deltaTime;
-        double newY = position.y + velocity.dy * deltaTime;
+            ComponentManager cm) {
+        double newX = position.x + velocity.dx * TICK_DELTA;
+        double newY = position.y + velocity.dy * TICK_DELTA;
 
         if (checkCollision(entityId, newX, newY, cm)) {
             velocity.update(0, 0);
         } else {
             position.update(newX, newY);
-            Dirty dirty = cm.getDirties()[entityId];
-            if (dirty == null) {
-                cm.addComponent(entityId, new Dirty(ecsWorld.getCurrentTick()));
-            } else {
-                dirty.tick = ecsWorld.getCurrentTick();
-            }
+            cm.addDirty(entityId, ecsWorld.getCurrentTick());
         }
     }
 

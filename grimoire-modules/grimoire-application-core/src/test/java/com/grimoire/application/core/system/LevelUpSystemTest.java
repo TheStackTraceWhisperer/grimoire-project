@@ -28,7 +28,7 @@ class LevelUpSystemTest {
         world.addComponent(entity, new Experience(50, 100));
         world.addComponent(entity, new Stats(100, 100, 5, 10));
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         Experience exp = world.getComponent(entity, Experience.class);
         assertThat(exp.currentXp).isEqualTo(50);
@@ -41,7 +41,7 @@ class LevelUpSystemTest {
         world.addComponent(entity, new Experience(100, 100));
         world.addComponent(entity, new Stats(100, 100, 5, 10));
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         Experience exp = world.getComponent(entity, Experience.class);
         assertThat(exp.currentXp).isZero();
@@ -54,7 +54,7 @@ class LevelUpSystemTest {
         world.addComponent(entity, new Experience(100, 100));
         world.addComponent(entity, new Stats(100, 100, 5, 10));
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         Stats stats = world.getComponent(entity, Stats.class);
         assertThat(stats.maxHp).isEqualTo(110);
@@ -68,7 +68,7 @@ class LevelUpSystemTest {
         world.addComponent(entity, new Experience(100, 100));
         world.addComponent(entity, new Stats(100, 100, 5, 10));
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         assertThat(world.hasComponent(entity, Dirty.class)).isTrue();
     }
@@ -79,7 +79,7 @@ class LevelUpSystemTest {
         world.addComponent(entity, new Experience(50, 100));
         world.addComponent(entity, new Stats(100, 100, 5, 10));
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         assertThat(world.hasComponent(entity, Dirty.class)).isFalse();
     }
@@ -91,7 +91,7 @@ class LevelUpSystemTest {
         world.addComponent(entity, new Experience(500, 100));
         world.addComponent(entity, new Stats(100, 100, 5, 10));
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         Experience exp = world.getComponent(entity, Experience.class);
         assertThat(exp.currentXp).isLessThan(exp.xpToNextLevel);
@@ -105,7 +105,7 @@ class LevelUpSystemTest {
         world.addComponent(entity, new Experience(100, 100));
         // No Stats component
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         Experience exp = world.getComponent(entity, Experience.class);
         assertThat(exp.currentXp).isZero();
@@ -118,7 +118,7 @@ class LevelUpSystemTest {
         world.addComponent(entity, new Experience(130, 100));
         world.addComponent(entity, new Stats(100, 100, 5, 10));
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         Experience exp = world.getComponent(entity, Experience.class);
         assertThat(exp.currentXp).isEqualTo(30);

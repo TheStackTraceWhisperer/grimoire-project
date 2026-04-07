@@ -142,6 +142,28 @@ public class EcsWorld {
     }
 
     /**
+     * Returns the dense array of active entity IDs for cache-friendly iteration.
+     *
+     * <p>
+     * Only indices {@code [0, getActiveCount())} contain valid IDs.
+     * </p>
+     *
+     * @return the active entity ID array
+     */
+    public int[] getActiveEntities() {
+        return entityManager.getActiveEntities();
+    }
+
+    /**
+     * Returns the number of currently active entities.
+     *
+     * @return active entity count
+     */
+    public int getActiveCount() {
+        return entityManager.getActiveCount();
+    }
+
+    /**
      * Gets all components for an entity.
      *
      * @param entityId

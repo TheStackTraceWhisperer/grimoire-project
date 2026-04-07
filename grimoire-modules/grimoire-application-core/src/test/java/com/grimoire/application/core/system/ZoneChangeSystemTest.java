@@ -46,7 +46,7 @@ class ZoneChangeSystemTest {
         int player = createPlayer(10, 10, "zone1");
         createPortalPair("zone1", "zone2");
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         Zone zone = world.getComponent(player, Zone.class);
         assertThat(zone.zoneId).isEqualTo("zone2");
@@ -57,7 +57,7 @@ class ZoneChangeSystemTest {
         int player = createPlayer(10, 10, "zone1");
         createPortalPair("zone1", "zone2");
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         Position pos = world.getComponent(player, Position.class);
         assertThat(pos.x).isCloseTo(200.0, within(0.01));
@@ -69,7 +69,7 @@ class ZoneChangeSystemTest {
         int player = createPlayer(10, 10, "zone1");
         createPortalPair("zone1", "zone2");
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         assertThat(world.hasComponent(player, PortalCooldown.class)).isTrue();
     }
@@ -79,7 +79,7 @@ class ZoneChangeSystemTest {
         int player = createPlayer(10, 10, "zone1");
         createPortalPair("zone1", "zone2");
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         verify(gameEventPort).onZoneChange(eq(player), eq("zone2"),
                 eq(200.0), eq(200.0));
@@ -90,7 +90,7 @@ class ZoneChangeSystemTest {
         int player = createPlayer(10, 10, "zone1");
         createPortalPair("zone1", "zone2");
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         assertThat(world.hasComponent(player, Dirty.class)).isTrue();
     }
@@ -101,7 +101,7 @@ class ZoneChangeSystemTest {
         world.addComponent(player, new PortalCooldown(30));
         createPortalPair("zone1", "zone2");
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         Zone zone = world.getComponent(player, Zone.class);
         assertThat(zone.zoneId).isEqualTo("zone1");
@@ -117,7 +117,7 @@ class ZoneChangeSystemTest {
         world.addComponent(portal, new BoundingBox(20, 20));
         world.addComponent(portal, new Zone("zone3"));
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         verify(gameEventPort, never()).onZoneChange(anyInt(), anyString(),
                 anyDouble(), anyDouble());
@@ -128,7 +128,7 @@ class ZoneChangeSystemTest {
         int player = createPlayer(1000, 1000, "zone1");
         createPortalPair("zone1", "zone2");
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         Zone zone = world.getComponent(player, Zone.class);
         assertThat(zone.zoneId).isEqualTo("zone1");
@@ -144,7 +144,7 @@ class ZoneChangeSystemTest {
         world.addComponent(portal, new BoundingBox(20, 20));
         world.addComponent(portal, new Zone("zone1"));
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         Zone zone = world.getComponent(player, Zone.class);
         assertThat(zone.zoneId).isEqualTo("zone1");

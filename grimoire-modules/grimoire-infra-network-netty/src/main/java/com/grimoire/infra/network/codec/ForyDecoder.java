@@ -4,7 +4,6 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import org.apache.fory.Fory;
-import org.apache.fory.ThreadLocalFory;
 import org.apache.fory.ThreadSafeFory;
 import org.apache.fory.config.Language;
 
@@ -17,8 +16,8 @@ import org.apache.fory.config.Language;
  * </p>
  *
  * <p>
- * <strong>Thread-safety:</strong> Uses {@link ThreadLocalFory} — safe for use
- * in a multi-threaded Netty pipeline.
+ * <strong>Thread-safety:</strong> Uses {@link ThreadSafeFory} with internal
+ * locking — safe for use in a multi-threaded Netty pipeline.
  * </p>
  */
 public class ForyDecoder extends LengthFieldBasedFrameDecoder {
@@ -26,11 +25,11 @@ public class ForyDecoder extends LengthFieldBasedFrameDecoder {
     /** Maximum frame size: 10 MB. */
     private static final int MAX_FRAME_LENGTH = 10 * 1024 * 1024;
 
-    /** Thread-safe Fory instance pool. */
-    private static final ThreadSafeFory FORY = new ThreadLocalFory(classLoader -> Fory.builder()
+    /** Thread-safe Fory instance with internal synchronisation. */
+    private static final ThreadSafeFory FORY = Fory.builder()
             .withLanguage(Language.JAVA)
             .requireClassRegistration(false)
-            .build());
+            .buildThreadSafeFory();
 
     /**
      * Creates a Fory decoder with default frame settings.

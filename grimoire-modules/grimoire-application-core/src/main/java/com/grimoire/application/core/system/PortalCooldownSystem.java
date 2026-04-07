@@ -1,20 +1,24 @@
 package com.grimoire.application.core.system;
 
+import com.grimoire.application.core.ecs.ComponentManager;
 import com.grimoire.application.core.ecs.EcsWorld;
 import com.grimoire.application.core.ecs.GameSystem;
 import com.grimoire.domain.core.component.PortalCooldown;
 
 import java.util.Objects;
 
+import static com.grimoire.application.core.ecs.ComponentManager.BIT_PORTAL_COOLDOWN;
+
 /**
  * Decrements portal cooldown timers and removes expired ones.
  *
  * <p>
- * Iterates all entities using a contiguous for-loop over the PortalCooldown
- * array.
+ * Iterates the dense active-entity array using a bitwise signature check.
  * </p>
  */
 public class PortalCooldownSystem implements GameSystem {
+
+    private static final long REQUIRED_MASK = BIT_PORTAL_COOLDOWN;
 
     private final EcsWorld ecsWorld;
 
@@ -29,18 +33,21 @@ public class PortalCooldownSystem implements GameSystem {
     }
 
     @Override
-    public void tick(float deltaTime) {
-        int max = ecsWorld.getMaxEntityId();
-        boolean[] alive = ecsWorld.getAlive();
-        PortalCooldown[] cooldowns = ecsWorld.getComponentManager().getPortalCooldowns();
+    public void tick(long currentTick) {
+        int[] active = ecsWorld.getActiveEntities();
+        int count = ecsWorld.getActiveCount();
+        ComponentManager cm = ecsWorld.getComponentManager();
+        long[] sigs = cm.getSignatures();
+        PortalCooldown[] cooldowns = cm.getPortalCooldowns();
 
-        for (int i = 0; i < max; i++) {
-            if (!alive[i] || cooldowns[i] == null) {
+        for (int j = 0; j < count; j++) {
+            int i = active[j];
+            if ((sigs[i] & REQUIRED_MASK) == 0) {
                 continue;
             }
             long remaining = cooldowns[i].decrement();
             if (remaining <= 0) {
-                cooldowns[i] = null;
+                cm.removePortalCooldown(i);
             }
         }
     }

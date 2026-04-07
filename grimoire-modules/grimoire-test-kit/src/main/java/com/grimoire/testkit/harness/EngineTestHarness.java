@@ -20,8 +20,6 @@ import java.util.List;
 @SuppressFBWarnings(value = "URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD", justification = "Protected fields are intended for subclass access in test code")
 public abstract class EngineTestHarness {
 
-    private static final float DEFAULT_DELTA = 0.05f;
-
     /** The ECS world — accessible in subclasses for entity/component setup. */
     protected EcsWorld world;
 
@@ -95,19 +93,9 @@ public abstract class EngineTestHarness {
     }
 
     /**
-     * Executes one tick with the given delta time.
-     *
-     * @param deltaTime
-     *            time elapsed since last tick in seconds
-     */
-    protected void tick(float deltaTime) {
-        scheduler.tick(deltaTime);
-    }
-
-    /**
-     * Executes one tick with the default delta time (50 ms).
+     * Executes one tick of the scheduler.
      */
     protected void tick() {
-        tick(DEFAULT_DELTA);
+        scheduler.tick();
     }
 }

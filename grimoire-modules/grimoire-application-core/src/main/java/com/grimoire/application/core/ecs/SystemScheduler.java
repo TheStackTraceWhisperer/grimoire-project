@@ -46,13 +46,11 @@ public class SystemScheduler {
 
     /**
      * Executes all systems in order, then increments the world tick.
-     *
-     * @param deltaTime
-     *            time elapsed since last tick in seconds
      */
-    public void tick(float deltaTime) {
+    public void tick() {
+        long currentTick = ecsWorld.getCurrentTick();
         for (GameSystem system : systems) {
-            system.tick(deltaTime);
+            system.tick(currentTick);
         }
         ecsWorld.incrementTick();
     }

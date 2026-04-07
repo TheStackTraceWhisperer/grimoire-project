@@ -11,7 +11,6 @@ import com.grimoire.domain.combat.component.Monster;
 import com.grimoire.domain.combat.rule.CombatRules;
 import com.grimoire.domain.combat.rule.LevelingRules;
 import com.grimoire.domain.core.component.Dead;
-import com.grimoire.domain.core.component.Dirty;
 import com.grimoire.domain.core.component.Experience;
 import com.grimoire.domain.core.component.Position;
 import com.grimoire.domain.core.component.Stats;
@@ -19,11 +18,15 @@ import com.grimoire.domain.core.component.Zone;
 
 import java.util.Objects;
 
+import static com.grimoire.application.core.ecs.ComponentManager.BIT_ATTACK_COOLDOWN;
+import static com.grimoire.application.core.ecs.ComponentManager.BIT_ATTACK_INTENT;
+import static com.grimoire.application.core.ecs.ComponentManager.BIT_DEAD;
+
 /**
  * Processes combat logic: cooldowns, attack resolution, death, and XP rewards.
  *
  * <p>
- * Iterates entities using contiguous for-loops over component arrays.
+ * Iterates the dense active-entity array using bitwise signature checks.
  * </p>
  */
 public class CombatSystem implements GameSystem {
@@ -64,51 +67,53 @@ public class CombatSystem implements GameSystem {
     }
 
     @Override
-    public void tick(float deltaTime) {
+    public void tick(long currentTick) {
         processCooldowns();
         processAttacks();
         processDeath();
     }
 
     private void processCooldowns() {
-        int max = ecsWorld.getMaxEntityId();
-        boolean[] alive = ecsWorld.getAlive();
-        AttackCooldown[] cooldowns = ecsWorld.getComponentManager().getAttackCooldowns();
+        int[] active = ecsWorld.getActiveEntities();
+        int count = ecsWorld.getActiveCount();
+        ComponentManager cm = ecsWorld.getComponentManager();
+        long[] sigs = cm.getSignatures();
+        AttackCooldown[] cooldowns = cm.getAttackCooldowns();
 
-        for (int i = 0; i < max; i++) {
-            if (!alive[i] || cooldowns[i] == null) {
+        for (int j = 0; j < count; j++) {
+            int i = active[j];
+            if ((sigs[i] & BIT_ATTACK_COOLDOWN) == 0) {
                 continue;
             }
             int remaining = cooldowns[i].decrement();
             if (remaining <= 0) {
-                cooldowns[i] = null;
+                cm.removeAttackCooldown(i);
             }
         }
     }
 
     private void processAttacks() {
-        int max = ecsWorld.getMaxEntityId();
-        boolean[] alive = ecsWorld.getAlive();
+        int[] active = ecsWorld.getActiveEntities();
+        int count = ecsWorld.getActiveCount();
         ComponentManager cm = ecsWorld.getComponentManager();
+        long[] sigs = cm.getSignatures();
         AttackIntent[] intents = cm.getAttackIntents();
-        AttackCooldown[] cooldowns = cm.getAttackCooldowns();
-        Dead[] deads = cm.getDeads();
         Stats[] allStats = cm.getStats();
         Position[] positions = cm.getPositions();
-        Dirty[] dirties = cm.getDirties();
 
-        for (int attackerId = 0; attackerId < max; attackerId++) {
-            if (!alive[attackerId] || intents[attackerId] == null) {
+        for (int j = 0; j < count; j++) {
+            int attackerId = active[j];
+            if ((sigs[attackerId] & BIT_ATTACK_INTENT) == 0) {
                 continue;
             }
 
             int targetId = intents[attackerId].targetEntityId;
-            intents[attackerId] = null; // consume the intent
+            cm.removeAttackIntent(attackerId); // consume the intent
 
-            if (cooldowns[attackerId] != null) {
+            if ((sigs[attackerId] & BIT_ATTACK_COOLDOWN) != 0) {
                 continue;
             }
-            if (!ecsWorld.entityExists(targetId) || deads[targetId] != null) {
+            if (!ecsWorld.entityExists(targetId) || (sigs[targetId] & BIT_DEAD) != 0) {
                 continue;
             }
             if (!isInRange(attackerId, targetId, positions)) {
@@ -121,44 +126,44 @@ public class CombatSystem implements GameSystem {
                 continue;
             }
 
-            cooldowns[attackerId] = new AttackCooldown(attackCooldownTicks);
+            cm.addAttackCooldown(attackerId, attackCooldownTicks);
 
             int damage = CombatRules.calculateDamage(attackerStats, targetStats);
             CombatRules.applyDamage(targetStats, damage);
-            if (dirties[targetId] == null) {
-                dirties[targetId] = new Dirty(ecsWorld.getCurrentTick());
-            } else {
-                dirties[targetId].tick = ecsWorld.getCurrentTick();
-            }
+            cm.addDirty(targetId, ecsWorld.getCurrentTick());
 
             if (CombatRules.isDead(targetStats)) {
-                deads[targetId] = new Dead(attackerId);
+                cm.addDead(targetId, attackerId);
             }
         }
     }
 
     private void processDeath() {
-        int max = ecsWorld.getMaxEntityId();
-        boolean[] alive = ecsWorld.getAlive();
+        int[] active = ecsWorld.getActiveEntities();
+        int count = ecsWorld.getActiveCount();
         ComponentManager cm = ecsWorld.getComponentManager();
-        Dead[] deads = cm.getDeads();
+        long[] sigs = cm.getSignatures();
         Zone[] zones = cm.getZones();
 
-        for (int i = 0; i < max; i++) {
-            if (!alive[i] || deads[i] == null) {
+        for (int j = 0; j < count;) {
+            int i = active[j];
+            if ((sigs[i] & BIT_DEAD) == 0) {
+                j++;
                 continue;
             }
             String zoneId = zones[i] != null ? zones[i].zoneId : "unknown";
 
-            awardXpToKiller(i, cm);
+            awardXpToKiller(i, cm, sigs);
 
             gameEventPort.onEntityDespawn(i, zoneId);
             spatialGridSystem.removeEntity(i);
             ecsWorld.destroyEntity(i);
+            count = ecsWorld.getActiveCount(); // update after swap-and-pop
+            // don't increment j — re-check the swapped-in entity
         }
     }
 
-    private void awardXpToKiller(int deadEntityId, ComponentManager cm) {
+    private void awardXpToKiller(int deadEntityId, ComponentManager cm, long[] sigs) {
         Dead dead = cm.getDeads()[deadEntityId];
         if (dead == null || dead.killerId < 0) {
             return;
@@ -179,12 +184,7 @@ public class CombatSystem implements GameSystem {
         }
 
         LevelingRules.addXp(killerExp, monster.xpReward);
-        Dirty[] dirties = cm.getDirties();
-        if (dirties[killerId] == null) {
-            dirties[killerId] = new Dirty(ecsWorld.getCurrentTick());
-        } else {
-            dirties[killerId].tick = ecsWorld.getCurrentTick();
-        }
+        cm.addDirty(killerId, ecsWorld.getCurrentTick());
 
         LOG.log(System.Logger.Level.DEBUG,
                 "Entity {0} gained {1} XP from killing {2}",

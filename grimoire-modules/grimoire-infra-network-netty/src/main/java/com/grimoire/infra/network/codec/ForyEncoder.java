@@ -4,7 +4,6 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import org.apache.fory.Fory;
-import org.apache.fory.ThreadLocalFory;
 import org.apache.fory.ThreadSafeFory;
 import org.apache.fory.config.Language;
 
@@ -19,18 +18,18 @@ import org.apache.fory.config.Language;
  * </p>
  *
  * <p>
- * <strong>Thread-safety:</strong> Uses {@link ThreadLocalFory} so each Netty
- * event-loop thread gets its own {@link Fory} instance. Safe for use in a
- * multi-threaded Netty pipeline.
+ * <strong>Thread-safety:</strong> Uses {@link ThreadSafeFory} with internal
+ * locking so Netty Epoll workers can safely serialise concurrently without
+ * buffer corruption.
  * </p>
  */
 public class ForyEncoder extends MessageToByteEncoder<Object> {
 
-    /** Thread-safe Fory instance pool. */
-    private static final ThreadSafeFory FORY = new ThreadLocalFory(classLoader -> Fory.builder()
+    /** Thread-safe Fory instance with internal synchronisation. */
+    private static final ThreadSafeFory FORY = Fory.builder()
             .withLanguage(Language.JAVA)
             .requireClassRegistration(false)
-            .build());
+            .buildThreadSafeFory();
 
     @Override
     protected void encode(ChannelHandlerContext ctx, Object msg, ByteBuf out) {

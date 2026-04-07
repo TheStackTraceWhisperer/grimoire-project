@@ -18,7 +18,7 @@ class EngineTestHarnessTest extends EngineTestHarness {
 
     @Override
     protected List<GameSystem> createSystems() {
-        return List.of(deltaTime -> systemTickCount.incrementAndGet());
+        return List.of(currentTick -> systemTickCount.incrementAndGet());
     }
 
     @Test

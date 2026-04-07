@@ -48,7 +48,7 @@ class CombatSystemTest {
         int target = createEntityWithStats(5, 0, 50, 50, 5, 10);
         world.addComponent(attacker, new AttackIntent(target));
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         Stats targetStats = world.getComponent(target, Stats.class);
         assertThat(targetStats.hp).isEqualTo(35); // 50 - max(1, 20-5) = 50-15 = 35
@@ -60,7 +60,7 @@ class CombatSystemTest {
         int target = createEntityWithStats(5, 0, 50, 50, 5, 10);
         world.addComponent(attacker, new AttackIntent(target));
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         assertThat(world.hasComponent(target, Dirty.class)).isTrue();
     }
@@ -71,7 +71,7 @@ class CombatSystemTest {
         int target = createEntityWithStats(5, 0, 50, 50, 5, 10);
         world.addComponent(attacker, new AttackIntent(target));
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         assertThat(world.hasComponent(attacker, AttackIntent.class)).isFalse();
     }
@@ -82,7 +82,7 @@ class CombatSystemTest {
         int target = createEntityWithStats(5, 0, 50, 50, 5, 10);
         world.addComponent(attacker, new AttackIntent(target));
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         assertThat(world.hasComponent(attacker, AttackCooldown.class)).isTrue();
     }
@@ -94,7 +94,7 @@ class CombatSystemTest {
         world.addComponent(attacker, new AttackCooldown(10));
         world.addComponent(attacker, new AttackIntent(target));
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         Stats targetStats = world.getComponent(target, Stats.class);
         assertThat(targetStats.hp).isEqualTo(50); // No damage
@@ -107,7 +107,7 @@ class CombatSystemTest {
         int target = createEntityWithStats(1000, 1000, 50, 50, 5, 10);
         world.addComponent(attacker, new AttackIntent(target));
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         Stats targetStats = world.getComponent(target, Stats.class);
         assertThat(targetStats.hp).isEqualTo(50);
@@ -118,7 +118,7 @@ class CombatSystemTest {
         int entity = world.createEntity();
         world.addComponent(entity, new AttackCooldown(3));
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         AttackCooldown cd = world.getComponent(entity, AttackCooldown.class);
         assertThat(cd.ticksRemaining).isEqualTo(2);
@@ -129,7 +129,7 @@ class CombatSystemTest {
         int entity = world.createEntity();
         world.addComponent(entity, new AttackCooldown(1));
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         assertThat(world.hasComponent(entity, AttackCooldown.class)).isFalse();
     }
@@ -140,7 +140,7 @@ class CombatSystemTest {
         int target = createEntityWithStats(5, 0, 1, 50, 0, 10);
         world.addComponent(attacker, new AttackIntent(target));
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         // Entity is killed AND destroyed in the same tick
         assertThat(world.entityExists(target)).isFalse();
@@ -154,7 +154,7 @@ class CombatSystemTest {
         world.addComponent(target, new Zone("zone1"));
         world.addComponent(attacker, new AttackIntent(target));
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         assertThat(world.entityExists(target)).isFalse();
         verify(gameEventPort).onEntityDespawn(eq(target), eq("zone1"));
@@ -168,7 +168,7 @@ class CombatSystemTest {
         world.addComponent(monster, new Monster(Monster.MonsterType.RAT, 25));
         world.addComponent(attacker, new AttackIntent(monster));
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         Experience exp = world.getComponent(attacker, Experience.class);
         assertThat(exp.currentXp).isEqualTo(25);
@@ -179,7 +179,7 @@ class CombatSystemTest {
         int attacker = createEntityWithStats(0, 0, 100, 100, 0, 20);
         world.addComponent(attacker, new AttackIntent(99999));
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         verify(gameEventPort, never()).onEntityDespawn(anyInt(), anyString());
     }
@@ -191,7 +191,7 @@ class CombatSystemTest {
         world.addComponent(target, new Dead(-1));
         world.addComponent(attacker, new AttackIntent(target));
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         // Attack was skipped — attacker should NOT get a cooldown
         assertThat(world.hasComponent(attacker, AttackCooldown.class)).isFalse();
@@ -204,7 +204,7 @@ class CombatSystemTest {
         int target = createEntityWithStats(5, 0, 50, 50, 100, 10);
         world.addComponent(attacker, new AttackIntent(target));
 
-        system.tick(0.05f);
+        system.tick(0L);
 
         Stats targetStats = world.getComponent(target, Stats.class);
         assertThat(targetStats.hp).isEqualTo(49);
