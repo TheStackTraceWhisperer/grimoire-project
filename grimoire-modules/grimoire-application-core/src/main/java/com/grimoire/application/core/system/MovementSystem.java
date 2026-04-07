@@ -28,7 +28,9 @@ public class MovementSystem implements GameSystem {
     private static final String DEFAULT_ZONE_ID = "default";
     private static final double MOVEMENT_THRESHOLD = 0.01;
 
-    /** Fixed delta per tick (50 ms at 20 Hz). */
+    /**
+     * Fixed delta per tick (50 ms at 20 Hz).
+     */
     private static final float TICK_DELTA = 0.05f;
 
     private static final long REQUIRED_MASK = BIT_VELOCITY | BIT_POSITION;

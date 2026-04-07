@@ -1,12 +1,6 @@
 package com.grimoire.application.core.service;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * In-memory group management service.
@@ -24,10 +18,14 @@ import java.util.UUID;
  */
 public class GroupService {
 
-    /** Group ID → member entity IDs. */
+    /**
+     * Group ID → member entity IDs.
+     */
     private final Map<String, Set<Integer>> groups = new HashMap<>();
 
-    /** Entity ID → group ID (reverse index). */
+    /**
+     * Entity ID → group ID (reverse index).
+     */
     private final Map<Integer, String> entityToGroup = new HashMap<>();
 
     /**
@@ -58,7 +56,7 @@ public class GroupService {
      * @return {@code true} if the entity was added
      */
     public boolean joinGroup(String groupId, int entityId) {
-        java.util.Objects.requireNonNull(groupId, "groupId must not be null");
+        Objects.requireNonNull(groupId, "groupId must not be null");
 
         Set<Integer> members = groups.get(groupId);
         if (members == null) {
@@ -108,12 +106,16 @@ public class GroupService {
         return Optional.ofNullable(entityToGroup.get(entityId));
     }
 
-    /** Returns the number of active groups. */
+    /**
+     * Returns the number of active groups.
+     */
     public int getGroupCount() {
         return groups.size();
     }
 
-    /** Checks whether a group exists. */
+    /**
+     * Checks whether a group exists.
+     */
     public boolean groupExists(String groupId) {
         return groups.containsKey(groupId);
     }

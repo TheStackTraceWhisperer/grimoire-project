@@ -15,22 +15,32 @@ import java.util.List;
  * {@link #advanceToNextWaypoint()} which mutates the index in place.
  * </p>
  */
-@SuppressWarnings({"PMD.TooManyMethods", "PMD.AvoidFieldNameMatchingMethodName"})
+@SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
 public class Path implements Component {
 
-    /** Waypoints to follow. */
+    /**
+     * Waypoints to follow.
+     */
     private final List<Position> waypoints;
 
-    /** Index of the current waypoint. */
+    /**
+     * Index of the current waypoint.
+     */
     public int currentIndex;
 
-    /** ID of the entity being followed, or -1 for fixed paths. */
+    /**
+     * ID of the entity being followed, or -1 for fixed paths.
+     */
     public int targetEntityId;
 
-    /** The game tick when this path was calculated. */
+    /**
+     * The game tick when this path was calculated.
+     */
     public long lastCalculationTick;
 
-    /** No-arg constructor for array pre-allocation. */
+    /**
+     * No-arg constructor for array pre-allocation.
+     */
     public Path() {
         this.waypoints = new ArrayList<>();
         this.currentIndex = 0;
@@ -108,17 +118,23 @@ public class Path implements Component {
         this.lastCalculationTick = newLastCalcTick;
     }
 
-    /** Returns an unmodifiable view of the waypoints. */
+    /**
+     * Returns an unmodifiable view of the waypoints.
+     */
     public List<Position> waypoints() {
         return Collections.unmodifiableList(waypoints);
     }
 
-    /** Returns {@code true} if there are no more waypoints to follow. */
+    /**
+     * Returns {@code true} if there are no more waypoints to follow.
+     */
     public boolean isEmpty() {
         return currentIndex >= waypoints.size();
     }
 
-    /** Returns the current waypoint, or {@code null} if the path is empty. */
+    /**
+     * Returns the current waypoint, or {@code null} if the path is empty.
+     */
     public Position getCurrentWaypoint() {
         if (isEmpty()) {
             return null;
@@ -126,22 +142,30 @@ public class Path implements Component {
         return waypoints.get(currentIndex);
     }
 
-    /** Advances to the next waypoint in place. */
+    /**
+     * Advances to the next waypoint in place.
+     */
     public void advanceToNextWaypoint() {
         currentIndex++;
     }
 
-    /** Returns the number of remaining waypoints (including current). */
+    /**
+     * Returns the number of remaining waypoints (including current).
+     */
     public int remainingWaypoints() {
         return Math.max(0, waypoints.size() - currentIndex);
     }
 
-    /** Returns the total number of waypoints. */
+    /**
+     * Returns the total number of waypoints.
+     */
     public int size() {
         return waypoints.size();
     }
 
-    /** Returns the last waypoint, or {@code null} if the path is empty. */
+    /**
+     * Returns the last waypoint, or {@code null} if the path is empty.
+     */
     public Position getLastWaypoint() {
         if (waypoints.isEmpty()) {
             return null;

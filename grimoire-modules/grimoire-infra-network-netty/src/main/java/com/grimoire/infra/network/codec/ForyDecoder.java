@@ -22,10 +22,14 @@ import org.apache.fory.config.Language;
  */
 public class ForyDecoder extends LengthFieldBasedFrameDecoder {
 
-    /** Maximum frame size: 10 MB. */
+    /**
+     * Maximum frame size: 10 MB.
+     */
     private static final int MAX_FRAME_LENGTH = 10 * 1024 * 1024;
 
-    /** Thread-safe Fory instance with internal synchronisation. */
+    /**
+     * Thread-safe Fory instance with internal synchronisation.
+     */
     private static final ThreadSafeFory FORY = Fory.builder()
             .withLanguage(Language.JAVA)
             .requireClassRegistration(false)

@@ -23,7 +23,6 @@ import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
  *
  * @see <a href="../../../docs/grimoire-unified-plan.md">Unified Plan §7.3</a>
  */
-@SuppressWarnings("PMD.DataClass")
 public final class GrimoireLayerRules {
 
     /**

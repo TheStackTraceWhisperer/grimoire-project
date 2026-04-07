@@ -2,26 +2,26 @@
 
 <configuration>
 
-    <!-- ── Console appender — human-readable structured format ── -->
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{ISO8601} [%thread] %-5level %logger{36} - %marker%msg%n</pattern>
-        </encoder>
-    </appender>
+  <!-- ── Console appender — human-readable structured format ── -->
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{ISO8601} [%thread] %-5level %logger{36} - %marker%msg%n</pattern>
+    </encoder>
+  </appender>
 
-    <!-- ── Grimoire application logging ── -->
-    <logger name="com.grimoire" level="DEBUG" />
+  <!-- ── Grimoire application logging ── -->
+  <logger name="com.grimoire" level="DEBUG"/>
 
-    <!-- ── Framework noise reduction ── -->
-    <logger name="io.netty" level="WARN" />
-    <logger name="io.micronaut" level="INFO" />
-    <logger name="org.hibernate" level="WARN" />
-    <logger name="org.apache.fory" level="WARN" />
+  <!-- ── Framework noise reduction ── -->
+  <logger name="io.netty" level="WARN"/>
+  <logger name="io.micronaut" level="INFO"/>
+  <logger name="org.hibernate" level="WARN"/>
+  <logger name="org.apache.fory" level="WARN"/>
 
-    <!-- ── Root ── -->
-    <root level="INFO">
-        <appender-ref ref="CONSOLE" />
-    </root>
+  <!-- ── Root ── -->
+  <root level="INFO">
+    <appender-ref ref="CONSOLE"/>
+  </root>
 
 </configuration>
 

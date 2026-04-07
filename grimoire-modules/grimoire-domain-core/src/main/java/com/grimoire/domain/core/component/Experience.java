@@ -5,13 +5,19 @@ package com.grimoire.domain.core.component;
  */
 public class Experience implements Component {
 
-    /** Accumulated experience points. */
+    /**
+     * Accumulated experience points.
+     */
     public int currentXp;
 
-    /** The XP threshold required to advance to the next level. */
+    /**
+     * The XP threshold required to advance to the next level.
+     */
     public int xpToNextLevel;
 
-    /** No-arg constructor for array pre-allocation. */
+    /**
+     * No-arg constructor for array pre-allocation.
+     */
     public Experience() {
         // default values
     }

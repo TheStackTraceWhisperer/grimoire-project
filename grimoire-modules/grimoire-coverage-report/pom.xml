@@ -1,127 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>com.grimoire</groupId>
-        <artifactId>grimoire-parent</artifactId>
-        <version>${revision}</version>
-        <relativePath>../../grimoire-poms/grimoire-parent/pom.xml</relativePath>
-    </parent>
+  <parent>
+    <groupId>com.grimoire</groupId>
+    <artifactId>grimoire-parent</artifactId>
+    <version>${revision}</version>
+    <relativePath>../../grimoire-poms/grimoire-parent/pom.xml</relativePath>
+  </parent>
 
-    <artifactId>grimoire-coverage-report</artifactId>
-    <packaging>pom</packaging>
+  <artifactId>grimoire-coverage-report</artifactId>
+  <packaging>pom</packaging>
 
-    <name>Grimoire Coverage Report</name>
-    <description>
-        Aggregates JaCoCo coverage data from all Grimoire modules into a single
-        unified report. Output: target/site/jacoco-aggregate/index.html
-    </description>
+  <name>Grimoire Coverage Report</name>
+  <description>
+    Aggregates JaCoCo coverage data from all Grimoire modules into a single
+    unified report. Output: target/site/jacoco-aggregate/index.html
+  </description>
 
-    <properties>
-        <!-- This module has no source code — skip quality gates and publishing -->
-        <skipQuality>true</skipQuality>
-        <maven.install.skip>true</maven.install.skip>
-        <maven.deploy.skip>true</maven.deploy.skip>
-    </properties>
+  <properties>
+    <!-- This module has no source code — skip quality gates and publishing -->
+    <skipQuality>true</skipQuality>
+    <maven.install.skip>true</maven.install.skip>
+    <maven.deploy.skip>true</maven.deploy.skip>
+  </properties>
 
-    <!-- ══════════════════════════════════════════════════════════════════
-         Dependencies — every module whose coverage we want to aggregate.
-         JaCoCo report-aggregate resolves .exec files from these deps.
-         ══════════════════════════════════════════════════════════════════ -->
-    <dependencies>
-        <!-- Contracts -->
-        <dependency>
-            <groupId>com.grimoire</groupId>
-            <artifactId>grimoire-contracts-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.grimoire</groupId>
-            <artifactId>grimoire-contracts-wire</artifactId>
-        </dependency>
+  <!-- ══════════════════════════════════════════════════════════════════
+       Dependencies — every module whose coverage we want to aggregate.
+       JaCoCo report-aggregate resolves .exec files from these deps.
+       ══════════════════════════════════════════════════════════════════ -->
+  <dependencies>
+    <!-- Contracts -->
+    <dependency>
+      <groupId>com.grimoire</groupId>
+      <artifactId>grimoire-contracts-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.grimoire</groupId>
+      <artifactId>grimoire-contracts-wire</artifactId>
+    </dependency>
 
-        <!-- Domain -->
-        <dependency>
-            <groupId>com.grimoire</groupId>
-            <artifactId>grimoire-domain-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.grimoire</groupId>
-            <artifactId>grimoire-domain-combat</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.grimoire</groupId>
-            <artifactId>grimoire-domain-navigation</artifactId>
-        </dependency>
+    <!-- Domain -->
+    <dependency>
+      <groupId>com.grimoire</groupId>
+      <artifactId>grimoire-domain-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.grimoire</groupId>
+      <artifactId>grimoire-domain-combat</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.grimoire</groupId>
+      <artifactId>grimoire-domain-navigation</artifactId>
+    </dependency>
 
-        <!-- Application -->
-        <dependency>
-            <groupId>com.grimoire</groupId>
-            <artifactId>grimoire-application-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.grimoire</groupId>
-            <artifactId>grimoire-application-session</artifactId>
-        </dependency>
+    <!-- Application -->
+    <dependency>
+      <groupId>com.grimoire</groupId>
+      <artifactId>grimoire-application-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.grimoire</groupId>
+      <artifactId>grimoire-application-session</artifactId>
+    </dependency>
 
-        <!-- Infrastructure -->
-        <dependency>
-            <groupId>com.grimoire</groupId>
-            <artifactId>grimoire-infra-network-netty</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.grimoire</groupId>
-            <artifactId>grimoire-infra-observability</artifactId>
-        </dependency>
+    <!-- Infrastructure -->
+    <dependency>
+      <groupId>com.grimoire</groupId>
+      <artifactId>grimoire-infra-network-netty</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.grimoire</groupId>
+      <artifactId>grimoire-infra-observability</artifactId>
+    </dependency>
 
-        <!-- Test Kit -->
-        <dependency>
-            <groupId>com.grimoire</groupId>
-            <artifactId>grimoire-test-kit</artifactId>
-        </dependency>
-    </dependencies>
+    <!-- Test Kit -->
+    <dependency>
+      <groupId>com.grimoire</groupId>
+      <artifactId>grimoire-test-kit</artifactId>
+    </dependency>
+  </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <executions>
-                    <!-- Skip the inherited prepare-agent from grimoire-parent -->
-                    <execution>
-                        <id>prepare-agent</id>
-                        <phase>none</phase>
-                    </execution>
-                    <execution>
-                        <id>prepare-agent-integration</id>
-                        <phase>none</phase>
-                    </execution>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <executions>
+          <!-- Skip the inherited prepare-agent from grimoire-parent -->
+          <execution>
+            <id>prepare-agent</id>
+            <phase>none</phase>
+          </execution>
+          <execution>
+            <id>prepare-agent-integration</id>
+            <phase>none</phase>
+          </execution>
 
-                    <!-- Aggregate coverage from all dependency modules -->
-                    <execution>
-                        <id>report-aggregate</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>report-aggregate</goal>
-                        </goals>
-                        <configuration>
-                            <title>Grimoire — Aggregate Coverage Report</title>
-                            <outputDirectory>${project.reporting.outputDirectory}/jacoco-aggregate</outputDirectory>
-                            <dataFileIncludes>
-                                <dataFileInclude>**/jacoco-ut.exec</dataFileInclude>
-                                <dataFileInclude>**/jacoco-it.exec</dataFileInclude>
-                                <dataFileInclude>**/jacoco.exec</dataFileInclude>
-                            </dataFileIncludes>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+          <!-- Aggregate coverage from all dependency modules -->
+          <execution>
+            <id>report-aggregate</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>report-aggregate</goal>
+            </goals>
+            <configuration>
+              <title>Grimoire — Aggregate Coverage Report</title>
+              <outputDirectory>${project.reporting.outputDirectory}/jacoco-aggregate</outputDirectory>
+              <dataFileIncludes>
+                <dataFileInclude>**/jacoco-ut.exec</dataFileInclude>
+                <dataFileInclude>**/jacoco-it.exec</dataFileInclude>
+                <dataFileInclude>**/jacoco.exec</dataFileInclude>
+              </dataFileIncludes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>
 

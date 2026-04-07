@@ -14,9 +14,7 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 
-import static com.grimoire.application.core.ecs.ComponentManager.BIT_DEAD;
-import static com.grimoire.application.core.ecs.ComponentManager.BIT_NPC_AI;
-import static com.grimoire.application.core.ecs.ComponentManager.BIT_PLAYER_CONTROLLED;
+import static com.grimoire.application.core.ecs.ComponentManager.*;
 
 /**
  * Manages NPC AI behaviour: wandering and hostile aggro.
@@ -30,9 +28,13 @@ public class NpcAiSystem implements GameSystem {
     private static final double WANDER_CHANCE = 0.05;
     private static final double MIN_DISTANCE = 0.01;
 
-    /** Required: NPC_AI present. */
+    /**
+     * Required: NPC_AI present.
+     */
     private static final long REQUIRED_MASK = BIT_NPC_AI;
-    /** Excluded: skip dead NPCs. */
+    /**
+     * Excluded: skip dead NPCs.
+     */
     private static final long EXCLUDED_MASK = BIT_DEAD;
 
     private final EcsWorld ecsWorld;

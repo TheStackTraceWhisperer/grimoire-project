@@ -6,10 +6,14 @@ package com.grimoire.domain.core.component;
  */
 public class PortalCooldown implements Component {
 
-    /** The number of game ticks until the cooldown expires. */
+    /**
+     * The number of game ticks until the cooldown expires.
+     */
     public long ticksRemaining;
 
-    /** No-arg constructor for array pre-allocation. */
+    /**
+     * No-arg constructor for array pre-allocation.
+     */
     public PortalCooldown() {
         // default values
     }

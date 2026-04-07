@@ -20,13 +20,19 @@ import java.util.Set;
  */
 public final class SpatialGrid {
 
-    /** The size of each spatial cell in world units. */
+    /**
+     * The size of each spatial cell in world units.
+     */
     private final int cellSize;
 
-    /** Maps cell keys to the set of entity IDs in that cell. */
+    /**
+     * Maps cell keys to the set of entity IDs in that cell.
+     */
     private final Map<CellKey, Set<Integer>> cells;
 
-    /** Maps entity IDs to their current cell key. */
+    /**
+     * Maps entity IDs to their current cell key.
+     */
     private final Map<Integer, CellKey> entityCells;
 
     /**
@@ -112,18 +118,24 @@ public final class SpatialGrid {
         return result;
     }
 
-    /** Removes all entities from the grid. */
+    /**
+     * Removes all entities from the grid.
+     */
     public void clear() {
         cells.clear();
         entityCells.clear();
     }
 
-    /** Returns the total number of tracked entities. */
+    /**
+     * Returns the total number of tracked entities.
+     */
     public int getEntityCount() {
         return entityCells.size();
     }
 
-    /** Returns the number of non-empty cells. */
+    /**
+     * Returns the number of non-empty cells.
+     */
     public int getCellCount() {
         return cells.size();
     }

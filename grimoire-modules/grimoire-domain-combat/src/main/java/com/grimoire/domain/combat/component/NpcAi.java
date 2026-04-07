@@ -7,10 +7,14 @@ import com.grimoire.domain.core.component.Component;
  */
 public class NpcAi implements Component {
 
-    /** The AI behaviour type. */
+    /**
+     * The AI behaviour type.
+     */
     public AiType type;
 
-    /** No-arg constructor for array pre-allocation. */
+    /**
+     * No-arg constructor for array pre-allocation.
+     */
     public NpcAi() {
         // default values
     }
@@ -60,9 +64,13 @@ public class NpcAi implements Component {
      * AI behaviour classification.
      */
     public enum AiType {
-        /** Wanders peacefully, does not attack. */
+        /**
+         * Wanders peacefully, does not attack.
+         */
         FRIENDLY_WANDER,
-        /** Attacks players within aggro range using melee. */
+        /**
+         * Attacks players within aggro range using melee.
+         */
         HOSTILE_AGGRO_MELEE
     }
 }

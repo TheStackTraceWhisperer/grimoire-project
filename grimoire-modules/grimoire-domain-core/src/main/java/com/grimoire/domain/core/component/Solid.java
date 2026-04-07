@@ -10,7 +10,9 @@ package com.grimoire.domain.core.component;
  */
 public class Solid implements Component {
 
-    /** No-arg constructor. */
+    /**
+     * No-arg constructor.
+     */
     public Solid() {
         // default values
     }

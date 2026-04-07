@@ -24,10 +24,14 @@ import java.util.Objects;
  */
 public class SystemScheduler {
 
-    /** The ECS world whose tick counter is incremented each tick. */
+    /**
+     * The ECS world whose tick counter is incremented each tick.
+     */
     private final EcsWorld ecsWorld;
 
-    /** Immutable ordered list of systems to execute each tick. */
+    /**
+     * Immutable ordered list of systems to execute each tick.
+     */
     private final List<GameSystem> systems;
 
     /**

@@ -6,13 +6,7 @@ import com.grimoire.application.core.ecs.EntityManager;
 import com.grimoire.application.core.port.GameConfig;
 import com.grimoire.domain.combat.component.AttackIntent;
 import com.grimoire.domain.combat.component.NpcAi;
-import com.grimoire.domain.core.component.Dead;
-import com.grimoire.domain.core.component.PlayerControlled;
-import com.grimoire.domain.core.component.Position;
-import com.grimoire.domain.core.component.Solid;
-import com.grimoire.domain.core.component.SpawnPoint;
-import com.grimoire.domain.core.component.Velocity;
-import com.grimoire.domain.core.component.Zone;
+import com.grimoire.domain.core.component.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

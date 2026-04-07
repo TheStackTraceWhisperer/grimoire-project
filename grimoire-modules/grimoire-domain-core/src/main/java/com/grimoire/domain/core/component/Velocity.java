@@ -5,13 +5,19 @@ package com.grimoire.domain.core.component;
  */
 public class Velocity implements Component {
 
-    /** The velocity along the X axis. */
+    /**
+     * The velocity along the X axis.
+     */
     public double dx;
 
-    /** The velocity along the Y axis. */
+    /**
+     * The velocity along the Y axis.
+     */
     public double dy;
 
-    /** No-arg constructor for array pre-allocation. */
+    /**
+     * No-arg constructor for array pre-allocation.
+     */
     public Velocity() {
         // default values
     }

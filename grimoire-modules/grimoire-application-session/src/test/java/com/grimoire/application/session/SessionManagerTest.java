@@ -10,10 +10,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class SessionManagerTest {
 
-    private SessionManager manager;
-
-    /** Simple test config stub. */
+    /**
+     * Simple test config stub.
+     */
     private static final SessionConfig TEST_CONFIG = () -> 30; // 30 minutes
+    private SessionManager manager;
 
     @BeforeEach
     void setUp() {

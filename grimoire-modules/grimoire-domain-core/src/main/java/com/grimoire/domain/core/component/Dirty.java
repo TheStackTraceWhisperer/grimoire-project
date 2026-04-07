@@ -6,10 +6,14 @@ package com.grimoire.domain.core.component;
  */
 public class Dirty implements Component {
 
-    /** The game tick at which the change occurred. */
+    /**
+     * The game tick at which the change occurred.
+     */
     public long tick;
 
-    /** No-arg constructor for array pre-allocation. */
+    /**
+     * No-arg constructor for array pre-allocation.
+     */
     public Dirty() {
         // default values
     }

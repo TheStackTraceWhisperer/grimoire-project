@@ -22,10 +22,10 @@ proxy generation at startup**.
 The original [`ADR-001`](001-no-di-frameworks-superseded.md) specified three conditions under
 which a compile-time DI framework would be acceptable. All three conditions have been met:
 
-| Condition | Threshold | Actual |
-|-----------|-----------|--------|
-| Manual wiring boilerplate | >200 lines | ✅ Exceeded |
-| Dependency graph depth | >5 layers | ✅ Exceeded |
+| Condition                  | Threshold              | Actual                                        |
+|----------------------------|------------------------|-----------------------------------------------|
+| Manual wiring boilerplate  | >200 lines             | ✅ Exceeded                                    |
+| Dependency graph depth     | >5 layers              | ✅ Exceeded                                    |
 | Framework startup overhead | <10ms, zero reflection | ✅ Micronaut AOT: ~3ms impact, zero reflection |
 
 ### 2. Compile-Time, Not Runtime, DI

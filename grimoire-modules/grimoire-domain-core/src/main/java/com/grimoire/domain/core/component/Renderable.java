@@ -5,13 +5,19 @@ package com.grimoire.domain.core.component;
  */
 public class Renderable implements Component {
 
-    /** The display name. */
+    /**
+     * The display name.
+     */
     public String name;
 
-    /** The identifier for the visual asset (sprite, model, etc.). */
+    /**
+     * The identifier for the visual asset (sprite, model, etc.).
+     */
     public String visualId;
 
-    /** No-arg constructor for array pre-allocation. */
+    /**
+     * No-arg constructor for array pre-allocation.
+     */
     public Renderable() {
         // default values
     }

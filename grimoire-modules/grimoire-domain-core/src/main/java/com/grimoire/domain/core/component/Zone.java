@@ -5,10 +5,14 @@ package com.grimoire.domain.core.component;
  */
 public class Zone implements Component {
 
-    /** The identifier of the zone. */
+    /**
+     * The identifier of the zone.
+     */
     public String zoneId;
 
-    /** No-arg constructor for array pre-allocation. */
+    /**
+     * No-arg constructor for array pre-allocation.
+     */
     public Zone() {
         // default values
     }

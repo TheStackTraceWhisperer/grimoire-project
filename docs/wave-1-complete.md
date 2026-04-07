@@ -24,9 +24,9 @@ File: `grimoire-modules/grimoire-contracts-api/src/main/java/com/grimoire/contra
 
 ### `protocol/` — `GamePacket` record + `PacketType` enum (23 packet types)
 
-| Class | Type |
-|-------|------|
-| `GamePacket` | record |
+| Class        | Type                               |
+|--------------|------------------------------------|
+| `GamePacket` | record                             |
 | `PacketType` | enum (10 C2S + 13 S2C = 23 values) |
 
 ```
@@ -42,39 +42,39 @@ S2C_GROUP_MESSAGE_BROADCAST, S2C_JOIN_GROUP_RESPONSE, S2C_LEAVE_GROUP_RESPONSE
 
 ### `dto/` — 22 DTO records (auth, character, chat, group, entity, state, zone)
 
-| DTO | Category |
-|-----|----------|
-| `TokenLoginRequest` | auth |
-| `LoginFailure` | auth |
-| `CharacterListResponse` | character |
+| DTO                         | Category  |
+|-----------------------------|-----------|
+| `TokenLoginRequest`         | auth      |
+| `LoginFailure`              | auth      |
+| `CharacterListResponse`     | character |
 | `CharacterSelectionRequest` | character |
 | `CharacterSelectionSuccess` | character |
-| `ChatMessage` | chat |
-| `ChatBroadcast` | chat |
-| `PrivateMessage` | chat |
-| `PrivateMessageBroadcast` | chat |
-| `CreateGroup` | group |
-| `CreateGroupResponse` | group |
-| `GroupMessage` | group |
-| `GroupMessageBroadcast` | group |
-| `JoinGroup` | group |
-| `JoinGroupResponse` | group |
-| `LeaveGroup` | group |
-| `LeaveGroupResponse` | group |
-| `EntitySpawn` | entity |
-| `EntityDespawn` | entity |
-| `GameStateUpdate` | state |
-| `MovementIntent` | state |
-| `ZoneChange` | zone |
+| `ChatMessage`               | chat      |
+| `ChatBroadcast`             | chat      |
+| `PrivateMessage`            | chat      |
+| `PrivateMessageBroadcast`   | chat      |
+| `CreateGroup`               | group     |
+| `CreateGroupResponse`       | group     |
+| `GroupMessage`              | group     |
+| `GroupMessageBroadcast`     | group     |
+| `JoinGroup`                 | group     |
+| `JoinGroupResponse`         | group     |
+| `LeaveGroup`                | group     |
+| `LeaveGroupResponse`        | group     |
+| `EntitySpawn`               | entity    |
+| `EntityDespawn`             | entity    |
+| `GameStateUpdate`           | state     |
+| `MovementIntent`            | state     |
+| `ZoneChange`                | zone      |
 
 ### `component/` — 4 component DTOs
 
-| DTO | Implements |
-|-----|-----------|
-| `PositionDTO` | `ComponentDTO` |
+| DTO             | Implements     |
+|-----------------|----------------|
+| `PositionDTO`   | `ComponentDTO` |
 | `RenderableDTO` | `ComponentDTO` |
-| `StatsDTO` | `ComponentDTO` |
-| `PortalDTO` | `ComponentDTO` |
+| `StatsDTO`      | `ComponentDTO` |
+| `PortalDTO`     | `ComponentDTO` |
 
 ---
 
@@ -132,44 +132,44 @@ Enables inter-module dependencies without explicit version declarations.
 
 28 test classes, 46 total test methods. Zero failures, zero errors.
 
-| Test class | Tests | Pass |
-|-----------|-------|------|
-| `PortalDTOTest` | 2 | ✓ |
-| `PositionDTOTest` | 3 | ✓ |
-| `RenderableDTOTest` | 3 | ✓ |
-| `StatsDTOTest` | 2 | ✓ |
-| `CharacterListResponseTest` | 4 | ✓ |
-| `CharacterSelectionRequestTest` | 1 | ✓ |
-| `CharacterSelectionSuccessTest` | 1 | ✓ |
-| `ChatBroadcastTest` | 1 | ✓ |
-| `ChatMessageTest` | 1 | ✓ |
-| `CreateGroupTest` | 1 | ✓ |
-| `CreateGroupResponseTest` | 1 | ✓ |
-| `EntityDespawnTest` | 1 | ✓ |
-| `EntitySpawnTest` | 2 | ✓ |
-| `GameStateUpdateTest` | 2 | ✓ |
-| `GroupMessageTest` | 1 | ✓ |
-| `GroupMessageBroadcastTest` | 1 | ✓ |
-| `JoinGroupTest` | 1 | ✓ |
-| `JoinGroupResponseTest` | 1 | ✓ |
-| `LeaveGroupTest` | 1 | ✓ |
-| `LeaveGroupResponseTest` | 1 | ✓ |
-| `LoginFailureTest` | 1 | ✓ |
-| `MovementIntentTest` | 1 | ✓ |
-| `PrivateMessageTest` | 1 | ✓ |
-| `PrivateMessageBroadcastTest` | 1 | ✓ |
-| `TokenLoginRequestTest` | 2 | ✓ |
-| `ZoneChangeTest` | 1 | ✓ |
-| `GamePacketTest` | 4 | ✓ |
-| `PacketTypeTest` | 4 | ✓ |
-| **Total** | **46** | **46 ✓** |
+| Test class                      | Tests  | Pass     |
+|---------------------------------|--------|----------|
+| `PortalDTOTest`                 | 2      | ✓        |
+| `PositionDTOTest`               | 3      | ✓        |
+| `RenderableDTOTest`             | 3      | ✓        |
+| `StatsDTOTest`                  | 2      | ✓        |
+| `CharacterListResponseTest`     | 4      | ✓        |
+| `CharacterSelectionRequestTest` | 1      | ✓        |
+| `CharacterSelectionSuccessTest` | 1      | ✓        |
+| `ChatBroadcastTest`             | 1      | ✓        |
+| `ChatMessageTest`               | 1      | ✓        |
+| `CreateGroupTest`               | 1      | ✓        |
+| `CreateGroupResponseTest`       | 1      | ✓        |
+| `EntityDespawnTest`             | 1      | ✓        |
+| `EntitySpawnTest`               | 2      | ✓        |
+| `GameStateUpdateTest`           | 2      | ✓        |
+| `GroupMessageTest`              | 1      | ✓        |
+| `GroupMessageBroadcastTest`     | 1      | ✓        |
+| `JoinGroupTest`                 | 1      | ✓        |
+| `JoinGroupResponseTest`         | 1      | ✓        |
+| `LeaveGroupTest`                | 1      | ✓        |
+| `LeaveGroupResponseTest`        | 1      | ✓        |
+| `LoginFailureTest`              | 1      | ✓        |
+| `MovementIntentTest`            | 1      | ✓        |
+| `PrivateMessageTest`            | 1      | ✓        |
+| `PrivateMessageBroadcastTest`   | 1      | ✓        |
+| `TokenLoginRequestTest`         | 2      | ✓        |
+| `ZoneChangeTest`                | 1      | ✓        |
+| `GamePacketTest`                | 4      | ✓        |
+| `PacketTypeTest`                | 4      | ✓        |
+| **Total**                       | **46** | **46 ✓** |
 
 ### JaCoCo coverage (`grimoire-contracts-wire`)
 
-| Metric | Covered | Total | Percentage |
-|--------|---------|-------|-----------|
-| Branch | 6 | 6 | **100.0%** |
-| Instruction | 417 | 417 | **100.0%** |
+| Metric      | Covered | Total | Percentage |
+|-------------|---------|-------|------------|
+| Branch      | 6       | 6     | **100.0%** |
+| Instruction | 417     | 417   | **100.0%** |
 
 Target was ≥ 60% — achieved 100%.
 
@@ -211,18 +211,20 @@ BUILD SUCCESS (25.703 s)
 
 ## 1.8 Dependency diagram updated ✅
 
-`design.puml` contains the `WIRE ..> API : "shared types"` edge reflecting the `contracts-wire → contracts-api` compile dependency.
+`design.puml` contains the `WIRE ..> API : "shared types"` edge reflecting the `contracts-wire → contracts-api` compile
+dependency.
 
 ---
 
 ## Deferred items (not blockers)
 
-| Item | Status | Target wave |
-|------|--------|------------|
+| Item                                      | Status   | Target wave                             |
+|-------------------------------------------|----------|-----------------------------------------|
 | Fury codecs (`FuryEncoder`/`FuryDecoder`) | Deferred | Wave 4 (`grimoire-infra-network-netty`) |
-| jqwik property tests for DTO round-trips | Optional | Backlog |
+| jqwik property tests for DTO round-trips  | Optional | Backlog                                 |
 
 ---
 
-**Wave 1 is complete. 2 contract modules built, 46 tests passing at 100% coverage, all quality gates green. Wave 2 (Domain) may begin.**
+**Wave 1 is complete. 2 contract modules built, 46 tests passing at 100% coverage, all quality gates green. Wave 2 (
+Domain) may begin.**
 

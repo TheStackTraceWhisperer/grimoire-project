@@ -5,21 +5,11 @@ import com.grimoire.application.core.ecs.EcsWorld;
 import com.grimoire.application.core.ecs.GameSystem;
 import com.grimoire.application.core.port.GameConfig;
 import com.grimoire.application.core.port.GameEventPort;
-import com.grimoire.domain.core.component.BoundingBox;
-import com.grimoire.domain.core.component.Portal;
-import com.grimoire.domain.core.component.Position;
-import com.grimoire.domain.core.component.Renderable;
-import com.grimoire.domain.core.component.Zone;
+import com.grimoire.domain.core.component.*;
 
 import java.util.Objects;
 
-import static com.grimoire.application.core.ecs.ComponentManager.BIT_BOUNDING_BOX;
-import static com.grimoire.application.core.ecs.ComponentManager.BIT_PLAYER_CONTROLLED;
-import static com.grimoire.application.core.ecs.ComponentManager.BIT_PORTAL;
-import static com.grimoire.application.core.ecs.ComponentManager.BIT_PORTAL_COOLDOWN;
-import static com.grimoire.application.core.ecs.ComponentManager.BIT_POSITION;
-import static com.grimoire.application.core.ecs.ComponentManager.BIT_RENDERABLE;
-import static com.grimoire.application.core.ecs.ComponentManager.BIT_ZONE;
+import static com.grimoire.application.core.ecs.ComponentManager.*;
 
 /**
  * Handles zone transitions through portal collisions.
@@ -30,17 +20,25 @@ import static com.grimoire.application.core.ecs.ComponentManager.BIT_ZONE;
  */
 public class ZoneChangeSystem implements GameSystem {
 
-    /** Player must have all of these to be a candidate for zone change. */
+    /**
+     * Player must have all of these to be a candidate for zone change.
+     */
     private static final long PLAYER_MASK = BIT_PLAYER_CONTROLLED | BIT_ZONE
             | BIT_POSITION | BIT_BOUNDING_BOX;
-    /** Skip players that are on portal cooldown. */
+    /**
+     * Skip players that are on portal cooldown.
+     */
     private static final long PLAYER_EXCLUDED = BIT_PORTAL_COOLDOWN;
 
-    /** Portal entities must have all of these. */
+    /**
+     * Portal entities must have all of these.
+     */
     private static final long PORTAL_MASK = BIT_PORTAL | BIT_ZONE | BIT_POSITION
             | BIT_BOUNDING_BOX;
 
-    /** Portal-find lookup mask. */
+    /**
+     * Portal-find lookup mask.
+     */
     private static final long PORTAL_FIND_MASK = BIT_PORTAL | BIT_ZONE | BIT_RENDERABLE
             | BIT_POSITION;
 
@@ -156,7 +154,6 @@ public class ZoneChangeSystem implements GameSystem {
         int[] active = ecsWorld.getActiveEntities();
         int count = ecsWorld.getActiveCount();
         long[] sigs = cm.getSignatures();
-        Portal[] portals = cm.getPortals();
         Zone[] zones = cm.getZones();
         Renderable[] renderables = cm.getRenderables();
         Position[] positions = cm.getPositions();

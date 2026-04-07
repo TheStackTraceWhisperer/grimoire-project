@@ -12,10 +12,14 @@ import com.grimoire.domain.core.component.Component;
  */
 public class AttackIntent implements Component {
 
-    /** The ID of the entity to attack. */
+    /**
+     * The ID of the entity to attack.
+     */
     public int targetEntityId;
 
-    /** No-arg constructor for array pre-allocation. */
+    /**
+     * No-arg constructor for array pre-allocation.
+     */
     public AttackIntent() {
         this.targetEntityId = -1;
     }

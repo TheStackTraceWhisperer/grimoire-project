@@ -54,10 +54,12 @@
 - [x] `MovementSystem` — reads `Velocity`/`Position`/`BoundingBox`; writes `Position`/`Dirty`
 - [x] `CombatSystem` — reads `AttackIntent`/`Stats`; writes `Dead`/`Experience`/`Dirty`; death via `GameEventPort`
 - [x] `LevelUpSystem` — reads `Experience`/`Stats`; delegates to `LevelingRules`; writes `Stats`/`Dirty`
-- [x] `NpcAiSystem` — reads `NpcAi`/`Position`/`Zone`; writes `MovementIntent`/`AttackIntent`; uses `SpatialGrid`+`AStarPathfinder`
+- [x] `NpcAiSystem` — reads `NpcAi`/`Position`/`Zone`; writes `MovementIntent`/`AttackIntent`; uses `SpatialGrid`+
+  `AStarPathfinder`
 - [x] `PortalCooldownSystem` — reads/writes `PortalCooldown` tick countdown
 - [x] `SpatialGridSystem` — rebuilds `SpatialGrid` from `Position`/`Zone` each tick
-- [x] `ZoneChangeSystem` — reads `Portal`/`Position`/`PortalCooldown`; writes zone transitions; zone-change via `GameEventPort`
+- [x] `ZoneChangeSystem` — reads `Portal`/`Position`/`PortalCooldown`; writes zone transitions; zone-change via
+  `GameEventPort`
 - [x] `GroupService` — create/join/leave/kick orchestration; updates ECS + notifies via `GameEventPort`
 - [x] `GameConfig` port interface in `application-core`
 - [x] `PlayerControlled` extended with `sessionId` field (domain-core)
@@ -72,6 +74,7 @@
 > performance using contiguous primitive arrays. Pure JDK 25 — zero new dependencies.
 
 ### Step 1 — Mutable Domain Shift (domain-core, domain-combat, domain-navigation)
+
 - [x] Refactor all 21 ECS components from immutable records to mutable `public class` POJOs
 - [x] Public fields for zero-allocation direct access
 - [x] No-arg constructors for array pre-allocation
@@ -83,6 +86,7 @@
 - [x] `Component` marker interface Javadoc updated to describe mutable POJO contract
 
 ### Step 2 — The Integer World (application-core)
+
 - [x] `EntityManager` — entities are primitive `int` IDs from `AtomicInteger`
 - [x] `boolean[] alive` array tracks entity liveness (no `Set<String>`)
 - [x] `maxAliveId` high-water mark for bounded iteration
@@ -90,6 +94,7 @@
 - [x] All `String`/`UUID` entity tracking removed
 
 ### Step 3 — The Contiguous ComponentManager (application-core)
+
 - [x] 21 fixed-size contiguous arrays (one per component type, `new T[100_000]`)
 - [x] All `HashMap` storage removed; entity ID is the array index
 - [x] Direct typed accessors for hot path (`getPositions()`, `getVelocities()`, etc.)
@@ -98,6 +103,7 @@
 - [x] `MethodReturnsInternalArray` PMD rule globally excluded (by design)
 
 ### Step 4 — System Iteration (application-core)
+
 - [x] All 7 `GameSystem` implementations use `for (int i = 0; i < max; i++)` loops
 - [x] Systems query `ecsWorld.getMaxEntityId()` and `ecsWorld.getAlive()` directly
 - [x] Systems access `ComponentManager` arrays by index — no string-based queries
@@ -133,7 +139,8 @@
 - [ ] `grimoire-infra-network-netty`: Netty bootstrap (`GameServer`, `GameChannelInitializer`, `BootstrapFactory`)
 - [ ] `grimoire-infra-network-netty`: `GameLogicHandler` (packet dispatch → `GameCommandQueue`)
 - [ ] `grimoire-infra-network-netty`: channel map (`ConcurrentHashMap<String, Channel>`) — session-to-channel mapping
-- [ ] `grimoire-infra-network-netty`: adapter systems (`NetworkSyncSystem`, `NetworkVisibilitySystem`, `PlayerInputSystem`)
+- [ ] `grimoire-infra-network-netty`: adapter systems (`NetworkSyncSystem`, `NetworkVisibilitySystem`,
+  `PlayerInputSystem`)
 - [ ] `grimoire-infra-security-keycloak`: JWT/Keycloak token validation adapter
 - [ ] `grimoire-infra-persistence-jpa`: JPA entities (`Account`, `Character`, `PlayerGroup`, `GroupMembership`)
 - [ ] `grimoire-infra-persistence-jpa`: repositories + domain mappers
@@ -158,6 +165,7 @@
 
 ## Wave 7 — Incubator Evaluation
 
-- [x] ~~Evaluate Artemis-ODB ECS behind `SimulationPort`~~ — **ABANDONED.** Artemis lacks Java 25 bytecode weaving; violates [ADR-000](adr/000-java-25-mandate.md). Replaced by Wave 3.9 primitive-backed engine upgrade.
+- [x] ~~Evaluate Artemis-ODB ECS behind `SimulationPort`~~ — **ABANDONED.** Artemis lacks Java 25 bytecode weaving;
+  violates [ADR-000](adr/000-java-25-mandate.md). Replaced by Wave 3.9 primitive-backed engine upgrade.
 - [ ] Evaluate `october` lifecycle/FSM patterns for client scene architecture
 - [ ] Pitest mutation testing evaluation

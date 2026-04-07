@@ -18,19 +18,29 @@ import java.util.BitSet;
  */
 public final class NavigationGrid {
 
-    /** Default tile size in world units. */
+    /**
+     * Default tile size in world units.
+     */
     public static final int DEFAULT_TILE_SIZE = 32;
 
-    /** The size of each tile in world units. */
+    /**
+     * The size of each tile in world units.
+     */
     private final int tileSize;
 
-    /** Number of columns in the grid. */
+    /**
+     * Number of columns in the grid.
+     */
     private final int gridWidth;
 
-    /** Number of rows in the grid. */
+    /**
+     * Number of rows in the grid.
+     */
     private final int gridHeight;
 
-    /** Bit-per-cell storage where set bits indicate blocked cells. */
+    /**
+     * Bit-per-cell storage where set bits indicate blocked cells.
+     */
     private final BitSet blocked;
 
     /**
@@ -73,34 +83,46 @@ public final class NavigationGrid {
         this(width, height, DEFAULT_TILE_SIZE);
     }
 
-    /** Converts world coordinates to grid indices. */
+    /**
+     * Converts world coordinates to grid indices.
+     */
     public int[] worldToGrid(double x, double y) {
         return new int[]{(int) Math.floor(x / tileSize), (int) Math.floor(y / tileSize)};
     }
 
-    /** Returns the center world coordinate of a grid cell. */
+    /**
+     * Returns the center world coordinate of a grid cell.
+     */
     public double[] gridToWorld(int gridX, int gridY) {
         return new double[]{(gridX + 0.5) * tileSize, (gridY + 0.5) * tileSize};
     }
 
-    /** Returns {@code true} if the cell is blocked or out of bounds. */
+    /**
+     * Returns {@code true} if the cell is blocked or out of bounds.
+     */
     public boolean isBlocked(int gridX, int gridY) {
         return !isValidCell(gridX, gridY) || blocked.get(toIndex(gridX, gridY));
     }
 
-    /** Returns {@code true} if the cell is walkable (in bounds and not blocked). */
+    /**
+     * Returns {@code true} if the cell is walkable (in bounds and not blocked).
+     */
     public boolean isWalkable(int gridX, int gridY) {
         return isValidCell(gridX, gridY) && !blocked.get(toIndex(gridX, gridY));
     }
 
-    /** Marks a cell as blocked (no-op if out of bounds). */
+    /**
+     * Marks a cell as blocked (no-op if out of bounds).
+     */
     public void setBlocked(int gridX, int gridY) {
         if (isValidCell(gridX, gridY)) {
             blocked.set(toIndex(gridX, gridY));
         }
     }
 
-    /** Marks a cell as walkable (no-op if out of bounds). */
+    /**
+     * Marks a cell as walkable (no-op if out of bounds).
+     */
     public void setWalkable(int gridX, int gridY) {
         if (isValidCell(gridX, gridY)) {
             blocked.clear(toIndex(gridX, gridY));
@@ -139,12 +161,16 @@ public final class NavigationGrid {
         markArea(worldX, worldY, bbWidth, bbHeight, false);
     }
 
-    /** Clears all blocked tiles, making the entire grid walkable. */
+    /**
+     * Clears all blocked tiles, making the entire grid walkable.
+     */
     public void clear() {
         blocked.clear();
     }
 
-    /** Returns {@code true} if the cell coordinates are within bounds. */
+    /**
+     * Returns {@code true} if the cell coordinates are within bounds.
+     */
     public boolean isValidCell(int gridX, int gridY) {
         return gridX >= 0 && gridX < gridWidth && gridY >= 0 && gridY < gridHeight;
     }
@@ -161,7 +187,9 @@ public final class NavigationGrid {
         return gridHeight;
     }
 
-    /** Returns the number of blocked cells. */
+    /**
+     * Returns the number of blocked cells.
+     */
     public int getBlockedCount() {
         return blocked.cardinality();
     }

@@ -5,13 +5,19 @@ package com.grimoire.domain.core.component;
  */
 public class MovementIntent implements Component {
 
-    /** The target X coordinate the entity wants to move towards. */
+    /**
+     * The target X coordinate the entity wants to move towards.
+     */
     public double targetX;
 
-    /** The target Y coordinate the entity wants to move towards. */
+    /**
+     * The target Y coordinate the entity wants to move towards.
+     */
     public double targetY;
 
-    /** No-arg constructor for array pre-allocation. */
+    /**
+     * No-arg constructor for array pre-allocation.
+     */
     public MovementIntent() {
         // default values
     }

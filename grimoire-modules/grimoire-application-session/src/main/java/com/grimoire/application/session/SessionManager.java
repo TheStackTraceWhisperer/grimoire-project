@@ -28,16 +28,24 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class SessionManager {
 
-    /** Logger for session lifecycle events. */
+    /**
+     * Logger for session lifecycle events.
+     */
     private static final System.Logger LOG = System.getLogger(SessionManager.class.getName());
 
-    /** Active sessions keyed by session ID. */
+    /**
+     * Active sessions keyed by session ID.
+     */
     private final Map<String, Session> sessions = new ConcurrentHashMap<>();
 
-    /** Reverse index: accountId → sessionId. */
+    /**
+     * Reverse index: accountId → sessionId.
+     */
     private final Map<String, String> accountToSession = new ConcurrentHashMap<>();
 
-    /** How many minutes each new session remains valid. */
+    /**
+     * How many minutes each new session remains valid.
+     */
     private final int sessionValidityMinutes;
 
     /**

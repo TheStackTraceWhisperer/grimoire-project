@@ -10,10 +10,14 @@ package com.grimoire.domain.core.component;
  */
 public class Dead implements Component {
 
-    /** The entity ID of the killer, or -1 for environmental deaths. */
+    /**
+     * The entity ID of the killer, or -1 for environmental deaths.
+     */
     public int killerId;
 
-    /** No-arg constructor for array pre-allocation. */
+    /**
+     * No-arg constructor for array pre-allocation.
+     */
     public Dead() {
         this.killerId = -1;
         // default values

@@ -7,16 +7,16 @@
 
 ## 9.1 Java 25 Migration ✅
 
-| Check | Evidence |
-|-------|----------|
-| JDK version | `openjdk version "25" 2025-09-16 LTS` (Zulu 25.28+85-CA) |
-| Maven version | `Apache Maven 3.9.11` |
-| `java.version` property | `<java.version>25</java.version>` in `grimoire-parent` |
-| `maven.compiler.release` | `<maven.compiler.release>${java.version}</maven.compiler.release>` in `grimoire-parent` |
-| Enforcer `requireJavaVersion` | `[25,)` — Rule passed |
-| Enforcer `requireMavenVersion` | `[3.9.9,)` — Rule passed |
-| Enforcer `banDuplicatePomDependencyVersions` | Rule passed |
-| Enforcer `dependencyConvergence` | Rule passed |
+| Check                                        | Evidence                                                                                |
+|----------------------------------------------|-----------------------------------------------------------------------------------------|
+| JDK version                                  | `openjdk version "25" 2025-09-16 LTS` (Zulu 25.28+85-CA)                                |
+| Maven version                                | `Apache Maven 3.9.11`                                                                   |
+| `java.version` property                      | `<java.version>25</java.version>` in `grimoire-parent`                                  |
+| `maven.compiler.release`                     | `<maven.compiler.release>${java.version}</maven.compiler.release>` in `grimoire-parent` |
+| Enforcer `requireJavaVersion`                | `[25,)` — Rule passed                                                                   |
+| Enforcer `requireMavenVersion`               | `[3.9.9,)` — Rule passed                                                                |
+| Enforcer `banDuplicatePomDependencyVersions` | Rule passed                                                                             |
+| Enforcer `dependencyConvergence`             | Rule passed                                                                             |
 
 ```
 $ mvn validate -pl grimoire-modules/grimoire-contracts-api
@@ -43,10 +43,10 @@ pmd-ruleset.xml
 
 ## 9.3 Parent POMs ✅
 
-| POM | Exists | Key contents |
-|-----|--------|-------------|
-| `grimoire-poms/grimoire-parent/pom.xml` | ✓ | Standalone parent (no reactor parent), compiler, enforcer, surefire, failsafe, JaCoCo, quality profiles |
-| `grimoire-poms/grimoire-starter-parent/pom.xml` | ✓ | Extends `grimoire-parent`, imports Micronaut platform BOM + Micronaut data BOM, `micronaut-maven-plugin` |
+| POM                                             | Exists | Key contents                                                                                             |
+|-------------------------------------------------|--------|----------------------------------------------------------------------------------------------------------|
+| `grimoire-poms/grimoire-parent/pom.xml`         | ✓      | Standalone parent (no reactor parent), compiler, enforcer, surefire, failsafe, JaCoCo, quality profiles  |
+| `grimoire-poms/grimoire-starter-parent/pom.xml` | ✓      | Extends `grimoire-parent`, imports Micronaut platform BOM + Micronaut data BOM, `micronaut-maven-plugin` |
 
 ```
 grimoire-starter-parent → parent: grimoire-parent
@@ -56,11 +56,11 @@ grimoire-starter-parent → parent: grimoire-parent
 
 ## 9.4 BOMs ✅
 
-| BOM | Entries | Import chain |
-|-----|---------|-------------|
-| `external-bom` | 18 `<artifactId>` entries | — |
-| `internal-bom` | 15 `<artifactId>` entries (12 modules + external-bom + grimoire-poms + self) | Imports `external-bom` (`<scope>import</scope>`) |
-| `grimoire-starter-parent` | — | Imports `internal-bom` (`<scope>import</scope>`) |
+| BOM                       | Entries                                                                      | Import chain                                     |
+|---------------------------|------------------------------------------------------------------------------|--------------------------------------------------|
+| `external-bom`            | 18 `<artifactId>` entries                                                    | —                                                |
+| `internal-bom`            | 15 `<artifactId>` entries (12 modules + external-bom + grimoire-poms + self) | Imports `external-bom` (`<scope>import</scope>`) |
+| `grimoire-starter-parent` | —                                                                            | Imports `internal-bom` (`<scope>import</scope>`) |
 
 ```
 internal-bom/pom.xml:
@@ -80,28 +80,28 @@ grimoire-starter-parent/pom.xml:
 
 ### Library modules (12) — parent: `grimoire-parent`
 
-| Module | `pom.xml` | `src/main/java` | `src/test/java` |
-|--------|-----------|-----------------|-----------------|
-| grimoire-application-core | ✓ | ✓ | ✓ |
-| grimoire-application-session | ✓ | ✓ | ✓ |
-| grimoire-contracts-api | ✓ | ✓ | ✓ |
-| grimoire-contracts-wire | ✓ | ✓ | ✓ |
-| grimoire-domain-combat | ✓ | ✓ | ✓ |
-| grimoire-domain-core | ✓ | ✓ | ✓ |
-| grimoire-domain-navigation | ✓ | ✓ | ✓ |
-| grimoire-infra-network-netty | ✓ | ✓ | ✓ |
-| grimoire-infra-observability | ✓ | ✓ | ✓ |
-| grimoire-infra-persistence-jpa | ✓ | ✓ | ✓ |
-| grimoire-infra-security-keycloak | ✓ | ✓ | ✓ |
-| grimoire-test-kit | ✓ | ✓ | ✓ |
+| Module                           | `pom.xml` | `src/main/java` | `src/test/java` |
+|----------------------------------|-----------|-----------------|-----------------|
+| grimoire-application-core        | ✓         | ✓               | ✓               |
+| grimoire-application-session     | ✓         | ✓               | ✓               |
+| grimoire-contracts-api           | ✓         | ✓               | ✓               |
+| grimoire-contracts-wire          | ✓         | ✓               | ✓               |
+| grimoire-domain-combat           | ✓         | ✓               | ✓               |
+| grimoire-domain-core             | ✓         | ✓               | ✓               |
+| grimoire-domain-navigation       | ✓         | ✓               | ✓               |
+| grimoire-infra-network-netty     | ✓         | ✓               | ✓               |
+| grimoire-infra-observability     | ✓         | ✓               | ✓               |
+| grimoire-infra-persistence-jpa   | ✓         | ✓               | ✓               |
+| grimoire-infra-security-keycloak | ✓         | ✓               | ✓               |
+| grimoire-test-kit                | ✓         | ✓               | ✓               |
 
 ### Application modules (3) — parent: `grimoire-starter-parent`
 
-| Module | `pom.xml` | `src/main/java` | `src/test/java` |
-|--------|-----------|-----------------|-----------------|
-| grimoire-client-app | ✓ | ✓ | ✓ |
-| grimoire-server-app | ✓ | ✓ | ✓ |
-| grimoire-web-app | ✓ | ✓ | ✓ |
+| Module              | `pom.xml` | `src/main/java` | `src/test/java` |
+|---------------------|-----------|-----------------|-----------------|
+| grimoire-client-app | ✓         | ✓               | ✓               |
+| grimoire-server-app | ✓         | ✓               | ✓               |
+| grimoire-web-app    | ✓         | ✓               | ✓               |
 
 ---
 
@@ -180,8 +180,8 @@ BUILD SUCCESS (10.340 s)
 
 ## Additional Artifact
 
-| Item | Status |
-|------|--------|
+| Item                                               | Status    |
+|----------------------------------------------------|-----------|
 | `deps.puml` — compile & runtime dependency diagram | ✓ Present |
 
 ---

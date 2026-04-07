@@ -26,6 +26,7 @@
 
     <!-- ── Runtime dependencies ── -->
     <deps.jakarta-inject.version>2.0.1</deps.jakarta-inject.version>
+    <deps.jakarta-annotation.version>2.1.1</deps.jakarta-annotation.version>
     <deps.fory.version>0.13.1</deps.fory.version>
     <deps.logback.version>1.5.16</deps.logback.version>
     <deps.lombok.version>1.18.44</deps.lombok.version>
@@ -80,6 +81,18 @@
         <groupId>jakarta.inject</groupId>
         <artifactId>jakarta.inject-api</artifactId>
         <version>${deps.jakarta-inject.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>jakarta.annotation</groupId>
+        <artifactId>jakarta.annotation-api</artifactId>
+        <version>${deps.jakarta-annotation.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>io.micronaut</groupId>
+        <artifactId>micronaut-inject</artifactId>
+        <version>${deps.micronaut.version}</version>
       </dependency>
 
       <dependency>

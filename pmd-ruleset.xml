@@ -39,6 +39,14 @@
         <exclude name="UseUtilityClass"/>
         <!-- ECS component equals() methods use idiomatic pattern -->
         <exclude name="SimplifyBooleanReturns"/>
+        <!-- ComponentManager is a single registry for all component arrays;
+             coupling, method count, and field count are inherent to the design -->
+        <exclude name="CouplingBetweenObjects"/>
+        <exclude name="TooManyMethods"/>
+        <exclude name="TooManyFields"/>
+        <exclude name="ExcessivePublicCount"/>
+        <exclude name="GodClass"/>
+        <exclude name="DataClass"/>
         <!-- Raised thresholds below instead -->
         <exclude name="CyclomaticComplexity"/>
         <exclude name="CognitiveComplexity"/>
@@ -69,12 +77,11 @@
     <rule ref="category/java/multithreading.xml">
         <!-- Single-threaded game loop; HashMap is correct -->
         <exclude name="UseConcurrentHashMap"/>
+        <!-- Game server, not J2EE; Netty requires explicit thread groups -->
+        <exclude name="DoNotUseThreads"/>
     </rule>
     <!-- Performance -->
-    <rule ref="category/java/performance.xml">
-        <!-- ECS arrays are intentionally exposed for zero-copy access -->
-        <exclude name="MethodReturnsInternalArray"/>
-    </rule>
+    <rule ref="category/java/performance.xml"/>
     <!-- Security -->
     <rule ref="category/java/security.xml"/>
     <!-- Priority overrides -->

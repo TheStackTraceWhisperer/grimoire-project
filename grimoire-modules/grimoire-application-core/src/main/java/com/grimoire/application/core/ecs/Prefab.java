@@ -17,10 +17,14 @@ import java.util.List;
  */
 public class Prefab {
 
-    /** Human-readable name of this prefab. */
+    /**
+     * Human-readable name of this prefab.
+     */
     private final String name;
 
-    /** Ordered list of component templates to apply on entity creation. */
+    /**
+     * Ordered list of component templates to apply on entity creation.
+     */
     private final List<Component> componentTemplates;
 
     /**

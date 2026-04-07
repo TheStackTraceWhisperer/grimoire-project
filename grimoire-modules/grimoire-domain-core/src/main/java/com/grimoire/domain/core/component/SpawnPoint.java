@@ -5,16 +5,24 @@ package com.grimoire.domain.core.component;
  */
 public class SpawnPoint implements Component {
 
-    /** The X coordinate of the spawn point. */
+    /**
+     * The X coordinate of the spawn point.
+     */
     public double x;
 
-    /** The Y coordinate of the spawn point. */
+    /**
+     * The Y coordinate of the spawn point.
+     */
     public double y;
 
-    /** The maximum distance from the spawn point before the NPC resets. */
+    /**
+     * The maximum distance from the spawn point before the NPC resets.
+     */
     public double leashRadius;
 
-    /** No-arg constructor for array pre-allocation. */
+    /**
+     * No-arg constructor for array pre-allocation.
+     */
     public SpawnPoint() {
         // default values
     }

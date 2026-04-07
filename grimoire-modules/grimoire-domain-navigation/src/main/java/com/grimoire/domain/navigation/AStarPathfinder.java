@@ -2,18 +2,7 @@ package com.grimoire.domain.navigation;
 
 import com.grimoire.domain.core.component.Position;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A* pathfinding algorithm for grid-based navigation.
@@ -30,16 +19,24 @@ import java.util.Set;
  */
 public final class AStarPathfinder {
 
-    /** Maximum nodes to explore before aborting the search. */
+    /**
+     * Maximum nodes to explore before aborting the search.
+     */
     private static final int MAX_ITERATIONS = 10_000;
 
-    /** Movement cost for horizontal/vertical steps. */
+    /**
+     * Movement cost for horizontal/vertical steps.
+     */
     private static final double STRAIGHT_COST = 1.0;
 
-    /** Movement cost for diagonal steps (√2). */
+    /**
+     * Movement cost for diagonal steps (√2).
+     */
     private static final double DIAGONAL_COST = Math.sqrt(2);
 
-    /** 8-directional movement offsets (cardinal + diagonal). */
+    /**
+     * 8-directional movement offsets (cardinal + diagonal).
+     */
     private static final int[][] DIRECTIONS = {
             {0, -1}, {0, 1}, {-1, 0}, {1, 0},
             {-1, -1}, {1, -1}, {-1, 1}, {1, 1}

@@ -5,24 +5,14 @@ import com.grimoire.application.core.ecs.EcsWorld;
 import com.grimoire.application.core.ecs.EntityManager;
 import com.grimoire.application.core.port.GameConfig;
 import com.grimoire.application.core.port.GameEventPort;
-import com.grimoire.domain.core.component.BoundingBox;
-import com.grimoire.domain.core.component.Dirty;
-import com.grimoire.domain.core.component.PlayerControlled;
-import com.grimoire.domain.core.component.Portal;
-import com.grimoire.domain.core.component.PortalCooldown;
-import com.grimoire.domain.core.component.Position;
-import com.grimoire.domain.core.component.Renderable;
-import com.grimoire.domain.core.component.Zone;
+import com.grimoire.domain.core.component.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.within;
-import static org.mockito.ArgumentMatchers.anyDouble;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 

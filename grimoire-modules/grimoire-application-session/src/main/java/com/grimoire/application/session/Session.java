@@ -41,15 +41,6 @@ public record Session(
     }
 
     /**
-     * Checks whether this session has expired.
-     *
-     * @return {@code true} if the current time is after {@code expiresAt}
-     */
-    public boolean isExpired() {
-        return Instant.now().isAfter(expiresAt);
-    }
-
-    /**
      * Factory method that creates a new session with a generated ID.
      *
      * @param accountId
@@ -65,5 +56,14 @@ public record Session(
         Instant now = Instant.now();
         Instant expiry = now.plusSeconds(validityMinutes * 60L);
         return new Session(sessionId, accountId, username, now, expiry);
+    }
+
+    /**
+     * Checks whether this session has expired.
+     *
+     * @return {@code true} if the current time is after {@code expiresAt}
+     */
+    public boolean isExpired() {
+        return Instant.now().isAfter(expiresAt);
     }
 }

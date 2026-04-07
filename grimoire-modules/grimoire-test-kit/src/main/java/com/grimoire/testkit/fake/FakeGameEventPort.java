@@ -25,22 +25,30 @@ public class FakeGameEventPort implements GameEventPort {
         recordedZoneChangeEvents.add(new ZoneChangeEvent(entityId, newZoneId, x, y));
     }
 
-    /** Returns an unmodifiable view of all recorded despawn events. */
+    /**
+     * Returns an unmodifiable view of all recorded despawn events.
+     */
     public List<DespawnEvent> despawnEvents() {
         return Collections.unmodifiableList(recordedDespawnEvents);
     }
 
-    /** Returns an unmodifiable view of all recorded zone-change events. */
+    /**
+     * Returns an unmodifiable view of all recorded zone-change events.
+     */
     public List<ZoneChangeEvent> zoneChangeEvents() {
         return Collections.unmodifiableList(recordedZoneChangeEvents);
     }
 
-    /** Returns the total number of events recorded across all types. */
+    /**
+     * Returns the total number of events recorded across all types.
+     */
     public int totalEventCount() {
         return recordedDespawnEvents.size() + recordedZoneChangeEvents.size();
     }
 
-    /** Clears all recorded events. */
+    /**
+     * Clears all recorded events.
+     */
     public void clear() {
         recordedDespawnEvents.clear();
         recordedZoneChangeEvents.clear();

@@ -7,13 +7,19 @@ import com.grimoire.domain.core.component.Component;
  */
 public class Monster implements Component {
 
-    /** The type of monster. */
+    /**
+     * The type of monster.
+     */
     public MonsterType type;
 
-    /** XP awarded to the killer when this monster dies. */
+    /**
+     * XP awarded to the killer when this monster dies.
+     */
     public int xpReward;
 
-    /** No-arg constructor for array pre-allocation. */
+    /**
+     * No-arg constructor for array pre-allocation.
+     */
     public Monster() {
         // default values
     }
@@ -82,7 +88,9 @@ public class Monster implements Component {
     public enum MonsterType {
         RAT(10), BAT(15), WOLF(25), SKELETON(40);
 
-        /** The default experience points awarded for killing this monster type. */
+        /**
+         * The default experience points awarded for killing this monster type.
+         */
         private final int xpValue;
 
         MonsterType(int xpValue) {

@@ -20,13 +20,19 @@ import java.util.Arrays;
  */
 public class EntityManager {
 
-    /** Maximum number of concurrent entities. */
+    /**
+     * Maximum number of concurrent entities.
+     */
     public static final int MAX_ENTITIES = 100_000;
 
-    /** Initial capacity of the free-list (grows as needed). */
+    /**
+     * Initial capacity of the free-list (grows as needed).
+     */
     private static final int FREE_LIST_INITIAL_CAPACITY = 1024;
 
-    /** Alive flags indexed by entity ID. */
+    /**
+     * Alive flags indexed by entity ID.
+     */
     private final boolean[] alive = new boolean[MAX_ENTITIES];
 
     /**
@@ -41,7 +47,9 @@ public class EntityManager {
      */
     private final int[] entityToActiveIndex = new int[MAX_ENTITIES];
 
-    /** Number of currently active entities. */
+    /**
+     * Number of currently active entities.
+     */
     private int activeCount;
 
     /**
@@ -50,10 +58,14 @@ public class EntityManager {
      */
     private int[] freeList = new int[FREE_LIST_INITIAL_CAPACITY];
 
-    /** Number of IDs currently in the free-list. */
+    /**
+     * Number of IDs currently in the free-list.
+     */
     private int freeCount;
 
-    /** Next fresh (never-used) entity ID — only used when free-list is empty. */
+    /**
+     * Next fresh (never-used) entity ID — only used when free-list is empty.
+     */
     private int nextFreshId;
 
     /**

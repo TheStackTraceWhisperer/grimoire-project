@@ -7,10 +7,14 @@ import com.grimoire.domain.core.component.Component;
  */
 public class AttackCooldown implements Component {
 
-    /** The number of ticks until the entity can attack again. */
+    /**
+     * The number of ticks until the entity can attack again.
+     */
     public int ticksRemaining;
 
-    /** No-arg constructor for array pre-allocation. */
+    /**
+     * No-arg constructor for array pre-allocation.
+     */
     public AttackCooldown() {
         // default values
     }

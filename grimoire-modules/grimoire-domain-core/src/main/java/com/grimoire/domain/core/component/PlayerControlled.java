@@ -10,10 +10,14 @@ package com.grimoire.domain.core.component;
  */
 public class PlayerControlled implements Component {
 
-    /** The session identifier for this player's connection. */
+    /**
+     * The session identifier for this player's connection.
+     */
     public String sessionId;
 
-    /** No-arg constructor for array pre-allocation. */
+    /**
+     * No-arg constructor for array pre-allocation.
+     */
     public PlayerControlled() {
         // default values
     }

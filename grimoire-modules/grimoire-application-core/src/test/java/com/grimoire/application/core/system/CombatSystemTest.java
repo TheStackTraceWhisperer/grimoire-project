@@ -8,20 +8,13 @@ import com.grimoire.application.core.port.GameEventPort;
 import com.grimoire.domain.combat.component.AttackCooldown;
 import com.grimoire.domain.combat.component.AttackIntent;
 import com.grimoire.domain.combat.component.Monster;
-import com.grimoire.domain.core.component.Dead;
-import com.grimoire.domain.core.component.Dirty;
-import com.grimoire.domain.core.component.Experience;
-import com.grimoire.domain.core.component.Position;
-import com.grimoire.domain.core.component.Stats;
-import com.grimoire.domain.core.component.Zone;
+import com.grimoire.domain.core.component.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 

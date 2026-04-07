@@ -14,16 +14,24 @@ import com.grimoire.domain.core.component.Stats;
  */
 public final class LevelingRules {
 
-    /** HP increase per level-up. */
+    /**
+     * HP increase per level-up.
+     */
     public static final int HP_PER_LEVEL = 10;
 
-    /** Attack increase per level-up. */
+    /**
+     * Attack increase per level-up.
+     */
     public static final int ATTACK_PER_LEVEL = 2;
 
-    /** Defense increase per level-up. */
+    /**
+     * Defense increase per level-up.
+     */
     public static final int DEFENSE_PER_LEVEL = 1;
 
-    /** Multiplier applied to xpToNextLevel on each level-up. */
+    /**
+     * Multiplier applied to xpToNextLevel on each level-up.
+     */
     public static final double XP_SCALING_FACTOR = 1.5;
 
     private LevelingRules() {

@@ -25,7 +25,9 @@ import org.apache.fory.config.Language;
  */
 public class ForyEncoder extends MessageToByteEncoder<Object> {
 
-    /** Thread-safe Fory instance with internal synchronisation. */
+    /**
+     * Thread-safe Fory instance with internal synchronisation.
+     */
     private static final ThreadSafeFory FORY = Fory.builder()
             .withLanguage(Language.JAVA)
             .requireClassRegistration(false)

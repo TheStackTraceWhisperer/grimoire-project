@@ -4,23 +4,7 @@ import com.grimoire.domain.combat.component.AttackCooldown;
 import com.grimoire.domain.combat.component.AttackIntent;
 import com.grimoire.domain.combat.component.Monster;
 import com.grimoire.domain.combat.component.NpcAi;
-import com.grimoire.domain.core.component.BoundingBox;
-import com.grimoire.domain.core.component.Component;
-import com.grimoire.domain.core.component.Dead;
-import com.grimoire.domain.core.component.Dirty;
-import com.grimoire.domain.core.component.Experience;
-import com.grimoire.domain.core.component.MovementIntent;
-import com.grimoire.domain.core.component.Persistent;
-import com.grimoire.domain.core.component.PlayerControlled;
-import com.grimoire.domain.core.component.Portal;
-import com.grimoire.domain.core.component.PortalCooldown;
-import com.grimoire.domain.core.component.Position;
-import com.grimoire.domain.core.component.Renderable;
-import com.grimoire.domain.core.component.Solid;
-import com.grimoire.domain.core.component.SpawnPoint;
-import com.grimoire.domain.core.component.Stats;
-import com.grimoire.domain.core.component.Velocity;
-import com.grimoire.domain.core.component.Zone;
+import com.grimoire.domain.core.component.*;
 import com.grimoire.domain.navigation.component.Path;
 
 import java.util.HashMap;
@@ -47,64 +31,97 @@ import java.util.Map;
  * single-threaded game loop.
  * </p>
  */
-@SuppressWarnings({"PMD.CouplingBetweenObjects", "PMD.DataClass", "PMD.ExcessivePublicCount",
-        "PMD.TooManyMethods", "PMD.TooManyFields", "PMD.GodClass"})
 public class ComponentManager {
 
-    private static final int MAX = EntityManager.MAX_ENTITIES;
+    /**
+     * Signature bit for {@link Position}.
+     */
+    public static final long BIT_POSITION = 1L;
 
     // ── Signature bit constants (one per component type) ──
-
-    /** Signature bit for {@link Position}. */
-    public static final long BIT_POSITION = 1L;
-    /** Signature bit for {@link Velocity}. */
+    /**
+     * Signature bit for {@link Velocity}.
+     */
     public static final long BIT_VELOCITY = 1L << 1;
-    /** Signature bit for {@link Stats}. */
+    /**
+     * Signature bit for {@link Stats}.
+     */
     public static final long BIT_STATS = 1L << 2;
-    /** Signature bit for {@link BoundingBox}. */
+    /**
+     * Signature bit for {@link BoundingBox}.
+     */
     public static final long BIT_BOUNDING_BOX = 1L << 3;
-    /** Signature bit for {@link Dead}. */
+    /**
+     * Signature bit for {@link Dead}.
+     */
     public static final long BIT_DEAD = 1L << 4;
-    /** Signature bit for {@link Dirty}. */
+    /**
+     * Signature bit for {@link Dirty}.
+     */
     public static final long BIT_DIRTY = 1L << 5;
-    /** Signature bit for {@link Experience}. */
+    /**
+     * Signature bit for {@link Experience}.
+     */
     public static final long BIT_EXPERIENCE = 1L << 6;
-    /** Signature bit for {@link MovementIntent}. */
+    /**
+     * Signature bit for {@link MovementIntent}.
+     */
     public static final long BIT_MOVEMENT_INTENT = 1L << 7;
-    /** Signature bit for {@link Persistent}. */
+    /**
+     * Signature bit for {@link Persistent}.
+     */
     public static final long BIT_PERSISTENT = 1L << 8;
-    /** Signature bit for {@link PlayerControlled}. */
+    /**
+     * Signature bit for {@link PlayerControlled}.
+     */
     public static final long BIT_PLAYER_CONTROLLED = 1L << 9;
-    /** Signature bit for {@link Portal}. */
+    /**
+     * Signature bit for {@link Portal}.
+     */
     public static final long BIT_PORTAL = 1L << 10;
-    /** Signature bit for {@link PortalCooldown}. */
+    /**
+     * Signature bit for {@link PortalCooldown}.
+     */
     public static final long BIT_PORTAL_COOLDOWN = 1L << 11;
-    /** Signature bit for {@link Renderable}. */
+    /**
+     * Signature bit for {@link Renderable}.
+     */
     public static final long BIT_RENDERABLE = 1L << 12;
-    /** Signature bit for {@link Solid}. */
+    /**
+     * Signature bit for {@link Solid}.
+     */
     public static final long BIT_SOLID = 1L << 13;
-    /** Signature bit for {@link SpawnPoint}. */
+    /**
+     * Signature bit for {@link SpawnPoint}.
+     */
     public static final long BIT_SPAWN_POINT = 1L << 14;
-    /** Signature bit for {@link Zone}. */
+    /**
+     * Signature bit for {@link Zone}.
+     */
     public static final long BIT_ZONE = 1L << 15;
-    /** Signature bit for {@link AttackCooldown}. */
+    /**
+     * Signature bit for {@link AttackCooldown}.
+     */
     public static final long BIT_ATTACK_COOLDOWN = 1L << 16;
-    /** Signature bit for {@link AttackIntent}. */
+    /**
+     * Signature bit for {@link AttackIntent}.
+     */
     public static final long BIT_ATTACK_INTENT = 1L << 17;
-    /** Signature bit for {@link Monster}. */
+    /**
+     * Signature bit for {@link Monster}.
+     */
     public static final long BIT_MONSTER = 1L << 18;
-    /** Signature bit for {@link NpcAi}. */
+    /**
+     * Signature bit for {@link NpcAi}.
+     */
     public static final long BIT_NPC_AI = 1L << 19;
-    /** Signature bit for {@link Path}. */
+    /**
+     * Signature bit for {@link Path}.
+     */
     public static final long BIT_PATH = 1L << 20;
+    private static final int MAX = EntityManager.MAX_ENTITIES;
 
     // ── Signature array ──
-
-    /** Bitwise component signature per entity for O(1) archetype checks. */
-    private final long[] signatures = new long[MAX];
-
-    // ── Class-to-bit mapping for generic access ──
-
     private static final Map<Class<? extends Component>, Long> BIT_MAP = Map.ofEntries(
             Map.entry(Position.class, BIT_POSITION),
             Map.entry(Velocity.class, BIT_VELOCITY),
@@ -128,6 +145,11 @@ public class ComponentManager {
             Map.entry(NpcAi.class, BIT_NPC_AI),
             Map.entry(Path.class, BIT_PATH));
 
+    // ── Class-to-bit mapping for generic access ──
+    /**
+     * Bitwise component signature per entity for O(1) archetype checks.
+     */
+    private final long[] signatures = new long[MAX];
     // ── Domain-core component arrays ──
     private final Position[] positions = new Position[MAX];
     private final Velocity[] velocities = new Velocity[MAX];
@@ -158,7 +180,9 @@ public class ComponentManager {
     // ── Type-to-array mapping for generic access ──
     private final Map<Class<? extends Component>, Component[]> arrayMap = new HashMap<>();
 
-    /** Initializes the component-type-to-array mapping. */
+    /**
+     * Initializes the component-type-to-array mapping.
+     */
     public ComponentManager() {
         arrayMap.put(Position.class, positions);
         arrayMap.put(Velocity.class, velocities);
@@ -429,107 +453,149 @@ public class ComponentManager {
 
     // ── Direct typed accessors (hot path) ──
 
-    /** Returns the Position array for direct indexed access. */
+    /**
+     * Returns the Position array for direct indexed access.
+     */
     public Position[] getPositions() {
         return positions;
     }
 
-    /** Returns the Velocity array for direct indexed access. */
+    /**
+     * Returns the Velocity array for direct indexed access.
+     */
     public Velocity[] getVelocities() {
         return velocities;
     }
 
-    /** Returns the Stats array for direct indexed access. */
+    /**
+     * Returns the Stats array for direct indexed access.
+     */
     public Stats[] getStats() {
         return stats;
     }
 
-    /** Returns the BoundingBox array for direct indexed access. */
+    /**
+     * Returns the BoundingBox array for direct indexed access.
+     */
     public BoundingBox[] getBoundingBoxes() {
         return boundingBoxes;
     }
 
-    /** Returns the Dead array for direct indexed access. */
+    /**
+     * Returns the Dead array for direct indexed access.
+     */
     public Dead[] getDeads() {
         return deads;
     }
 
-    /** Returns the Dirty array for direct indexed access. */
+    /**
+     * Returns the Dirty array for direct indexed access.
+     */
     public Dirty[] getDirties() {
         return dirties;
     }
 
-    /** Returns the Experience array for direct indexed access. */
+    /**
+     * Returns the Experience array for direct indexed access.
+     */
     public Experience[] getExperiences() {
         return experiences;
     }
 
-    /** Returns the MovementIntent array for direct indexed access. */
+    /**
+     * Returns the MovementIntent array for direct indexed access.
+     */
     public MovementIntent[] getMovementIntents() {
         return movementIntents;
     }
 
-    /** Returns the Persistent array for direct indexed access. */
+    /**
+     * Returns the Persistent array for direct indexed access.
+     */
     public Persistent[] getPersistents() {
         return persistents;
     }
 
-    /** Returns the PlayerControlled array for direct indexed access. */
+    /**
+     * Returns the PlayerControlled array for direct indexed access.
+     */
     public PlayerControlled[] getPlayerControlled() {
         return playerControlled;
     }
 
-    /** Returns the Portal array for direct indexed access. */
+    /**
+     * Returns the Portal array for direct indexed access.
+     */
     public Portal[] getPortals() {
         return portals;
     }
 
-    /** Returns the PortalCooldown array for direct indexed access. */
+    /**
+     * Returns the PortalCooldown array for direct indexed access.
+     */
     public PortalCooldown[] getPortalCooldowns() {
         return portalCooldowns;
     }
 
-    /** Returns the Renderable array for direct indexed access. */
+    /**
+     * Returns the Renderable array for direct indexed access.
+     */
     public Renderable[] getRenderables() {
         return renderables;
     }
 
-    /** Returns the Solid array for direct indexed access. */
+    /**
+     * Returns the Solid array for direct indexed access.
+     */
     public Solid[] getSolids() {
         return solids;
     }
 
-    /** Returns the SpawnPoint array for direct indexed access. */
+    /**
+     * Returns the SpawnPoint array for direct indexed access.
+     */
     public SpawnPoint[] getSpawnPoints() {
         return spawnPoints;
     }
 
-    /** Returns the Zone array for direct indexed access. */
+    /**
+     * Returns the Zone array for direct indexed access.
+     */
     public Zone[] getZones() {
         return zones;
     }
 
-    /** Returns the AttackCooldown array for direct indexed access. */
+    /**
+     * Returns the AttackCooldown array for direct indexed access.
+     */
     public AttackCooldown[] getAttackCooldowns() {
         return attackCooldowns;
     }
 
-    /** Returns the AttackIntent array for direct indexed access. */
+    /**
+     * Returns the AttackIntent array for direct indexed access.
+     */
     public AttackIntent[] getAttackIntents() {
         return attackIntents;
     }
 
-    /** Returns the Monster array for direct indexed access. */
+    /**
+     * Returns the Monster array for direct indexed access.
+     */
     public Monster[] getMonsters() {
         return monsters;
     }
 
-    /** Returns the NpcAi array for direct indexed access. */
+    /**
+     * Returns the NpcAi array for direct indexed access.
+     */
     public NpcAi[] getNpcAis() {
         return npcAis;
     }
 
-    /** Returns the Path array for direct indexed access. */
+    /**
+     * Returns the Path array for direct indexed access.
+     */
     public Path[] getPaths() {
         return paths;
     }

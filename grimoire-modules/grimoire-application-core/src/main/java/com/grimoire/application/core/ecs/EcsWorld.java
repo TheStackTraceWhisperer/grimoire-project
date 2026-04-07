@@ -23,10 +23,14 @@ import java.util.function.Function;
  */
 public class EcsWorld {
 
-    /** Manages entity lifecycle (create/destroy/exists). */
+    /**
+     * Manages entity lifecycle (create/destroy/exists).
+     */
     private final EntityManager entityManager;
 
-    /** Manages component storage and queries. */
+    /**
+     * Manages component storage and queries.
+     */
     private final ComponentManager componentManager;
 
     /**
@@ -35,7 +39,9 @@ public class EcsWorld {
      */
     private final Map<String, Prefab> prefabs = new ConcurrentHashMap<>();
 
-    /** Monotonically increasing tick counter. */
+    /**
+     * Monotonically increasing tick counter.
+     */
     private long currentTick;
 
     /**

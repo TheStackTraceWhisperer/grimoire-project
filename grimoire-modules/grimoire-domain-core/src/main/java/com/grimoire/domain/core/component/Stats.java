@@ -5,19 +5,29 @@ package com.grimoire.domain.core.component;
  */
 public class Stats implements Component {
 
-    /** Current hit points. */
+    /**
+     * Current hit points.
+     */
     public int hp;
 
-    /** Maximum hit points. */
+    /**
+     * Maximum hit points.
+     */
     public int maxHp;
 
-    /** Defense rating (reduces incoming damage). */
+    /**
+     * Defense rating (reduces incoming damage).
+     */
     public int defense;
 
-    /** Attack rating (determines outgoing damage). */
+    /**
+     * Attack rating (determines outgoing damage).
+     */
     public int attack;
 
-    /** No-arg constructor for array pre-allocation. */
+    /**
+     * No-arg constructor for array pre-allocation.
+     */
     public Stats() {
         // default values
     }

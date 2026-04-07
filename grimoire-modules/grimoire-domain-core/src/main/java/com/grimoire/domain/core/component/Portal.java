@@ -5,13 +5,19 @@ package com.grimoire.domain.core.component;
  */
 public class Portal implements Component {
 
-    /** The zone the portal leads to. */
+    /**
+     * The zone the portal leads to.
+     */
     public String targetZoneId;
 
-    /** The exit portal identifier in the target zone. */
+    /**
+     * The exit portal identifier in the target zone.
+     */
     public String targetPortalId;
 
-    /** No-arg constructor for array pre-allocation. */
+    /**
+     * No-arg constructor for array pre-allocation.
+     */
     public Portal() {
         // default values
     }

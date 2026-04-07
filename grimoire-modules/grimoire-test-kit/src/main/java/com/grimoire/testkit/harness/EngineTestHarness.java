@@ -1,10 +1,6 @@
 package com.grimoire.testkit.harness;
 
-import com.grimoire.application.core.ecs.ComponentManager;
-import com.grimoire.application.core.ecs.EcsWorld;
-import com.grimoire.application.core.ecs.EntityManager;
-import com.grimoire.application.core.ecs.GameSystem;
-import com.grimoire.application.core.ecs.SystemScheduler;
+import com.grimoire.application.core.ecs.*;
 import com.grimoire.application.core.port.GameConfig;
 import com.grimoire.testkit.fake.FakeGameEventPort;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -20,16 +16,24 @@ import java.util.List;
 @SuppressFBWarnings(value = "URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD", justification = "Protected fields are intended for subclass access in test code")
 public abstract class EngineTestHarness {
 
-    /** The ECS world — accessible in subclasses for entity/component setup. */
+    /**
+     * The ECS world — accessible in subclasses for entity/component setup.
+     */
     protected EcsWorld world;
 
-    /** The system scheduler that drives ticks. */
+    /**
+     * The system scheduler that drives ticks.
+     */
     protected SystemScheduler scheduler;
 
-    /** The fake game event port — accessible for event assertions. */
+    /**
+     * The fake game event port — accessible for event assertions.
+     */
     protected FakeGameEventPort gameEventPort;
 
-    /** The game config — accessible for tuning parameters. */
+    /**
+     * The game config — accessible for tuning parameters.
+     */
     protected GameConfig gameConfig;
 
     /**

@@ -25,39 +25,39 @@ dependencies or Maven plugins added.
 
 ### `grimoire-domain-core` — 16 components
 
-| Component | Public Fields | Zero-Allocation Methods |
-|-----------|--------------|------------------------|
-| `Position` | `x`, `y` | `update(double, double)`, `translate(double, double)` |
-| `Velocity` | `dx`, `dy` | `update(double, double)` |
-| `Stats` | `hp`, `maxHp`, `defense`, `attack` | `update(int, int, int, int)` |
-| `BoundingBox` | `width`, `height` | `update(double, double)` |
-| `Dead` | `killerId` | `update(int)` |
-| `Dirty` | `tick` | `update(long)` |
-| `Experience` | `currentXp`, `xpToNextLevel` | `update(int, int)`, `addXp(int)` |
-| `MovementIntent` | `targetX`, `targetY` | `update(double, double)` |
-| `Persistent` | `accountId` | `update(String)` |
-| `PlayerControlled` | `sessionId` | `update(String)` |
-| `Portal` | `targetZoneId`, `targetPortalId` | `update(String, String)` |
-| `PortalCooldown` | `ticksRemaining` | `update(long)` |
-| `Renderable` | `name`, `visualId` | `update(String, String)` |
-| `Solid` | *(tag component)* | — |
-| `SpawnPoint` | `x`, `y`, `leashRadius` | `update(double, double, double)` |
-| `Zone` | `zoneId` | `update(String)` |
+| Component          | Public Fields                      | Zero-Allocation Methods                               |
+|--------------------|------------------------------------|-------------------------------------------------------|
+| `Position`         | `x`, `y`                           | `update(double, double)`, `translate(double, double)` |
+| `Velocity`         | `dx`, `dy`                         | `update(double, double)`                              |
+| `Stats`            | `hp`, `maxHp`, `defense`, `attack` | `update(int, int, int, int)`                          |
+| `BoundingBox`      | `width`, `height`                  | `update(double, double)`                              |
+| `Dead`             | `killerId`                         | `update(int)`                                         |
+| `Dirty`            | `tick`                             | `update(long)`                                        |
+| `Experience`       | `currentXp`, `xpToNextLevel`       | `update(int, int)`, `addXp(int)`                      |
+| `MovementIntent`   | `targetX`, `targetY`               | `update(double, double)`                              |
+| `Persistent`       | `accountId`                        | `update(String)`                                      |
+| `PlayerControlled` | `sessionId`                        | `update(String)`                                      |
+| `Portal`           | `targetZoneId`, `targetPortalId`   | `update(String, String)`                              |
+| `PortalCooldown`   | `ticksRemaining`                   | `update(long)`                                        |
+| `Renderable`       | `name`, `visualId`                 | `update(String, String)`                              |
+| `Solid`            | *(tag component)*                  | —                                                     |
+| `SpawnPoint`       | `x`, `y`, `leashRadius`            | `update(double, double, double)`                      |
+| `Zone`             | `zoneId`                           | `update(String)`                                      |
 
 ### `grimoire-domain-combat` — 4 components
 
-| Component | Public Fields | Zero-Allocation Methods |
-|-----------|--------------|------------------------|
-| `AttackCooldown` | `ticksRemaining` | `update(int)`, `decrement()` |
-| `AttackIntent` | `targetEntityId` | `update(int)` |
-| `Monster` | `type`, `xpReward` | `update(MonsterType, int)` |
-| `NpcAi` | `type` | `update(AiType)` |
+| Component        | Public Fields      | Zero-Allocation Methods      |
+|------------------|--------------------|------------------------------|
+| `AttackCooldown` | `ticksRemaining`   | `update(int)`, `decrement()` |
+| `AttackIntent`   | `targetEntityId`   | `update(int)`                |
+| `Monster`        | `type`, `xpReward` | `update(MonsterType, int)`   |
+| `NpcAi`          | `type`             | `update(AiType)`             |
 
 ### `grimoire-domain-navigation` — 1 component
 
-| Component | Public Fields | Zero-Allocation Methods |
-|-----------|--------------|------------------------|
-| `Path` | `waypoints`, `targetEntityId`, `currentIndex` | `update(List, int, int)`, `advanceIndex()` |
+| Component | Public Fields                                 | Zero-Allocation Methods                    |
+|-----------|-----------------------------------------------|--------------------------------------------|
+| `Path`    | `waypoints`, `targetEntityId`, `currentIndex` | `update(List, int, int)`, `advanceIndex()` |
 
 ### Design decisions
 
@@ -82,38 +82,38 @@ eliminated.
 
 ```java
 public class EntityManager {
-    public static final int MAX_ENTITIES = 100_000;
-    private final AtomicInteger nextId = new AtomicInteger(0);
-    private final boolean[] alive = new boolean[MAX_ENTITIES];
-    private int maxAliveId;
-    // ...
+  public static final int MAX_ENTITIES = 100_000;
+  private final AtomicInteger nextId = new AtomicInteger(0);
+  private final boolean[] alive = new boolean[MAX_ENTITIES];
+  private int maxAliveId;
+  // ...
 }
 ```
 
-| Method | Signature | Description |
-|--------|-----------|-------------|
-| `createEntity()` | `int` | Monotonic ID from `AtomicInteger`; sets `alive[id] = true` |
-| `destroyEntity(int)` | `void` | Sets `alive[id] = false` |
-| `exists(int)` | `boolean` | Bounds check + `alive[id]` |
-| `getMaxEntityId()` | `int` | High-water mark (exclusive upper bound for system loops) |
-| `getAlive()` | `boolean[]` | Direct array reference for system iteration |
+| Method               | Signature   | Description                                                |
+|----------------------|-------------|------------------------------------------------------------|
+| `createEntity()`     | `int`       | Monotonic ID from `AtomicInteger`; sets `alive[id] = true` |
+| `destroyEntity(int)` | `void`      | Sets `alive[id] = false`                                   |
+| `exists(int)`        | `boolean`   | Bounds check + `alive[id]`                                 |
+| `getMaxEntityId()`   | `int`       | High-water mark (exclusive upper bound for system loops)   |
+| `getAlive()`         | `boolean[]` | Direct array reference for system iteration                |
 
 ### `EcsWorld` (238 lines)
 
 All public methods accept/return `int entityId`:
 
-| Method | Returns | Notes |
-|--------|---------|-------|
-| `createEntity()` | `int` | Delegates to `EntityManager` |
-| `destroyEntity(int)` | `void` | Removes all components, then destroys entity |
-| `addComponent(int, Component)` | `void` | Delegates to `ComponentManager` |
-| `getComponent(int, Class<T>)` | `T` | Returns `null` if absent |
-| `hasComponent(int, Class)` | `boolean` | |
-| `removeComponent(int, Class)` | `void` | |
-| `entityExists(int)` | `boolean` | |
-| `getMaxEntityId()` | `int` | Upper bound for iteration |
-| `getAlive()` | `boolean[]` | Direct array for system loops |
-| `getComponentManager()` | `ComponentManager` | For direct array access |
+| Method                         | Returns            | Notes                                        |
+|--------------------------------|--------------------|----------------------------------------------|
+| `createEntity()`               | `int`              | Delegates to `EntityManager`                 |
+| `destroyEntity(int)`           | `void`             | Removes all components, then destroys entity |
+| `addComponent(int, Component)` | `void`             | Delegates to `ComponentManager`              |
+| `getComponent(int, Class<T>)`  | `T`                | Returns `null` if absent                     |
+| `hasComponent(int, Class)`     | `boolean`          |                                              |
+| `removeComponent(int, Class)`  | `void`             |                                              |
+| `entityExists(int)`            | `boolean`          |                                              |
+| `getMaxEntityId()`             | `int`              | Upper bound for iteration                    |
+| `getAlive()`                   | `boolean[]`        | Direct array for system loops                |
+| `getComponentManager()`        | `ComponentManager` | For direct array access                      |
 
 ### Evidence: No String/UUID entity tracking
 
@@ -136,31 +136,31 @@ component storage removed. Entity IDs used directly as array indices.
 private static final int MAX = EntityManager.MAX_ENTITIES; // 100_000
 
 // Domain-core (16 arrays)
-private final Position[]         positions       = new Position[MAX];
-private final Velocity[]         velocities      = new Velocity[MAX];
-private final Stats[]            stats           = new Stats[MAX];
-private final BoundingBox[]      boundingBoxes   = new BoundingBox[MAX];
-private final Dead[]             deads           = new Dead[MAX];
-private final Dirty[]            dirties         = new Dirty[MAX];
-private final Experience[]       experiences     = new Experience[MAX];
-private final MovementIntent[]   movementIntents = new MovementIntent[MAX];
-private final Persistent[]       persistents     = new Persistent[MAX];
+private final Position[] positions = new Position[MAX];
+private final Velocity[] velocities = new Velocity[MAX];
+private final Stats[] stats = new Stats[MAX];
+private final BoundingBox[] boundingBoxes = new BoundingBox[MAX];
+private final Dead[] deads = new Dead[MAX];
+private final Dirty[] dirties = new Dirty[MAX];
+private final Experience[] experiences = new Experience[MAX];
+private final MovementIntent[] movementIntents = new MovementIntent[MAX];
+private final Persistent[] persistents = new Persistent[MAX];
 private final PlayerControlled[] playerControlled = new PlayerControlled[MAX];
-private final Portal[]           portals         = new Portal[MAX];
-private final PortalCooldown[]   portalCooldowns = new PortalCooldown[MAX];
-private final Renderable[]       renderables     = new Renderable[MAX];
-private final Solid[]            solids          = new Solid[MAX];
-private final SpawnPoint[]       spawnPoints     = new SpawnPoint[MAX];
-private final Zone[]             zones           = new Zone[MAX];
+private final Portal[] portals = new Portal[MAX];
+private final PortalCooldown[] portalCooldowns = new PortalCooldown[MAX];
+private final Renderable[] renderables = new Renderable[MAX];
+private final Solid[] solids = new Solid[MAX];
+private final SpawnPoint[] spawnPoints = new SpawnPoint[MAX];
+private final Zone[] zones = new Zone[MAX];
 
 // Domain-combat (4 arrays)
-private final AttackCooldown[]   attackCooldowns = new AttackCooldown[MAX];
-private final AttackIntent[]     attackIntents   = new AttackIntent[MAX];
-private final Monster[]          monsters        = new Monster[MAX];
-private final NpcAi[]            npcAis          = new NpcAi[MAX];
+private final AttackCooldown[] attackCooldowns = new AttackCooldown[MAX];
+private final AttackIntent[] attackIntents = new AttackIntent[MAX];
+private final Monster[] monsters = new Monster[MAX];
+private final NpcAi[] npcAis = new NpcAi[MAX];
 
 // Domain-navigation (1 array)
-private final Path[]             paths           = new Path[MAX];
+private final Path[] paths = new Path[MAX];
 ```
 
 ### Direct typed accessors (21 methods)
@@ -175,14 +175,14 @@ Each array has a public getter for zero-indirection hot-path access:
 
 ### Generic operations
 
-| Method | Description |
-|--------|-------------|
-| `addComponent(int, Component)` | Stores in the correct typed array via `arrayMap` |
-| `getComponent(int, Class<T>)` | Returns cast component or `null` |
-| `hasComponent(int, Class)` | `arr[id] != null` |
-| `removeComponent(int, Class)` | Sets `arr[id] = null` |
-| `removeAllComponents(int)` | Nulls all 21 arrays at index |
-| `getAllComponents(int)` | Returns `Map` of all non-null components for an entity |
+| Method                         | Description                                            |
+|--------------------------------|--------------------------------------------------------|
+| `addComponent(int, Component)` | Stores in the correct typed array via `arrayMap`       |
+| `getComponent(int, Class<T>)`  | Returns cast component or `null`                       |
+| `hasComponent(int, Class)`     | `arr[id] != null`                                      |
+| `removeComponent(int, Class)`  | Sets `arr[id] = null`                                  |
+| `removeAllComponents(int)`     | Nulls all 21 arrays at index                           |
+| `getAllComponents(int)`        | Returns `Map` of all non-null components for an entity |
 
 ### PMD exclusion
 
@@ -219,15 +219,15 @@ public void tick(float deltaTime) {
 
 ### System summary
 
-| System | Primary Loop Pattern | Arrays Queried |
-|--------|---------------------|----------------|
-| `MovementSystem` | `for (int i = 0; i < max; i++)` | `velocities[]`, `positions[]`, `boundingBoxes[]`, `zones[]`, `solids[]` |
-| `CombatSystem` | 3 loops: cooldowns, attacks, death | `attackCooldowns[]`, `attackIntents[]`, `stats[]`, `deads[]`, `positions[]`, `monsters[]`, `experiences[]`, `dirties[]` |
-| `LevelUpSystem` | `for (int i = 0; i < max; i++)` | `experiences[]`, `stats[]`, `dirties[]` |
-| `NpcAiSystem` | `for (int i = 0; i < max; i++)` | `npcAis[]`, `deads[]`, `positions[]`, `zones[]`, `playerControlled[]`, `velocities[]`, `spawnPoints[]` |
-| `PortalCooldownSystem` | `for (int i = 0; i < max; i++)` | `portalCooldowns[]` |
-| `SpatialGridSystem` | `for (int i = 0; i < max; i++)` | `solids[]`, `positions[]`, `zones[]`, `boundingBoxes[]` |
-| `ZoneChangeSystem` | 3 loops: player scan, portal overlap, NPC sync | `playerControlled[]`, `portals[]`, `positions[]`, `boundingBoxes[]`, `zones[]`, `portalCooldowns[]`, `renderables[]` |
+| System                 | Primary Loop Pattern                           | Arrays Queried                                                                                                          |
+|------------------------|------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| `MovementSystem`       | `for (int i = 0; i < max; i++)`                | `velocities[]`, `positions[]`, `boundingBoxes[]`, `zones[]`, `solids[]`                                                 |
+| `CombatSystem`         | 3 loops: cooldowns, attacks, death             | `attackCooldowns[]`, `attackIntents[]`, `stats[]`, `deads[]`, `positions[]`, `monsters[]`, `experiences[]`, `dirties[]` |
+| `LevelUpSystem`        | `for (int i = 0; i < max; i++)`                | `experiences[]`, `stats[]`, `dirties[]`                                                                                 |
+| `NpcAiSystem`          | `for (int i = 0; i < max; i++)`                | `npcAis[]`, `deads[]`, `positions[]`, `zones[]`, `playerControlled[]`, `velocities[]`, `spawnPoints[]`                  |
+| `PortalCooldownSystem` | `for (int i = 0; i < max; i++)`                | `portalCooldowns[]`                                                                                                     |
+| `SpatialGridSystem`    | `for (int i = 0; i < max; i++)`                | `solids[]`, `positions[]`, `zones[]`, `boundingBoxes[]`                                                                 |
+| `ZoneChangeSystem`     | 3 loops: player scan, portal overlap, NPC sync | `playerControlled[]`, `portals[]`, `positions[]`, `boundingBoxes[]`, `zones[]`, `portalCooldowns[]`, `renderables[]`    |
 
 ### Evidence: No string-based queries
 
@@ -261,30 +261,30 @@ ZoneChangeSystem.java:155:    for (int i = 0; i < max; i++)
 All ECS-related PMD suppressions moved from per-method `@SuppressWarnings` annotations to
 global exclusions in `pmd-ruleset.xml`:
 
-| Rule | Category | Rationale |
-|------|----------|-----------|
-| `MethodReturnsInternalArray` | bestpractices, performance | ECS arrays intentionally exposed for zero-copy system access |
-| `UseVarargs` | bestpractices | ECS systems pass component arrays as method parameters by design |
-| `CognitiveComplexity` (threshold → 26) | design | NPC AI targeting logic is inherently complex (score 25) |
+| Rule                                   | Category                   | Rationale                                                        |
+|----------------------------------------|----------------------------|------------------------------------------------------------------|
+| `MethodReturnsInternalArray`           | bestpractices, performance | ECS arrays intentionally exposed for zero-copy system access     |
+| `UseVarargs`                           | bestpractices              | ECS systems pass component arrays as method parameters by design |
+| `CognitiveComplexity` (threshold → 26) | design                     | NPC AI targeting logic is inherently complex (score 25)          |
 
 ### Stale per-method suppressions removed
 
-| File | Removed Annotation |
-|------|--------------------|
-| `CombatSystem.java` | `@SuppressWarnings("PMD.UseVarargs")` on `isInRange()` |
-| `LevelUpSystem.java` | `@SuppressWarnings("PMD.UseVarargs")` on `processLevelUps()` |
-| `NpcAiSystem.java` | `@SuppressWarnings("PMD.CognitiveComplexity")` on `handleHostileAggro()` |
-| `AStarPathfinder.java` | `@SuppressWarnings("PMD.UseVarargs")` on `isDiagonal()` |
+| File                   | Removed Annotation                                                       |
+|------------------------|--------------------------------------------------------------------------|
+| `CombatSystem.java`    | `@SuppressWarnings("PMD.UseVarargs")` on `isInRange()`                   |
+| `LevelUpSystem.java`   | `@SuppressWarnings("PMD.UseVarargs")` on `processLevelUps()`             |
+| `NpcAiSystem.java`     | `@SuppressWarnings("PMD.CognitiveComplexity")` on `handleHostileAggro()` |
+| `AStarPathfinder.java` | `@SuppressWarnings("PMD.UseVarargs")` on `isDiagonal()`                  |
 
 ---
 
 ## 3.9.6 Ancillary Fixes ✅
 
-| Fix | File | Description |
-|-----|------|-------------|
-| `FakeGameEventPortTest` | `grimoire-test-kit` | Updated from `String` to `int` entity IDs |
-| PMD `PrematureDeclaration` | `CombatSystem` | `killerId` moved closer to usage |
-| Unused import | `MovementSystem` | Removed unused `Solid` import |
+| Fix                        | File                | Description                               |
+|----------------------------|---------------------|-------------------------------------------|
+| `FakeGameEventPortTest`    | `grimoire-test-kit` | Updated from `String` to `int` entity IDs |
+| PMD `PrematureDeclaration` | `CombatSystem`      | `killerId` moved closer to usage          |
+| Unused import              | `MovementSystem`    | Removed unused `Solid` import             |
 
 ---
 
@@ -321,32 +321,32 @@ $ mvn clean verify
 
 ### Test counts
 
-| Test Class | Tests | Status |
-|------------|------:|--------|
-| `LevelUpSystemTest` | 8 | ✅ |
-| `MovementSystemTest` | 8 | ✅ |
-| `NpcAiSystemTest` | 9 | ✅ |
-| `SpatialGridSystemTest` | 6 | ✅ |
-| `ZoneChangeSystemTest` | 9 | ✅ |
-| `CombatSystemTest` | 14 | ✅ |
-| `PrefabTest` | 5 | ✅ |
-| `ComponentManagerTest` | 14 | ✅ |
-| `EcsWorldTest` | 16 | ✅ |
-| `GameCommandQueueTest` | 7 | ✅ |
-| `SystemSchedulerTest` | 8 | ✅ |
-| `EntityManagerTest` | 8 | ✅ |
-| **application-core total** | **133** | ✅ |
-| `SessionManagerTest` | 22 | ✅ |
-| `SessionTest` | 12 | ✅ |
-| **application-session total** | **34** | ✅ |
-| `ForyCodecTest` | 6 | ✅ |
-| `MarkersTest` | 6 | ✅ |
-| `FakeGameEventPortTest` | 6 | ✅ |
-| `FakeSessionConfigTest` | 3 | ✅ |
-| `EngineTestHarnessTest` | 8 | ✅ |
-| `GrimoireLayerRulesTest` | 4 | ✅ |
-| **test-kit total** | **21** | ✅ |
-| **Reactor total** | **200** | ✅ |
+| Test Class                    |   Tests | Status |
+|-------------------------------|--------:|--------|
+| `LevelUpSystemTest`           |       8 | ✅      |
+| `MovementSystemTest`          |       8 | ✅      |
+| `NpcAiSystemTest`             |       9 | ✅      |
+| `SpatialGridSystemTest`       |       6 | ✅      |
+| `ZoneChangeSystemTest`        |       9 | ✅      |
+| `CombatSystemTest`            |      14 | ✅      |
+| `PrefabTest`                  |       5 | ✅      |
+| `ComponentManagerTest`        |      14 | ✅      |
+| `EcsWorldTest`                |      16 | ✅      |
+| `GameCommandQueueTest`        |       7 | ✅      |
+| `SystemSchedulerTest`         |       8 | ✅      |
+| `EntityManagerTest`           |       8 | ✅      |
+| **application-core total**    | **133** | ✅      |
+| `SessionManagerTest`          |      22 | ✅      |
+| `SessionTest`                 |      12 | ✅      |
+| **application-session total** |  **34** | ✅      |
+| `ForyCodecTest`               |       6 | ✅      |
+| `MarkersTest`                 |       6 | ✅      |
+| `FakeGameEventPortTest`       |       6 | ✅      |
+| `FakeSessionConfigTest`       |       3 | ✅      |
+| `EngineTestHarnessTest`       |       8 | ✅      |
+| `GrimoireLayerRulesTest`      |       4 | ✅      |
+| **test-kit total**            |  **21** | ✅      |
+| **Reactor total**             | **200** | ✅      |
 
 ---
 
@@ -354,61 +354,61 @@ $ mvn clean verify
 
 ### Domain modules (Step 1)
 
-| File | Module | Change |
-|------|--------|--------|
-| `Component.java` | domain-core | Javadoc updated for mutable POJO contract |
-| `Position.java` | domain-core | Record → mutable class + `update()`/`translate()` |
-| `Velocity.java` | domain-core | Record → mutable class + `update()` |
-| `Stats.java` | domain-core | Record → mutable class + `update()` |
-| `BoundingBox.java` | domain-core | Record → mutable class + `update()` |
-| `Dead.java` | domain-core | Record → mutable class + `update()` |
-| `Dirty.java` | domain-core | Record → mutable class + `update()` |
-| `Experience.java` | domain-core | Record → mutable class + `update()`/`addXp()` |
-| `MovementIntent.java` | domain-core | Record → mutable class + `update()` |
-| `Persistent.java` | domain-core | Record → mutable class + `update()` |
-| `PlayerControlled.java` | domain-core | Record → mutable class + `update()` |
-| `Portal.java` | domain-core | Record → mutable class + `update()` |
-| `PortalCooldown.java` | domain-core | Record → mutable class + `update()` |
-| `Renderable.java` | domain-core | Record → mutable class + `update()` |
-| `Solid.java` | domain-core | Record → mutable class (tag component) |
-| `SpawnPoint.java` | domain-core | Record → mutable class + `update()` |
-| `Zone.java` | domain-core | Record → mutable class + `update()` |
-| `AttackCooldown.java` | domain-combat | Record → mutable class + `update()`/`decrement()` |
-| `AttackIntent.java` | domain-combat | Record → mutable class + `update()` |
-| `Monster.java` | domain-combat | Record → mutable class + `update()` |
-| `NpcAi.java` | domain-combat | Record → mutable class + `update()` |
-| `Path.java` | domain-navigation | Record → mutable class + `update()`/`advanceIndex()` |
+| File                    | Module            | Change                                               |
+|-------------------------|-------------------|------------------------------------------------------|
+| `Component.java`        | domain-core       | Javadoc updated for mutable POJO contract            |
+| `Position.java`         | domain-core       | Record → mutable class + `update()`/`translate()`    |
+| `Velocity.java`         | domain-core       | Record → mutable class + `update()`                  |
+| `Stats.java`            | domain-core       | Record → mutable class + `update()`                  |
+| `BoundingBox.java`      | domain-core       | Record → mutable class + `update()`                  |
+| `Dead.java`             | domain-core       | Record → mutable class + `update()`                  |
+| `Dirty.java`            | domain-core       | Record → mutable class + `update()`                  |
+| `Experience.java`       | domain-core       | Record → mutable class + `update()`/`addXp()`        |
+| `MovementIntent.java`   | domain-core       | Record → mutable class + `update()`                  |
+| `Persistent.java`       | domain-core       | Record → mutable class + `update()`                  |
+| `PlayerControlled.java` | domain-core       | Record → mutable class + `update()`                  |
+| `Portal.java`           | domain-core       | Record → mutable class + `update()`                  |
+| `PortalCooldown.java`   | domain-core       | Record → mutable class + `update()`                  |
+| `Renderable.java`       | domain-core       | Record → mutable class + `update()`                  |
+| `Solid.java`            | domain-core       | Record → mutable class (tag component)               |
+| `SpawnPoint.java`       | domain-core       | Record → mutable class + `update()`                  |
+| `Zone.java`             | domain-core       | Record → mutable class + `update()`                  |
+| `AttackCooldown.java`   | domain-combat     | Record → mutable class + `update()`/`decrement()`    |
+| `AttackIntent.java`     | domain-combat     | Record → mutable class + `update()`                  |
+| `Monster.java`          | domain-combat     | Record → mutable class + `update()`                  |
+| `NpcAi.java`            | domain-combat     | Record → mutable class + `update()`                  |
+| `Path.java`             | domain-navigation | Record → mutable class + `update()`/`advanceIndex()` |
 
 ### Application-core (Steps 2–4)
 
-| File | Change |
-|------|--------|
-| `EntityManager.java` | `AtomicInteger` + `boolean[]` alive array |
-| `EcsWorld.java` | `int` entity IDs, delegates to `EntityManager`/`ComponentManager` |
-| `ComponentManager.java` | 21 contiguous arrays, direct typed accessors |
-| `MovementSystem.java` | Contiguous `for` loop; removed unused `Solid` import |
-| `CombatSystem.java` | Contiguous `for` loops; PMD fixes |
-| `LevelUpSystem.java` | Contiguous `for` loop |
-| `NpcAiSystem.java` | Contiguous `for` loop |
-| `PortalCooldownSystem.java` | Contiguous `for` loop |
-| `SpatialGridSystem.java` | Contiguous `for` loop |
-| `ZoneChangeSystem.java` | Contiguous `for` loops |
+| File                        | Change                                                            |
+|-----------------------------|-------------------------------------------------------------------|
+| `EntityManager.java`        | `AtomicInteger` + `boolean[]` alive array                         |
+| `EcsWorld.java`             | `int` entity IDs, delegates to `EntityManager`/`ComponentManager` |
+| `ComponentManager.java`     | 21 contiguous arrays, direct typed accessors                      |
+| `MovementSystem.java`       | Contiguous `for` loop; removed unused `Solid` import              |
+| `CombatSystem.java`         | Contiguous `for` loops; PMD fixes                                 |
+| `LevelUpSystem.java`        | Contiguous `for` loop                                             |
+| `NpcAiSystem.java`          | Contiguous `for` loop                                             |
+| `PortalCooldownSystem.java` | Contiguous `for` loop                                             |
+| `SpatialGridSystem.java`    | Contiguous `for` loop                                             |
+| `ZoneChangeSystem.java`     | Contiguous `for` loops                                            |
 
 ### Test kit
 
-| File | Change |
-|------|--------|
+| File                         | Change                      |
+|------------------------------|-----------------------------|
 | `FakeGameEventPortTest.java` | `String` → `int` entity IDs |
 
 ### Domain-navigation
 
-| File | Change |
-|------|--------|
+| File                   | Change                                              |
+|------------------------|-----------------------------------------------------|
 | `AStarPathfinder.java` | Removed stale `@SuppressWarnings("PMD.UseVarargs")` |
 
 ### Build config
 
-| File | Change |
-|------|--------|
+| File              | Change                                                                                                |
+|-------------------|-------------------------------------------------------------------------------------------------------|
 | `pmd-ruleset.xml` | `MethodReturnsInternalArray` and `UseVarargs` globally excluded; `CognitiveComplexity` threshold → 26 |
 

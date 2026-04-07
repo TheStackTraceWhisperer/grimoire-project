@@ -1,8 +1,6 @@
 package com.grimoire.application.core.ecs;
 
 import com.grimoire.domain.core.component.Component;
-import com.grimoire.domain.core.component.Dead;
-import com.grimoire.domain.core.component.Dirty;
 import com.grimoire.domain.core.component.Position;
 import com.grimoire.domain.core.component.Stats;
 import com.grimoire.domain.core.component.Velocity;

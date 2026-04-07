@@ -12,10 +12,14 @@ import com.grimoire.application.session.SessionConfig;
  */
 public class FakeSessionConfig implements SessionConfig {
 
-    /** Default session validity in minutes. */
+    /**
+     * Default session validity in minutes.
+     */
     private static final int DEFAULT_VALIDITY_MINUTES = 30;
 
-    /** Configured session validity in minutes. */
+    /**
+     * Configured session validity in minutes.
+     */
     private final int validityMinutes;
 
     /**

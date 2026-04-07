@@ -21,25 +21,36 @@ import org.slf4j.MarkerFactory;
  * LOG.info(NETWORK, "Client connected: {}", sessionId);
  * }</pre>
  */
-@SuppressWarnings("PMD.DataClass")
 public final class Markers {
 
-    /** Marker for network-related log messages (Netty, codecs, channels). */
+    /**
+     * Marker for network-related log messages (Netty, codecs, channels).
+     */
     public static final Marker NETWORK = MarkerFactory.getMarker("NETWORK");
 
-    /** Marker for session lifecycle log messages (login, logout, expiry). */
+    /**
+     * Marker for session lifecycle log messages (login, logout, expiry).
+     */
     public static final Marker SESSION = MarkerFactory.getMarker("SESSION");
 
-    /** Marker for combat system log messages (attacks, damage, death). */
+    /**
+     * Marker for combat system log messages (attacks, damage, death).
+     */
     public static final Marker COMBAT = MarkerFactory.getMarker("COMBAT");
 
-    /** Marker for persistence operations (JPA, database). */
+    /**
+     * Marker for persistence operations (JPA, database).
+     */
     public static final Marker PERSISTENCE = MarkerFactory.getMarker("PERSISTENCE");
 
-    /** Marker for ECS engine log messages (ticks, systems, entities). */
+    /**
+     * Marker for ECS engine log messages (ticks, systems, entities).
+     */
     public static final Marker ENGINE = MarkerFactory.getMarker("ENGINE");
 
-    /** Marker for navigation and zone-change log messages. */
+    /**
+     * Marker for navigation and zone-change log messages.
+     */
     public static final Marker NAVIGATION = MarkerFactory.getMarker("NAVIGATION");
 
     private Markers() {

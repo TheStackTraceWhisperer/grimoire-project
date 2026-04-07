@@ -5,13 +5,19 @@ package com.grimoire.domain.core.component;
  */
 public class BoundingBox implements Component {
 
-    /** The width of the bounding box in world units. */
+    /**
+     * The width of the bounding box in world units.
+     */
     public double width;
 
-    /** The height of the bounding box in world units. */
+    /**
+     * The height of the bounding box in world units.
+     */
     public double height;
 
-    /** No-arg constructor for array pre-allocation. */
+    /**
+     * No-arg constructor for array pre-allocation.
+     */
     public BoundingBox() {
         // default values
     }

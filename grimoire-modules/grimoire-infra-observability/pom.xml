@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>com.grimoire</groupId>
-        <artifactId>grimoire-parent</artifactId>
-        <version>${revision}</version>
-        <relativePath>../../grimoire-poms/grimoire-parent/pom.xml</relativePath>
-    </parent>
-    <artifactId>grimoire-infra-observability</artifactId>
-    <name>Grimoire Infra Observability</name>
-    <description>SLF4J + Logback configuration, structured logging markers.</description>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.grimoire</groupId>
+    <artifactId>grimoire-parent</artifactId>
+    <version>${revision}</version>
+    <relativePath>../../grimoire-poms/grimoire-parent/pom.xml</relativePath>
+  </parent>
+  <artifactId>grimoire-infra-observability</artifactId>
+  <name>Grimoire Infra Observability</name>
+  <description>SLF4J + Logback configuration, structured logging markers.</description>
 
-    <properties>
-        <!-- Config-only module — coverage will grow in later waves -->
-        <jacoco.line.coverage>0.0</jacoco.line.coverage>
-        <jacoco.branch.coverage>0.0</jacoco.branch.coverage>
-    </properties>
+  <properties>
+    <!-- Config-only module — coverage will grow in later waves -->
+    <jacoco.line.coverage>0.0</jacoco.line.coverage>
+    <jacoco.branch.coverage>0.0</jacoco.branch.coverage>
+  </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-        </dependency>
-    </dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+    </dependency>
+  </dependencies>
 </project>

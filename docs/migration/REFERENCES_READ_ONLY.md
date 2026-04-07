@@ -5,11 +5,13 @@
 
 ## Policy
 
-The `references/` directory is **read-only**. No file under `references/` may be created, modified, or deleted as part of any work on the main Grimoire project.
+The `references/` directory is **read-only**. No file under `references/` may be created, modified, or deleted as part
+of any work on the main Grimoire project.
 
 ## Rationale
 
-The reference projects (`grimoire`, `net-bullet`, `ecs-simulation`, `october`) serve as **input** for architectural decisions and code migration. They must remain intact so that:
+The reference projects (`grimoire`, `net-bullet`, `ecs-simulation`, `october`) serve as **input** for architectural
+decisions and code migration. They must remain intact so that:
 
 1. We can always diff our new implementations against the originals
 2. We can re-read reference code during later migration waves without worrying about drift

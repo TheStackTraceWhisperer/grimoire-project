@@ -10,17 +10,11 @@ import com.grimoire.domain.combat.component.AttackIntent;
 import com.grimoire.domain.combat.component.Monster;
 import com.grimoire.domain.combat.rule.CombatRules;
 import com.grimoire.domain.combat.rule.LevelingRules;
-import com.grimoire.domain.core.component.Dead;
-import com.grimoire.domain.core.component.Experience;
-import com.grimoire.domain.core.component.Position;
-import com.grimoire.domain.core.component.Stats;
-import com.grimoire.domain.core.component.Zone;
+import com.grimoire.domain.core.component.*;
 
 import java.util.Objects;
 
-import static com.grimoire.application.core.ecs.ComponentManager.BIT_ATTACK_COOLDOWN;
-import static com.grimoire.application.core.ecs.ComponentManager.BIT_ATTACK_INTENT;
-import static com.grimoire.application.core.ecs.ComponentManager.BIT_DEAD;
+import static com.grimoire.application.core.ecs.ComponentManager.*;
 
 /**
  * Processes combat logic: cooldowns, attack resolution, death, and XP rewards.
@@ -152,7 +146,7 @@ public class CombatSystem implements GameSystem {
             }
             String zoneId = zones[i] != null ? zones[i].zoneId : "unknown";
 
-            awardXpToKiller(i, cm, sigs);
+            awardXpToKiller(i, cm);
 
             gameEventPort.onEntityDespawn(i, zoneId);
             spatialGridSystem.removeEntity(i);
@@ -160,7 +154,7 @@ public class CombatSystem implements GameSystem {
         }
     }
 
-    private void awardXpToKiller(int deadEntityId, ComponentManager cm, long[] sigs) {
+    private void awardXpToKiller(int deadEntityId, ComponentManager cm) {
         Dead dead = cm.getDeads()[deadEntityId];
         if (dead == null || dead.killerId < 0) {
             return;

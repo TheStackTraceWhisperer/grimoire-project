@@ -23,15 +23,21 @@ import static com.grimoire.application.core.ecs.ComponentManager.BIT_SOLID;
  */
 public class SpatialGridSystem implements GameSystem {
 
-    /** Default zone ID for entities without a Zone component. */
+    /**
+     * Default zone ID for entities without a Zone component.
+     */
     private static final String DEFAULT_ZONE_ID = "default";
 
     private static final long REQUIRED_MASK = BIT_SOLID | BIT_POSITION;
 
-    /** The ECS world. */
+    /**
+     * The ECS world.
+     */
     private final EcsWorld ecsWorld;
 
-    /** The spatial grid instance rebuilt each tick. */
+    /**
+     * The spatial grid instance rebuilt each tick.
+     */
     private final SpatialGrid grid;
 
     /**

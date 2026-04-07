@@ -5,10 +5,14 @@ package com.grimoire.domain.core.component;
  */
 public class Persistent implements Component {
 
-    /** The external account identifier (e.g. Keycloak subject). */
+    /**
+     * The external account identifier (e.g. Keycloak subject).
+     */
     public String accountId;
 
-    /** No-arg constructor for array pre-allocation. */
+    /**
+     * No-arg constructor for array pre-allocation.
+     */
     public Persistent() {
         // default values
     }

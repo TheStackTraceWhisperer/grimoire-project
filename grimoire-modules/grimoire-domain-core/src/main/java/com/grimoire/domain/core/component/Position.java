@@ -5,13 +5,19 @@ package com.grimoire.domain.core.component;
  */
 public class Position implements Component {
 
-    /** The X coordinate in world units. */
+    /**
+     * The X coordinate in world units.
+     */
     public double x;
 
-    /** The Y coordinate in world units. */
+    /**
+     * The Y coordinate in world units.
+     */
     public double y;
 
-    /** No-arg constructor for array pre-allocation. */
+    /**
+     * No-arg constructor for array pre-allocation.
+     */
     public Position() {
         // default values
     }
