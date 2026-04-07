@@ -42,7 +42,7 @@ public class PortalCooldownSystem implements GameSystem {
 
         for (int j = 0; j < count; j++) {
             int i = active[j];
-            if ((sigs[i] & REQUIRED_MASK) == 0) {
+            if ((sigs[i] & REQUIRED_MASK) != REQUIRED_MASK) {
                 continue;
             }
             long remaining = cooldowns[i].decrement();

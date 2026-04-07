@@ -82,7 +82,7 @@ public class CombatSystem implements GameSystem {
 
         for (int j = 0; j < count; j++) {
             int i = active[j];
-            if ((sigs[i] & BIT_ATTACK_COOLDOWN) == 0) {
+            if ((sigs[i] & BIT_ATTACK_COOLDOWN) != BIT_ATTACK_COOLDOWN) {
                 continue;
             }
             int remaining = cooldowns[i].decrement();
@@ -103,7 +103,7 @@ public class CombatSystem implements GameSystem {
 
         for (int j = 0; j < count; j++) {
             int attackerId = active[j];
-            if ((sigs[attackerId] & BIT_ATTACK_INTENT) == 0) {
+            if ((sigs[attackerId] & BIT_ATTACK_INTENT) != BIT_ATTACK_INTENT) {
                 continue;
             }
 
@@ -145,10 +145,9 @@ public class CombatSystem implements GameSystem {
         long[] sigs = cm.getSignatures();
         Zone[] zones = cm.getZones();
 
-        for (int j = 0; j < count;) {
+        for (int j = count - 1; j >= 0; j--) {
             int i = active[j];
-            if ((sigs[i] & BIT_DEAD) == 0) {
-                j++;
+            if ((sigs[i] & BIT_DEAD) != BIT_DEAD) {
                 continue;
             }
             String zoneId = zones[i] != null ? zones[i].zoneId : "unknown";
@@ -158,8 +157,6 @@ public class CombatSystem implements GameSystem {
             gameEventPort.onEntityDespawn(i, zoneId);
             spatialGridSystem.removeEntity(i);
             ecsWorld.destroyEntity(i);
-            count = ecsWorld.getActiveCount(); // update after swap-and-pop
-            // don't increment j — re-check the swapped-in entity
         }
     }
 

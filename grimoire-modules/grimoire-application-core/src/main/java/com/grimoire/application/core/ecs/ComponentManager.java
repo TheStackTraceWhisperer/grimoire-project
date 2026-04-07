@@ -368,6 +368,30 @@ public class ComponentManager {
         signatures[entityId] |= BIT_PORTAL_COOLDOWN;
     }
 
+    /**
+     * Adds or resets a {@link Path} component, clearing the waypoints list and
+     * resetting all fields.
+     *
+     * @param entityId
+     *            the entity ID
+     * @param waypoints
+     *            the waypoints (may be {@code null} for an empty path)
+     * @param targetEntityId
+     *            the entity being pursued, or -1
+     * @param lastCalcTick
+     *            the tick when the path was computed
+     */
+    public void addPath(int entityId, java.util.List<Position> waypoints,
+            int targetEntityId, long lastCalcTick) {
+        Path p = paths[entityId];
+        if (p == null) {
+            p = new Path();
+            paths[entityId] = p;
+        }
+        p.update(waypoints, targetEntityId, lastCalcTick);
+        signatures[entityId] |= BIT_PATH;
+    }
+
     // ── Typed remove methods (maintain signatures) ──
 
     /**
@@ -591,6 +615,12 @@ public class ComponentManager {
      *            the entity ID
      */
     public void removeAllComponents(int entityId) {
+        // Defensively clear collections in mutable components before nulling
+        // references, so recycled slots never inherit stale data.
+        Path p = paths[entityId];
+        if (p != null) {
+            p.update(null, -1, 0);
+        }
         for (Component[] arr : arrayMap.values()) {
             arr[entityId] = null;
         }
